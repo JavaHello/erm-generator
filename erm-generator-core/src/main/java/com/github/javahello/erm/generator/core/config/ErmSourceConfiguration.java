@@ -19,6 +19,15 @@ public class ErmSourceConfiguration extends PropertyHolder {
         ermSources = new ArrayList<>();
     }
 
+
+    public void validate(List<String> errors) {
+
+        
+        if (ermSources.isEmpty()) { //$NON-NLS-1$
+            errors.add("ermSource is empty"); //$NON-NLS-1$
+        }
+    }
+
     public void addErmFile(String ermfile) {
         this.ermSources.add(ermfile);
     }

@@ -1,14 +1,11 @@
 package com.github.javahello.erm.generator.core.internal;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Optional;
 
-import com.alibaba.fastjson.JSON;
 import com.github.javahello.erm.generator.core.TestFileHelper;
 import com.github.javahello.erm.generator.core.model.db.Table;
 

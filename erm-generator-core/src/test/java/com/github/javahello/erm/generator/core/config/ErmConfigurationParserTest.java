@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.alibaba.fastjson.JSON;
 import com.github.javahello.erm.generator.core.TestFileHelper;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.exception.XMLParserException;
@@ -19,6 +19,7 @@ import org.mybatis.generator.exception.XMLParserException;
 public class ErmConfigurationParserTest {
 
     @Test
+    @DisplayName("测试解析配置文件")
     public void testParse() throws XMLParserException, IOException {
 
         Properties env = new Properties();

@@ -909,7 +909,7 @@
     <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin" />
 
     <ermSources path="${ermPath}">
-      <ermSource value="*.erm"/>
+      <ermSource value="db.erm"/>
     </ermSources>
 
     <javaModelGenerator targetPackage="mbg.test.mb3.generated.flat.model" targetProject="MAVEN">

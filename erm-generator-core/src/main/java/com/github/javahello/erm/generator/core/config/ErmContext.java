@@ -23,6 +23,7 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -147,6 +148,10 @@ public class ErmContext extends Context {
         pluginConfigurations.add(pluginConfiguration);
     }
 
+    private boolean gtOne(Object... objects) {
+        return Arrays.stream(objects).filter(e -> e != null).count() > 1;
+    }
+
     /**
      * This method does a simple validate, it makes sure that all required fields
      * have been filled in. It does not do any more complex operations such as
@@ -159,17 +164,20 @@ public class ErmContext extends Context {
             errors.add(getString("ValidationError.16")); //$NON-NLS-1$
         }
 
-        if (jdbcConnectionConfiguration == null && connectionFactoryConfiguration == null && ermSourceConfiguration == null) {
+        if (jdbcConnectionConfiguration == null && connectionFactoryConfiguration == null
+                && ermSourceConfiguration == null) {
             // must specify one
             errors.add(getString("ValidationError.10", id)); //$NON-NLS-1$
-        } else if (jdbcConnectionConfiguration != null && connectionFactoryConfiguration != null) {
+        } else if (gtOne(jdbcConnectionConfiguration, connectionFactoryConfiguration, ermSourceConfiguration)) {
             // must not specify both
             errors.add(getString("ValidationError.10", id)); //$NON-NLS-1$
         } else if (jdbcConnectionConfiguration != null) {
             jdbcConnectionConfiguration.validate(errors);
-        } else  if (connectionFactoryConfiguration != null) {
+        } else if (connectionFactoryConfiguration != null) {
             connectionFactoryConfiguration.validate(errors);
-        } 
+        } else {
+            ermSourceConfiguration.validate(errors);
+        }
 
         if (javaModelGeneratorConfiguration == null) {
             errors.add(getString("ValidationError.8", id)); //$NON-NLS-1$
@@ -528,5 +536,5 @@ public class ErmContext extends Context {
     private boolean hasErm() {
         return !ermSourceConfiguration.getErmSources().isEmpty();
     }
-    
+
 }

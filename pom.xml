@@ -51,6 +51,25 @@
 
 
 			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-plugin-api</artifactId>
+				<version>3.6.3</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.plugin-tools</groupId>
+				<artifactId>maven-plugin-annotations</artifactId>
+				<version>3.6.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-core</artifactId>
+				<version>3.6.3</version>
+				<scope>provided</scope>
+			</dependency>
+
+
+			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter-api</artifactId>
 				<version>${junit.jupiter.version}</version>
@@ -109,5 +128,6 @@
 	</build>
 	<modules>
 		<module>erm-generator-core</module>
+		<module>erm-generator-maven-plugin</module>
 	</modules>
 </project>
