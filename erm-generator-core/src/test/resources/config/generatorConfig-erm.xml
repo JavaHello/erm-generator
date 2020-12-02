@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+       Copyright 2006-2020 the original author or authors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<!-- <!DOCTYPE generatorConfiguration PUBLIC
+ "-//mybatis.org//DTD MyBatis Generator Configuration 1.2//EN"
+ "D:\\workspace\\JavaProjects\\erm-generator\\erm-generator-core\\src\\main\\resources\\config\\xml\\mybatis-generator-config_1_2.dtd"> -->
+ <!DOCTYPE generatorConfiguration >
+
+<generatorConfiguration>
+  <properties resource="config/env.properties"/>
+ 
+
+  <context id="testErmConfig" defaultModelType="flat" targetRuntime="MyBatis3">
+    <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
+    <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
+    <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+    <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin" />
+
+    <ermSources path="${ermPath}">
+      <ermSource value="db.erm"/>
+    </ermSources>
+
+    <javaModelGenerator targetPackage="mbg.test.mb3.generated.flat.model" targetProject="target/test-gen">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="mbg.test.mb3.generated.flat.xml"  targetProject="target/test-gen">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="mbg.test.mb3.generated.flat.mapper"  targetProject="target/test-gen">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+    <table tableName="SYS_CONFIG" />
+
+  </context>
+</generatorConfiguration>
