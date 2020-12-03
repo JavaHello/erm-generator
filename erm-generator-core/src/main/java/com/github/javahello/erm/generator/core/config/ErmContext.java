@@ -20,7 +20,6 @@ import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +31,6 @@ import com.github.javahello.erm.generator.core.internal.ErmMetaData;
 import com.github.javahello.erm.generator.core.internal.ErmRead;
 
 import org.mybatis.generator.api.CommentGenerator;
-import org.mybatis.generator.api.ConnectionFactory;
 import org.mybatis.generator.api.GeneratedJavaFile;
 import org.mybatis.generator.api.GeneratedKotlinFile;
 import org.mybatis.generator.api.GeneratedXmlFile;
@@ -55,10 +53,8 @@ import org.mybatis.generator.config.PluginConfiguration;
 import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.config.SqlMapGeneratorConfiguration;
 import org.mybatis.generator.config.TableConfiguration;
-import org.mybatis.generator.internal.JDBCConnectionFactory;
 import org.mybatis.generator.internal.ObjectFactory;
 import org.mybatis.generator.internal.PluginAggregator;
-import org.mybatis.generator.internal.db.DatabaseIntrospector;
 
 public class ErmContext extends Context {
 
@@ -402,7 +398,11 @@ public class ErmContext extends Context {
     public void introspectTables(ProgressCallback callback, List<String> warnings, Set<String> fullyQualifiedTableNames)
             throws SQLException, InterruptedException {
 
-        // todo 判断erm
+        // 判断没有erm,取db
+        if(!hasErm()) {
+            super.introspectTables(callback, warnings, fullyQualifiedTableNames);
+            return;
+        }
         introspectedTables.clear();
         JavaTypeResolver javaTypeResolver = ObjectFactory.createJavaTypeResolver(this, warnings);
 
@@ -480,26 +480,6 @@ public class ErmContext extends Context {
         generatedKotlinFiles.addAll(pluginAggregator.contextGenerateAdditionalKotlinFiles());
     }
 
-    private Connection getConnection() throws SQLException {
-        ConnectionFactory connectionFactory;
-        if (jdbcConnectionConfiguration != null) {
-            connectionFactory = new JDBCConnectionFactory(jdbcConnectionConfiguration);
-        } else {
-            connectionFactory = ObjectFactory.createConnectionFactory(this);
-        }
-
-        return connectionFactory.getConnection();
-    }
-
-    private void closeConnection(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                // ignore
-            }
-        }
-    }
 
     public boolean autoDelimitKeywords() {
         return autoDelimitKeywords != null && autoDelimitKeywords.booleanValue();

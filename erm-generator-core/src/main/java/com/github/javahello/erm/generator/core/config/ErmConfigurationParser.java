@@ -31,8 +31,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import com.github.javahello.erm.generator.core.codegen.ErmXmlConstants;
-
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
 import org.mybatis.generator.config.xml.MyBatisGeneratorConfigurationParser;
@@ -40,7 +38,6 @@ import org.mybatis.generator.config.xml.ParserEntityResolver;
 import org.mybatis.generator.config.xml.ParserErrorHandler;
 import org.mybatis.generator.exception.XMLParserException;
 import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
