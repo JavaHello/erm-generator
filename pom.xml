@@ -11,7 +11,7 @@
 		<mysql.version>8.0.16</mysql.version>
 		<mybits.generator.core.version>1.4.0</mybits.generator.core.version>
 		<mybits.version>3.5.1</mybits.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<junit.jupiter.version>5.0.2</junit.jupiter.version>
 		<junit.vintage.version>${junit.version}.2</junit.vintage.version>
 		<junit.platform.version>1.0.2</junit.platform.version>
