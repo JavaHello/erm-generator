@@ -16,10 +16,7 @@
        limitations under the License.
 
 -->
-<!-- <!DOCTYPE generatorConfiguration PUBLIC
- "-//mybatis.org//DTD MyBatis Generator Configuration 1.2//EN"
- "D:\\workspace\\JavaProjects\\erm-generator\\erm-generator-core\\src\\main\\resources\\config\\xml\\mybatis-generator-config_1_2.dtd"> -->
- <!DOCTYPE generatorConfiguration >
+<!DOCTYPE generatorConfiguration >
 
 <generatorConfiguration>
   <properties resource="config/database.properties"/>

@@ -145,8 +145,8 @@ public class ErmConfigurationParser extends ConfigurationParser {
 
             Configuration config;
             Element rootNode = document.getDocumentElement();
-            // TODO PUBLIC ID 验证
-            DocumentType docType = document.getDoctype();
+            // PUBLIC ID 验证
+            // DocumentType docType = document.getDoctype();
             if (rootNode.getNodeType() == Node.ELEMENT_NODE
                     ) {
                 config = parseMyBatisGeneratorConfiguration(rootNode);
