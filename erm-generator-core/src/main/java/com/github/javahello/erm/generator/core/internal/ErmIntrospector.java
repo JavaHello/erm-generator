@@ -471,7 +471,7 @@ public class ErmIntrospector {
         FullyQualifiedTable fqt = introspectedTable.getFullyQualifiedTable();
 
         Table table = databaseMetaData.getTable(fqt.getIntrospectedTableName()).orElseThrow(() ->  new IllegalArgumentException("enhanceIntrospectedTable： " + fqt.getIntrospectedTableName()));
-        introspectedTable.setRemarks(table.getTablesName());
+        introspectedTable.setRemarks(table.getTableName());
         // introspectedTable.setTableType();
     }
 }

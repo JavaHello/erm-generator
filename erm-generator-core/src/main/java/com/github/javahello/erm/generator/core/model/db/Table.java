@@ -7,18 +7,18 @@ import java.util.List;
  * @author kaiv2
  */
 public class Table {
-    private String tablesName;
+    private String tableName;
     private String tableComment;
     private List<Column> columns;
     private List<Column> primaryKeys;
     private List<Index> indexs;
 
-    public String getTablesName() {
-        return tablesName;
+    public String getTableName() {
+        return tableName;
     }
 
-    public void setTablesName(String tablesName) {
-        this.tablesName = tablesName;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
     public String getTableComment() {

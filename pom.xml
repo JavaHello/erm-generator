@@ -122,6 +122,7 @@
 	</build>
 	<modules>
 		<module>erm-generator-core</module>
-		<module>erm-generator-maven-plugin</module>
+		<module>erm-generator-mybatis-maven-plugin</module>
+		<module>erm-generator-db-maven-plugin</module>
 	</modules>
 </project>

@@ -73,7 +73,7 @@ public class ErmRead implements ErmMetaData {
 			List<ErmTable> ermTables = ermDiagram.getTables();
 			for (ErmTable ermTable : ermTables) {
 				Table table = new Table();
-				table.setTablesName(ermTable.getPhysicalName());
+				table.setTableName(ermTable.getPhysicalName());
 				table.setTableComment(ermTable.getLogicalName());
 				List<Column> pks = new ArrayList<>();
 				List<Index> ids = new ArrayList<>();
@@ -169,17 +169,17 @@ public class ErmRead implements ErmMetaData {
 
 	@Override
 	public Optional<List<Column>> getPrimaryKeys(String table) {
-		return tables.stream().filter(e -> e.getTablesName().equals(table)).map(Table::getPrimaryKeys).findAny();
+		return tables.stream().filter(e -> e.getTableName().equals(table)).map(Table::getPrimaryKeys).findAny();
 	}
 
 	@Override
 	public Optional<List<Column>> getColumns(String table) {
-		return tables.stream().filter(e -> e.getTablesName().equals(table)).map(Table::getColumns).findAny();
+		return tables.stream().filter(e -> e.getTableName().equals(table)).map(Table::getColumns).findAny();
 	}
 
 	@Override
 	public Optional<Table> getTable(String table) {
-		return tables.stream().filter(e -> e.getTablesName().equals(table)).findAny();
+		return tables.stream().filter(e -> e.getTableName().equals(table)).findAny();
 	}
 
 }
