@@ -14,8 +14,12 @@ public abstract class DiffHelper {
         return l1 == l2 || (l1 != null && l1.size() == l2.size());
     }
 
-    public static <T> boolean empty(List<T> l1) {
+    public static <T> boolean isEmpty(List<T> l1) {
         return l1 == null || l1.isEmpty();
+    }
+
+    public static  boolean isEmpty(String str) {
+        return str == null || str.isEmpty();
     }
 
 }

@@ -1,69 +1,74 @@
 package com.github.javahello.erm.generator.core.codegen.ddl.mysql;
 
-import com.github.javahello.erm.generator.core.codegen.ddl.BaseOutDDL;
-import com.github.javahello.erm.generator.core.codegen.ddl.DbType;
-import com.github.javahello.erm.generator.core.codegen.ddl.ICovDDL;
+import com.github.javahello.erm.generator.core.codegen.ddl.*;
+import com.github.javahello.erm.generator.core.codegen.ddl.mysql.impl.*;
+import com.github.javahello.erm.generator.core.internal.TableCache;
 import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.db.Index;
 import com.github.javahello.erm.generator.core.model.db.Table;
+import com.github.javahello.erm.generator.core.model.diff.DiffTable;
+
+import java.util.List;
 
 /**
  * 生成 mysql 格式 DDL
- * 
+ *
  * @author kaiv2
  */
-public class GenMysqlDDL extends BaseOutDDL {
+public class GenMysqlDDL extends BaseOutDDL implements IMysqlCovDDL {
+
+    protected ISqlTableCreate sqlTableCreate = new MysqlCreateTableGenImpl();
+    protected ISqlColumnNew sqlColumnNew = new MysqlColumnNewGenImpl();
+    protected ISqlColumnDel sqlColumnDel = new MysqlColumnDelGenImpl();
+    protected ISqlColumnModify sqlColumnModify = new MysqlColumnModifyGenImpl();
+    protected ISqlIndexNew sqlIndexNew = new MysqlIndexNewGenImpl();
+    protected ISqlIndexDel sqlIndexDel = new MysqlIndexDelGenImpl();
+    protected ISqlPkNew sqlPkNew = new MysqlPrimaryKeyNewGenImpl();
+    protected ISqlPkDel sqlPkDel = new MysqlPrimaryKeyDelGenImpl();
+
+    public GenMysqlDDL(TableCache newTableCache, List<DiffTable> diffTables) {
+        super(newTableCache, diffTables);
+    }
 
     @Override
     public ICovDDL tb(Table table) {
-        // TODO Auto-generated method stub
-        return null;
+        return sqlTableCreate.tb(table);
     }
 
-    @Override
-    public DbType dbType() {
-        return DbType.MYSQL;
-    }
 
     @Override
     public ICovDDL newCol(String tbName, Column col) {
-        // TODO Auto-generated method stub
-        return null;
+        return sqlColumnNew.newCol(tbName, col);
     }
 
     @Override
     public ICovDDL delCol(String tbName, Column col) {
-        // TODO Auto-generated method stub
-        return null;
+        return sqlColumnDel.delCol(tbName, col);
     }
 
     @Override
     public ICovDDL modifyCol(String tbName, Column newC, Column oldC) {
-        // TODO Auto-generated method stub
-        return null;
+        return sqlColumnModify.modifyCol(tbName, newC, oldC);
     }
 
     @Override
     public ICovDDL delIdx(String tbName, Index idx) {
-        // TODO Auto-generated method stub
-        return null;
+        return sqlIndexDel.delIdx(tbName, idx);
     }
 
     @Override
     public ICovDDL newIdx(String tbName, Index idx) {
-        // TODO Auto-generated method stub
-        return null;
+        return sqlIndexNew.newIdx(tbName, idx);
+    }
+
+
+    @Override
+    public ICovDDL delPk(String tbName) {
+        return sqlPkDel.delPk(tbName);
     }
 
     @Override
-    public ICovDDL delPk(String tbName, Column pk) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ICovDDL newPk(String tbName, Column pk) {
-        // TODO Auto-generated method stub
-        return null;
+    public ICovDDL newPk(String tbName, List<Column> pks) {
+        return sqlPkNew.newPk(tbName, pks);
     }
 }

@@ -13,6 +13,7 @@ import java.util.Optional;
 public abstract class TypeMap {
 
     protected static Map<String, Integer> TYPE_MAP = new HashMap<>();
+    protected static Map<String, Integer> STRING_TYPE_MAP = new HashMap<>();
 
     static {
         // 注意大写
@@ -57,6 +58,21 @@ public abstract class TypeMap {
         // 特色
         TYPE_MAP.put("DATETIME", Types.TIMESTAMP);
 
+    }
+
+    static {
+        // 注意大写
+        STRING_TYPE_MAP.put("CHAR", Types.CHAR);
+        STRING_TYPE_MAP.put("LONGNVARCHAR", Types.LONGNVARCHAR);
+        STRING_TYPE_MAP.put("LONGVARCHAR", Types.LONGVARCHAR);
+        STRING_TYPE_MAP.put("NCHAR", Types.NCHAR);
+        STRING_TYPE_MAP.put("NVARCHAR", Types.NVARCHAR);
+        STRING_TYPE_MAP.put("VARBINARY", Types.VARBINARY);
+        STRING_TYPE_MAP.put("VARCHAR", Types.VARCHAR);
+    }
+
+    public static boolean isStringType(String type) {
+        return STRING_TYPE_MAP.containsKey(type);
     }
 
     public static int jdbcType(String type) {

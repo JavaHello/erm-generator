@@ -33,7 +33,7 @@ public class TableDiffProcess implements ITableDiff {
         if (diffColumnList.isPresent() || diffIndexList.isPresent() || diffPks.isPresent()) {
             diffTable = new DiffTable();
             diffTable.setTableName(DiffHelper.or(d1.getTableName(), d2.getTableName()));
-            diffTable.setNewTb(t2 == null || DiffHelper.empty(t2.getColumns()));
+            diffTable.setNewTb(t2 == null || DiffHelper.isEmpty(t2.getColumns()));
             diffColumnList.ifPresent(diffTable::setDiffColumns);
             diffIndexList.ifPresent(diffTable::setDiffIndexs);
             diffPks.ifPresent(diffTable::setDiffPks);

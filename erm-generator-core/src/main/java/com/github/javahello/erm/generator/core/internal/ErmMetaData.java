@@ -9,11 +9,11 @@ import com.github.javahello.erm.generator.core.model.db.Table;
 /**
  * @author kaiv2
  */
-public interface ErmMetaData {
+public interface ErmMetaData extends TableCache {
 
     Optional<List<Column>> getPrimaryKeys(String table);
 
     Optional<List<Column>> getColumns(String table);
 
-    Optional<Table> getTable(String table);
+
 }

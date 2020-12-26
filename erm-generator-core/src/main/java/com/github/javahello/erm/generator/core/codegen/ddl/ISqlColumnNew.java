@@ -5,15 +5,12 @@ import com.github.javahello.erm.generator.core.model.db.Column;
 /**
  * 输出 ddl
  */
-public interface ISqlPks {
+public interface ISqlColumnNew extends ICovDDL {
+
+
     /**
      * 新增
      */
-    ICovDDL delPk(String tbName, Column pk);
-
-    /**
-     * 删除
-     */
-    ICovDDL newPk(String tbName, Column pk);
+    ICovDDL newCol(String tbName, Column col);
 
 }

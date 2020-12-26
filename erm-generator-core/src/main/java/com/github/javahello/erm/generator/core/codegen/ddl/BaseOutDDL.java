@@ -1,20 +1,24 @@
 package com.github.javahello.erm.generator.core.codegen.ddl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.github.javahello.erm.generator.core.internal.ErmMetaData;
+import com.github.javahello.erm.generator.core.internal.TableCache;
 import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.db.Table;
 import com.github.javahello.erm.generator.core.model.diff.DiffColumn;
 import com.github.javahello.erm.generator.core.model.diff.DiffIndex;
 import com.github.javahello.erm.generator.core.model.diff.DiffTable;
 
-public abstract class BaseOutDDL implements ISqlTable, ISqlColumn, ISqlIndex, ISqlPks {
+import java.util.List;
+import java.util.stream.Collectors;
 
-    ErmMetaData ermMetaData;
+public abstract class BaseOutDDL implements ISqlAll {
+
+    TableCache newTableCache;
     List<DiffTable> diffTables;
-    List<ICovDDL> covDDLs = new ArrayList<>();
+
+    public BaseOutDDL(TableCache newTableCache, List<DiffTable> diffTables) {
+        this.newTableCache = newTableCache;
+        this.diffTables = diffTables;
+    }
 
     private StringBuilder createTableSql = new StringBuilder();
     private StringBuilder alterIndex = new StringBuilder();
@@ -40,7 +44,7 @@ public abstract class BaseOutDDL implements ISqlTable, ISqlColumn, ISqlIndex, IS
         for (DiffTable diffTable : diffTables) {
             String tableName = diffTable.getTableName();
             if (diffTable.isNewTb()) {
-                Table table = ermMetaData.getTable(tableName)
+                Table table = newTableCache.getTable(tableName)
                         .orElseThrow(() -> new IllegalArgumentException("OUT DDL 没有找到表:" + tableName));
                 addCreateTable(tb(table).covDDL());
                 continue;
@@ -58,10 +62,8 @@ public abstract class BaseOutDDL implements ISqlTable, ISqlColumn, ISqlIndex, IS
                 }
             }
             List<DiffColumn> diffPks = diffTable.getDiffPks();
-            for (DiffColumn diffColumn : diffPks) {
-                addAlterIndex(delPk(tableName, diffColumn.getOldColumn()).covDDL());
-                addAlterIndex(newPk(tableName, diffColumn.getNewColumn()).covDDL());
-            }
+            addAlterIndex(delPk(tableName).covDDL());
+            addAlterIndex(newPk(tableName, diffPks.stream().map(DiffColumn::getNewColumn).collect(Collectors.toList())).covDDL());
 
             List<DiffIndex> diffIndexs = diffTable.getDiffIndexs();
             for (DiffIndex diffIndex : diffIndexs) {
@@ -69,10 +71,8 @@ public abstract class BaseOutDDL implements ISqlTable, ISqlColumn, ISqlIndex, IS
                 addAlterIndex(newIdx(tableName, diffIndex.getNewIndex()).covDDL());
             }
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append(createTableSql).append("\n");
-        sb.append(alterColumn).append("\n");
-        sb.append(alterIndex).append("\n");
-        return sb.toString();
+        return createTableSql + "\n" +
+                alterColumn + "\n" +
+                alterIndex + "\n";
     }
 }
