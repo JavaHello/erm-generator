@@ -17,6 +17,9 @@ public abstract class DiffHelper {
     public static <T> boolean isEmpty(List<T> l1) {
         return l1 == null || l1.isEmpty();
     }
+    public static <T> boolean isNotEmpty(List<T> l1) {
+        return !isEmpty(l1);
+    }
 
     public static  boolean isEmpty(String str) {
         return str == null || str.isEmpty();

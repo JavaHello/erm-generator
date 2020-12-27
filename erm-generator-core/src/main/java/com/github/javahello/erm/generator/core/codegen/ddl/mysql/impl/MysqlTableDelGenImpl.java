@@ -19,7 +19,9 @@ public class MysqlTableDelGenImpl extends AbstractMysqlCovDDL<MysqlTableNewGenIm
         if (table == null) {
             return "";
         }
-        return "DROP TABLE " + table.getTableName() + ";";
+        String out = "DROP TABLE " + table.getTableName() + ";";
+        this.table = null;
+        return out;
     }
 
 

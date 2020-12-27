@@ -82,9 +82,12 @@ public abstract class BaseOutDDL implements ISqlAll {
                     });
                 });
             }
+            doFixRec();
         }
-        return createTableSql.append(alterColumn).append(alterIndex).toString();
+        return createTableSql + "" + alterColumn + alterIndex;
     }
+
+    protected abstract void doFixRec();
 
     protected abstract void doInitFix();
 

@@ -23,7 +23,10 @@ public class MysqlPrimaryKeyDelGenImpl extends AbstractMysqlCovDDL<MysqlPrimaryK
         if (DiffHelper.isEmpty(pks)) {
             return "";
         }
-        return "ALTER TABLE " + tbName + " DROP PRIMARY KEY;";
+        String out = "ALTER TABLE " + tbName + " DROP PRIMARY KEY;";
+        this.pks = null;
+        this.tbName = null;
+        return out;
     }
 
 

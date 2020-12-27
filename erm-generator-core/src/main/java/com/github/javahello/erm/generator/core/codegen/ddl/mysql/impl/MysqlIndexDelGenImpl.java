@@ -21,8 +21,11 @@ public class MysqlIndexDelGenImpl extends AbstractMysqlCovDDL<MysqlIndexNewGenIm
         if (index == null) {
             return "";
         }
-        return "ALTER TABLE " + tbName + " DROP INDEX "
+        String out = "ALTER TABLE " + tbName + " DROP INDEX "
                 + index.getIndexName() + ";";
+        this.index = null;
+        this.tbName = null;
+        return out;
     }
 
     @Override

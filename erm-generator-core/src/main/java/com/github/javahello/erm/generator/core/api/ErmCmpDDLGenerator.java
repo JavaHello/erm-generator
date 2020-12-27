@@ -67,14 +67,11 @@ public class ErmCmpDDLGenerator {
 
     protected void doInitEnv() {
         if (newCache == null) {
-            ErmRead ermRead = new ErmRead(ermDDLEnv.getNewErmList());
-            ermRead.read();
-            newCache = ermRead;
+            newCache = new ErmRead(ermDDLEnv.getNewErmList());
         }
         if (oldCache == null) {
-            ErmRead ermRead = new ErmRead(ermDDLEnv.getOldErmList());
-            ermRead.read();
-            oldCache = ermRead;
+            List<String> oldErmList = ermDDLEnv.getOldErmList();
+            oldCache = new ErmRead(Optional.ofNullable(oldErmList).orElseGet(ArrayList::new));
         }
     }
 }

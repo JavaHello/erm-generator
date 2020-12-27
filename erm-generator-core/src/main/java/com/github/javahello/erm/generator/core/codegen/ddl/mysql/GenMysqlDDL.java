@@ -31,12 +31,14 @@ public class GenMysqlDDL extends BaseOutDDL implements IMysqlCovDDL {
     protected ISqlPkDel sqlPkDel = MySqlDDL.DROP_PRIMARY_KEY.getICovDDL();
 
 
-    protected ICovDDL fixDdl;
+    protected MysqlFixDdl fixDdl;
 
 
     class MysqlFixDdl implements ICovDDL {
 
         private Collection<ICovDDL> covDDLList;
+
+        private StringBuilder fixSql = new StringBuilder();
 
         public MysqlFixDdl() {
         }
@@ -52,12 +54,21 @@ public class GenMysqlDDL extends BaseOutDDL implements IMysqlCovDDL {
 
         @Override
         public String covDDL() {
-            return covDDLList.stream().map(ICovDDL::covDDL).filter(DiffHelper::isNotEmpty).collect(Collectors.joining("\n"));
+            return fixSql.toString();
+        }
+
+        public void fixRec() {
+            fixSql.append(covDDLList.stream().map(ICovDDL::covDDL).filter(DiffHelper::isNotEmpty).collect(Collectors.joining("\n"))).append("\n");
         }
     }
 
     public GenMysqlDDL(TableCache newTableCache, List<DiffTable> diffTables) {
         super(newTableCache, diffTables);
+    }
+
+    @Override
+    protected void doFixRec() {
+        fixDdl.fixRec();
     }
 
     @Override

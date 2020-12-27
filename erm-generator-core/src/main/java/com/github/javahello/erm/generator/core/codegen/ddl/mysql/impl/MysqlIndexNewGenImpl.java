@@ -23,7 +23,10 @@ public class MysqlIndexNewGenImpl extends AbstractMysqlCovDDL<MysqlIndexDelGenIm
         if (index == null) {
             return "";
         }
-        return "ALTER TABLE " + tbName + " ADD " + MySqlDDLHelper.indexGe(index) + ";";
+        String out = "ALTER TABLE " + tbName + " ADD " + MySqlDDLHelper.indexGe(index) + ";";
+        this.index = null;
+        this.tbName = null;
+        return out;
     }
 
     @Override

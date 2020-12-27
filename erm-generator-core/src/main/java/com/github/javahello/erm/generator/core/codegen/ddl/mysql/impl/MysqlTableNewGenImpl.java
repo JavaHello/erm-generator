@@ -61,6 +61,7 @@ public class MysqlTableNewGenImpl extends AbstractMysqlCovDDL<MysqlTableDelGenIm
         tableStr.append("\n");
         tableStr.append(otherInfo());
         tableStr.append("\n;");
+        this.table = null;
         return tableStr.toString();
     }
 

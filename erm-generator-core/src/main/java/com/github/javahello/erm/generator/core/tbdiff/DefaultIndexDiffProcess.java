@@ -23,7 +23,7 @@ public class DefaultIndexDiffProcess implements IIndexDiff {
             diff = true;
         }
 
-        if (indexColumnDiff.diff(d1.getColumns(), d2.getColumns()).isPresent()) {
+        if (indexColumnDiff.diff(d1.getColumns(), d2.getColumns()).filter(DiffHelper::isNotEmpty).isPresent()) {
             diff = true;
         }
 

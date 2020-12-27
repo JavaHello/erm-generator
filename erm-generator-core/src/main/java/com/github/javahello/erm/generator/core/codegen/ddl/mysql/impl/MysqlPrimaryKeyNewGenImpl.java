@@ -24,9 +24,12 @@ public class MysqlPrimaryKeyNewGenImpl extends AbstractMysqlCovDDL<MysqlPrimaryK
         if (DiffHelper.isEmpty(pks)) {
             return "";
         }
-        return "ALTER TABLE " + tbName + " ADD PRIMARY KEY ("
+        String out = "ALTER TABLE " + tbName + " ADD PRIMARY KEY ("
                 + pks.stream().map(Column::getColumnName)
                 .collect(Collectors.joining(", ")) + ");";
+        this.pks = null;
+        this.tbName = null;
+        return out;
     }
 
 
