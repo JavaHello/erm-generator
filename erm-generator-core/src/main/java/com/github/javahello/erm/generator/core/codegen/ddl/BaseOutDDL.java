@@ -42,6 +42,7 @@ public abstract class BaseOutDDL implements ISqlAll {
 
     @Override
     public String covDDL() {
+        doInitFix();
         for (DiffTable diffTable : diffTables) {
             String tableName = diffTable.getTableName();
             if (DiffEnum.A == diffTable.getDiffEnum()) {
@@ -84,4 +85,6 @@ public abstract class BaseOutDDL implements ISqlAll {
         }
         return createTableSql.append(alterColumn).append(alterIndex).toString();
     }
+
+    protected abstract void doInitFix();
 }

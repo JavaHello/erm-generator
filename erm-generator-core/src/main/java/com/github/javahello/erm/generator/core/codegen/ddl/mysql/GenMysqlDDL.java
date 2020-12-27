@@ -8,9 +8,9 @@ import com.github.javahello.erm.generator.core.model.db.Table;
 import com.github.javahello.erm.generator.core.model.diff.DiffTable;
 import com.github.javahello.erm.generator.core.util.DiffHelper;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
  */
 public class GenMysqlDDL extends BaseOutDDL implements IMysqlCovDDL {
 
-    protected Map<String, IMysqlCovDDL> mysqlCovDDLMap = MySqlDDL.toMap();
     protected ISqlTableNew sqlTableCreate = MySqlDDL.CREATE_TABLE.getICovDDL();
     protected ISqlTableDel sqlTableDrop = MySqlDDL.DROP_TABLE.getICovDDL();
     protected ISqlColumnNew sqlColumnNew = MySqlDDL.ADD_COLUMN.getICovDDL();
@@ -59,10 +58,30 @@ public class GenMysqlDDL extends BaseOutDDL implements IMysqlCovDDL {
 
     public GenMysqlDDL(TableCache newTableCache, List<DiffTable> diffTables) {
         super(newTableCache, diffTables);
-        MysqlFixDdl mysqlFixDdl = new MysqlFixDdl();
-        mysqlFixDdl.setCovDDLList(mysqlCovDDLMap.values().stream().map(IFixDDL::fix).collect(Collectors.toList()));
-        fixDdl = mysqlFixDdl;
+    }
 
+    @Override
+    protected void doInitFix() {
+        if (fixDdl == null) {
+            List<ICovDDL> fixList = assembleFix();
+            MysqlFixDdl mysqlFixDdl = new MysqlFixDdl();
+            mysqlFixDdl.setCovDDLList(fixList);
+            fixDdl = mysqlFixDdl;
+        }
+    }
+
+    protected List<ICovDDL> assembleFix() {
+        return Arrays.asList(
+                sqlTableCreate.fix(),
+                sqlTableDrop.fix(),
+                sqlColumnNew.fix(),
+                sqlColumnDel.fix(),
+                sqlColumnModify.fix(),
+                sqlIndexNew.fix(),
+                sqlIndexDel.fix(),
+                sqlPkNew.fix(),
+                sqlPkDel.fix()
+        );
     }
 
     @Override
