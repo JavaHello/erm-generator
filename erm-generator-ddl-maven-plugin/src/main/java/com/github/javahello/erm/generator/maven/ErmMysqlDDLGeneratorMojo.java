@@ -17,7 +17,6 @@ package com.github.javahello.erm.generator.maven;
 
 import com.github.javahello.erm.generator.core.api.ErmCmpDDLGenerator;
 import com.github.javahello.erm.generator.core.model.ErmDDLEnv;
-import com.google.common.io.Files;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -27,6 +26,7 @@ import org.apache.maven.project.MavenProject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -98,7 +98,7 @@ public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
                 File allSqlFile = new File(outputDirectory.getAbsolutePath() + "/all.sql");
                 try {
                     if (allSqlFile.exists() || allSqlFile.createNewFile()) {
-                        Files.write(allSql.getBytes(StandardCharsets.UTF_8), allSqlFile);
+                        Files.write(allSqlFile.toPath(), allSql.getBytes(StandardCharsets.UTF_8));
                     } else {
                         getLog().error(allSqlFile.getAbsolutePath() + ", 文件创建失败");
                     }

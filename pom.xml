@@ -7,7 +7,7 @@
 	<name>erm-generator</name>
 	<description>erm 文件生成实体类</description>
 	<properties>
-		<java.version>15</java.version>
+		<java.version>1.8</java.version>
 		<mysql.version>8.0.16</mysql.version>
 		<mybits.generator.core.version>1.4.0</mybits.generator.core.version>
 		<mybits.version>3.5.1</mybits.version>
