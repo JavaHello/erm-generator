@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 /**
  * Goal which generates MyBatis artifacts.
  */
-@Mojo(name = "genMySqlDDL")
+@Mojo(name = "generate-mysql-ddl")
 public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
 
     /**
