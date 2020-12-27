@@ -30,7 +30,7 @@ public abstract class MySqlDDLHelper {
         if (DiffHelper.isEmpty(column.getColumnComment())) {
             return "";
         }
-        return " COMMENT " + warp(column.getColumnComment(), "\"");
+        return " COMMENT " + warp(column.getColumnComment(), "'");
     }
 
 
