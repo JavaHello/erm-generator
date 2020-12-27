@@ -123,6 +123,6 @@
 	<modules>
 		<module>erm-generator-core</module>
 		<module>erm-generator-mybatis-maven-plugin</module>
-		<module>erm-generator-db-maven-plugin</module>
+		<module>erm-generator-ddl-maven-plugin</module>
 	</modules>
 </project>

@@ -4,6 +4,7 @@ import com.github.javahello.erm.generator.core.TestFileHelper;
 import com.github.javahello.erm.generator.core.internal.ErmRead;
 import com.github.javahello.erm.generator.core.model.diff.DiffEnum;
 import com.github.javahello.erm.generator.core.model.diff.DiffTable;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +27,8 @@ class GenMysqlDDLTest {
         diffTables.add(diffTable);
         GenMysqlDDL genMysqlDDL = new GenMysqlDDL(ermRead, diffTables);
         String ddl = genMysqlDDL.covDDL();
+        Assertions.assertNotNull(ddl);
+        Assertions.assertFalse(ddl.isEmpty());
         System.out.println("DDL ------------------------------------");
         System.out.println(ddl);
         System.out.println("FIX ------------------------------------");

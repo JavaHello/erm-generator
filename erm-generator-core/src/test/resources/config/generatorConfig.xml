@@ -20,7 +20,7 @@
 
 <generatorConfiguration>
   <properties resource="config/database.properties"/>
-  <properties resource="config/env.properties"/>
+  <properties resource="config/ermDDLEnv.properties"/>
 
   <context id="FlatJava5" defaultModelType="flat" targetRuntime="MyBatis3">
     <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />

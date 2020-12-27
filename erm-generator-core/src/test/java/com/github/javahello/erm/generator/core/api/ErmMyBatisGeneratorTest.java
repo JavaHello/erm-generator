@@ -1,16 +1,8 @@
 package com.github.javahello.erm.generator.core.api;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.javahello.erm.generator.core.TestFileHelper;
 import com.github.javahello.erm.generator.core.config.ErmConfigurationParser;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.generator.api.GeneratedJavaFile;
@@ -18,6 +10,12 @@ import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.exception.InvalidConfigurationException;
 import org.mybatis.generator.exception.XMLParserException;
 import org.mybatis.generator.internal.DefaultShellCallback;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ErmMyBatisGeneratorTest {
 
@@ -36,7 +34,7 @@ public class ErmMyBatisGeneratorTest {
         ErmMyBatisGenerator myBatisGenerator = new ErmMyBatisGenerator(config, shellCallback, warnings);
         myBatisGenerator.generate(null, null, null, true);
         List<GeneratedJavaFile> generatedJavaFiles = myBatisGenerator.getGeneratedJavaFiles();
-        assertEquals(3, generatedJavaFiles.size());
+        Assertions.assertEquals(3, generatedJavaFiles.size());
     }
-    
+
 }

@@ -5,7 +5,7 @@
 		<artifactId>erm-generator</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>erm-generator-db-maven-plugin</artifactId>
+	<artifactId>erm-generator-ddl-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
 
 	<dependencies>

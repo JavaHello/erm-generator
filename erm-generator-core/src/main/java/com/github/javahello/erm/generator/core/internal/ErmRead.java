@@ -64,10 +64,10 @@ public class ErmRead implements ErmMetaData {
 				e.printStackTrace();
 			}
 		}
-		covDb();
+		covTable();
 	}
 
-	private void covDb() {
+	private void covTable() {
 		for (ErmDiagram ermDiagram : ermList) {
 			Map<String, ErmWord> wordMap = MapHelper.uniqueGroup(ermDiagram.getWordList(), ErmWord::getId);
 			List<ErmTable> ermTables = ermDiagram.getTables();
@@ -159,6 +159,7 @@ public class ErmRead implements ErmMetaData {
 		this.ermList = ermList;
 	}
 
+	@Override
 	public List<Table> getTables() {
 		return tables;
 	}

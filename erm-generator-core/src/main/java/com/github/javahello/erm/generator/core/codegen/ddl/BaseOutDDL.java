@@ -21,9 +21,9 @@ public abstract class BaseOutDDL implements ISqlAll {
         this.diffTables = diffTables;
     }
 
-    private StringBuilder createTableSql = new StringBuilder();
-    private StringBuilder alterIndex = new StringBuilder();
-    private StringBuilder alterColumn = new StringBuilder();
+    private final StringBuilder createTableSql = new StringBuilder();
+    private final StringBuilder alterIndex = new StringBuilder();
+    private final StringBuilder alterColumn = new StringBuilder();
 
     private StringBuilder addCreateTable(String sql) {
         createTableSql.append(sql).append("\n");
@@ -87,4 +87,16 @@ public abstract class BaseOutDDL implements ISqlAll {
     }
 
     protected abstract void doInitFix();
+
+    public StringBuilder getAlterColumn() {
+        return alterColumn;
+    }
+
+    public StringBuilder getAlterIndex() {
+        return alterIndex;
+    }
+
+    public StringBuilder getCreateTableSql() {
+        return createTableSql;
+    }
 }
