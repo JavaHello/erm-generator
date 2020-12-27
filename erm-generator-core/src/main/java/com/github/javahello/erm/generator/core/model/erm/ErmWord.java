@@ -1,148 +1,143 @@
 package com.github.javahello.erm.generator.core.model.erm;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
-
 /**
- * 
  * @author kaiv2
- *
  */
 public class ErmWord {
-	
-	private String id;
-	private Integer length;
-	private Integer decimal;
-	private String array;
-	@XmlElement(name = "array_dimension")
-	private String arrayDimension;
-	private String unsigned;
-	private String zerofill;
-	private String binary;
-	private String args;
-	@XmlElement(name = "char_semantics")
-	private String charSemantics;
-	private String description;
-	@XmlElement(name = "logical_name")
-	private String logicalName;
-	@XmlElement(name = "physical_name")
-	private String physicalName;
-	private String type;
 
-	public String getId() {
-		return id;
-	}
+    private String id;
+    private Integer length;
+    private Integer decimal;
+    private String array;
+    //	@XmlElement(name = "array_dimension")
+    private String arrayDimension;
+    private String unsigned;
+    private String zerofill;
+    private String binary;
+    private String args;
+    //	@XmlElement(name = "char_semantics")
+    private String charSemantics;
+    private String description;
+    //	@XmlElement(name = "logical_name")
+    private String logicalName;
+    //	@XmlElement(name = "physical_name")
+    private String physicalName;
+    private String type;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public Integer getLength() {
-		return length;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setLength(Integer length) {
-		this.length = length;
-	}
+    public Integer getLength() {
+        return length;
+    }
 
-	public Integer getDecimal() {
-		return decimal;
-	}
+    public void setLength(Integer length) {
+        this.length = length;
+    }
 
-	public void setDecimal(Integer decimal) {
-		this.decimal = decimal;
-	}
+    public Integer getDecimal() {
+        return decimal;
+    }
 
-	public String getArray() {
-		return array;
-	}
+    public void setDecimal(Integer decimal) {
+        this.decimal = decimal;
+    }
 
-	public void setArray(String array) {
-		this.array = array;
-	}
+    public String getArray() {
+        return array;
+    }
 
-	@XmlTransient
-	public String getArrayDimension() {
-		return arrayDimension;
-	}
+    public void setArray(String array) {
+        this.array = array;
+    }
 
-	public void setArrayDimension(String arrayDimension) {
-		this.arrayDimension = arrayDimension;
-	}
+    //	@XmlTransient
+    public String getArrayDimension() {
+        return arrayDimension;
+    }
 
-	public String getUnsigned() {
-		return unsigned;
-	}
+    public void setArrayDimension(String arrayDimension) {
+        this.arrayDimension = arrayDimension;
+    }
 
-	public void setUnsigned(String unsigned) {
-		this.unsigned = unsigned;
-	}
+    public String getUnsigned() {
+        return unsigned;
+    }
 
-	public String getZerofill() {
-		return zerofill;
-	}
+    public void setUnsigned(String unsigned) {
+        this.unsigned = unsigned;
+    }
 
-	public void setZerofill(String zerofill) {
-		this.zerofill = zerofill;
-	}
+    public String getZerofill() {
+        return zerofill;
+    }
 
-	public String getBinary() {
-		return binary;
-	}
+    public void setZerofill(String zerofill) {
+        this.zerofill = zerofill;
+    }
 
-	public void setBinary(String binary) {
-		this.binary = binary;
-	}
+    public String getBinary() {
+        return binary;
+    }
 
-	public String getArgs() {
-		return args;
-	}
+    public void setBinary(String binary) {
+        this.binary = binary;
+    }
 
-	public void setArgs(String args) {
-		this.args = args;
-	}
+    public String getArgs() {
+        return args;
+    }
 
-	@XmlTransient
-	public String getCharSemantics() {
-		return charSemantics;
-	}
+    public void setArgs(String args) {
+        this.args = args;
+    }
 
-	public void setCharSemantics(String charSemantics) {
-		this.charSemantics = charSemantics;
-	}
+    //	@XmlTransient
+    public String getCharSemantics() {
+        return charSemantics;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setCharSemantics(String charSemantics) {
+        this.charSemantics = charSemantics;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	@XmlTransient
-	public String getLogicalName() {
-		return logicalName;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setLogicalName(String logicalName) {
-		this.logicalName = logicalName;
-	}
+    //	@XmlTransient
+    public String getLogicalName() {
+        return logicalName;
+    }
 
-	@XmlTransient
-	public String getPhysicalName() {
-		return physicalName;
-	}
+    public void setLogicalName(String logicalName) {
+        this.logicalName = logicalName;
+    }
 
-	public void setPhysicalName(String physicalName) {
-		this.physicalName = physicalName;
-	}
+    //    @XmlTransient
+    public String getPhysicalName() {
+        return physicalName;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setPhysicalName(String physicalName) {
+        this.physicalName = physicalName;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
 }

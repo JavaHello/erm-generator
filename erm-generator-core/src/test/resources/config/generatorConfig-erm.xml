@@ -19,7 +19,7 @@
  <!DOCTYPE generatorConfiguration >
 
 <generatorConfiguration>
-  <properties resource="config/ermDDLEnv.properties"/>
+  <properties resource="config/env.properties"/>
  
 
   <context id="testErmConfig" defaultModelType="flat" targetRuntime="MyBatis3">

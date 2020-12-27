@@ -1,8 +1,5 @@
 package com.github.javahello.erm.generator.core.model.erm;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
-
 /**
  * @author kaiv2
  */
@@ -10,43 +7,43 @@ public class ErmColumn {
 
     private String id;
 
-    @XmlElement(name = "word_id")
+    //    @XmlElement(name = "word_id")
     private String wordId;
 
     private String description;
 
-    @XmlElement(name = "unique_key_name")
+    //    @XmlElement(name = "unique_key_name")
     private String uniqueKeyName;
 
-    @XmlElement(name = "logical_name")
+    //    @XmlElement(name = "logical_name")
     private String logicalName;
 
-    @XmlElement(name = "physical_name")
+    //    @XmlElement(name = "physical_name")
     private String physicalName;
 
     private String type;
 
     private String constraint;
 
-    @XmlElement(name = "default_value")
+    //    @XmlElement(name = "default_value")
     private String defaultValue;
 
-    @XmlElement(name = "auto_increment")
+    //    @XmlElement(name = "auto_increment")
     private boolean autoIncrement;
 
-    @XmlElement(name = "foreign_key")
+    //    @XmlElement(name = "foreign_key")
     private String foreignKey;
 
-    @XmlElement(name = "not_null")
+    //    @XmlElement(name = "not_null")
     private boolean notNull;
 
-    @XmlElement(name = "primary_key")
+    //    @XmlElement(name = "primary_key")
     private boolean primaryKey;
 
-    @XmlElement(name = "unique_key")
+    //    @XmlElement(name = "unique_key")
     private boolean uniqueKey;
 
-    @XmlElement(name = "character_set")
+    //    @XmlElement(name = "character_set")
     private String characterSet;
 
     private String collation;
@@ -59,7 +56,7 @@ public class ErmColumn {
         this.id = id;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public String getWordId() {
         return wordId;
     }
@@ -76,7 +73,7 @@ public class ErmColumn {
         this.description = description;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public String getUniqueKeyName() {
         return uniqueKeyName;
     }
@@ -85,7 +82,7 @@ public class ErmColumn {
         this.uniqueKeyName = uniqueKeyName;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public String getLogicalName() {
         return logicalName;
     }
@@ -94,7 +91,7 @@ public class ErmColumn {
         this.logicalName = logicalName;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public String getPhysicalName() {
         return physicalName;
     }
@@ -119,7 +116,7 @@ public class ErmColumn {
         this.constraint = constraint;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public String getDefaultValue() {
         return defaultValue;
     }
@@ -128,7 +125,7 @@ public class ErmColumn {
         this.defaultValue = defaultValue;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public boolean getAutoIncrement() {
         return autoIncrement;
     }
@@ -137,7 +134,7 @@ public class ErmColumn {
         this.autoIncrement = autoIncrement;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public String getForeignKey() {
         return foreignKey;
     }
@@ -146,7 +143,7 @@ public class ErmColumn {
         this.foreignKey = foreignKey;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public boolean getNotNull() {
         return notNull;
     }
@@ -155,7 +152,7 @@ public class ErmColumn {
         this.notNull = notNull;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public boolean getPrimaryKey() {
         return primaryKey;
     }
@@ -164,7 +161,7 @@ public class ErmColumn {
         this.primaryKey = primaryKey;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public boolean getUniqueKey() {
         return uniqueKey;
     }
@@ -173,7 +170,7 @@ public class ErmColumn {
         this.uniqueKey = uniqueKey;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public String getCharacterSet() {
         return characterSet;
     }

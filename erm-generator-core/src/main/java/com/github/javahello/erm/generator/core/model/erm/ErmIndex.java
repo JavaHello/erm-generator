@@ -2,19 +2,13 @@ package com.github.javahello.erm.generator.core.model.erm;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlTransient;
-
 /**
- * 
  * @author kaiv2
- *
  */
 public class ErmIndex {
-    @XmlElement(name = "full_text")
+    //    @XmlElement(name = "full_text")
     private String fullText;
-    @XmlElement(name = "non_unique")
+    //    @XmlElement(name = "non_unique")
     private boolean nonUnique;
     private String name;
     private String type;
@@ -42,11 +36,11 @@ public class ErmIndex {
 
     }
 
-    @XmlElementWrapper(name = "columns")
-    @XmlElement(name = "column")
+    //    @XmlElementWrapper(name = "columns")
+//    @XmlElement(name = "column")
     List<Column> columns;
 
-    @XmlTransient
+    //    @XmlTransient
     public String getFullText() {
         return fullText;
     }
@@ -55,7 +49,7 @@ public class ErmIndex {
         this.fullText = fullText;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public boolean getNonUnique() {
         return nonUnique;
     }
@@ -88,7 +82,7 @@ public class ErmIndex {
         this.description = description;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public List<Column> getColumns() {
         return columns;
     }

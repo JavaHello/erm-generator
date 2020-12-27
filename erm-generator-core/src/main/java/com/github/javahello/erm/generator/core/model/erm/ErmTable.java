@@ -2,33 +2,27 @@ package com.github.javahello.erm.generator.core.model.erm;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlTransient;
-
 /**
- * 
  * @author kaiv2
- *
  */
 public class ErmTable {
 
     private String id;
 
-    @XmlElement(name = "physical_name")
+    //    @XmlElement(name = "physical_name")
     private String physicalName;
 
-    @XmlElement(name = "logical_name")
+    //    @XmlElement(name = "logical_name")
     private String logicalName;
 
     private String description;
 
-    @XmlElementWrapper(name = "columns")
-    @XmlElement(name = "normal_column")
+    //    @XmlElementWrapper(name = "columns")
+//    @XmlElement(name = "normal_column")
     private List<ErmColumn> columns;
 
-    @XmlElementWrapper(name = "indexes")
-    @XmlElement(name = "inidex")
+    //    @XmlElementWrapper(name = "indexes")
+//    @XmlElement(name = "inidex")
     private List<ErmIndex> indexes;
 
     public String getId() {
@@ -39,7 +33,7 @@ public class ErmTable {
         this.id = id;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public String getPhysicalName() {
         return physicalName;
     }
@@ -48,7 +42,7 @@ public class ErmTable {
         this.physicalName = physicalName;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public String getLogicalName() {
         return logicalName;
     }
@@ -65,7 +59,7 @@ public class ErmTable {
         this.description = description;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public List<ErmColumn> getColumns() {
         return columns;
     }
@@ -74,7 +68,7 @@ public class ErmTable {
         this.columns = columns;
     }
 
-    @XmlTransient
+    //    @XmlTransient
     public List<ErmIndex> getIndexes() {
         return indexes;
     }

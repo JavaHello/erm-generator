@@ -20,10 +20,8 @@ import com.github.javahello.erm.generator.core.model.ErmDDLEnv;
 import com.google.common.io.Files;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
 import java.io.File;
@@ -36,8 +34,7 @@ import java.util.stream.Collectors;
 /**
  * Goal which generates MyBatis artifacts.
  */
-@Mojo(name = "genMySqlDDL", defaultPhase = LifecyclePhase.GENERATE_SOURCES,
-        requiresDependencyResolution = ResolutionScope.TEST)
+@Mojo(name = "genMySqlDDL")
 public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
 
     /**
@@ -100,7 +97,7 @@ public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
                 super.afterExec();
                 File allSqlFile = new File(outputDirectory.getAbsolutePath() + "/all.sql");
                 try {
-                    if (allSqlFile.createNewFile()) {
+                    if (allSqlFile.exists() || allSqlFile.createNewFile()) {
                         Files.write(allSql.getBytes(StandardCharsets.UTF_8), allSqlFile);
                     } else {
                         getLog().error(allSqlFile.getAbsolutePath() + ", 文件创建失败");
