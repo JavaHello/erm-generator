@@ -22,4 +22,7 @@ public abstract class DiffHelper {
         return str == null || str.isEmpty();
     }
 
+    public static boolean isNotEmpty(String s) {
+        return !isEmpty(s);
+    }
 }

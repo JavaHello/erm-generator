@@ -10,7 +10,7 @@ public class DiffTable {
     private String tableName;
     private String tableComment;
 
-    private boolean newTb;
+    private DiffEnum diffEnum;
 
     private List<DiffColumn> diffColumns;
 
@@ -34,12 +34,12 @@ public class DiffTable {
         this.tableComment = tableComment;
     }
 
-    public boolean isNewTb() {
-        return newTb;
+    public DiffEnum getDiffEnum() {
+        return diffEnum;
     }
 
-    public void setNewTb(boolean newTb) {
-        this.newTb = newTb;
+    public void setDiffEnum(DiffEnum diffEnum) {
+        this.diffEnum = diffEnum;
     }
 
     public List<DiffColumn> getDiffColumns() {

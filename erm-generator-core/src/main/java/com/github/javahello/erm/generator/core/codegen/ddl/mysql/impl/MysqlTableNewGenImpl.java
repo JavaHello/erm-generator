@@ -1,8 +1,7 @@
 package com.github.javahello.erm.generator.core.codegen.ddl.mysql.impl;
 
 import com.github.javahello.erm.generator.core.codegen.ddl.ICovDDL;
-import com.github.javahello.erm.generator.core.codegen.ddl.ISqlTableCreate;
-import com.github.javahello.erm.generator.core.codegen.ddl.mysql.IMysqlCovDDL;
+import com.github.javahello.erm.generator.core.codegen.ddl.ISqlTableNew;
 import com.github.javahello.erm.generator.core.codegen.ddl.mysql.MySqlDDLHelper;
 import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.db.Index;
@@ -10,17 +9,25 @@ import com.github.javahello.erm.generator.core.model.db.Table;
 import com.github.javahello.erm.generator.core.util.DiffHelper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * @author kaiv2
  */
-public class MysqlCreateTableGenImpl implements IMysqlCovDDL, ISqlTableCreate {
+public class MysqlTableNewGenImpl extends AbstractMysqlCovDDL<MysqlTableDelGenImpl> implements ISqlTableNew {
 
     private Table table;
 
+    public MysqlTableNewGenImpl() {
+    }
+
+
     @Override
     public String covDDL() {
+        if (table == null) {
+            return "";
+        }
         StringBuilder tableStr = new StringBuilder();
         tableStr.append("CREATE TABLE ").append(table.getTableName()).append(" (").append("\n");
         // 列
@@ -62,8 +69,10 @@ public class MysqlCreateTableGenImpl implements IMysqlCovDDL, ISqlTableCreate {
     }
 
     @Override
-    public ICovDDL tb(Table table) {
+    public ICovDDL newTable(Table table) {
         this.table = table;
+        Optional.ofNullable(fixDdl).ifPresent(f -> f.delTable(table));
         return this;
     }
+
 }

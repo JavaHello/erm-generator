@@ -5,11 +5,13 @@ import com.github.javahello.erm.generator.core.codegen.ddl.ISqlColumnDel;
 import com.github.javahello.erm.generator.core.codegen.ddl.mysql.AbstractMysqlColumnGen;
 import com.github.javahello.erm.generator.core.model.db.Column;
 
+import java.util.Optional;
+
 
 /**
  * @author kaiv2
  */
-public class MysqlColumnDelGenImpl extends AbstractMysqlColumnGen implements ISqlColumnDel {
+public class MysqlColumnDelGenImpl extends AbstractMysqlColumnGen<MysqlColumnNewGenImpl> implements ISqlColumnDel {
 
 
     @Override
@@ -22,6 +24,7 @@ public class MysqlColumnDelGenImpl extends AbstractMysqlColumnGen implements ISq
     public ICovDDL delCol(String tbName, Column col) {
         setTbName(tbName);
         setNewColumn(col);
+        Optional.ofNullable(fixDdl).ifPresent(f -> f.newCol(tbName, col));
         return this;
     }
 }

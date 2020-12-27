@@ -5,11 +5,13 @@ import com.github.javahello.erm.generator.core.codegen.ddl.ISqlColumnModify;
 import com.github.javahello.erm.generator.core.codegen.ddl.mysql.AbstractMysqlColumnGen;
 import com.github.javahello.erm.generator.core.model.db.Column;
 
+import java.util.Optional;
+
 
 /**
  * @author kaiv2
  */
-public class MysqlColumnModifyGenImpl extends AbstractMysqlColumnGen implements ISqlColumnModify {
+public class MysqlColumnModifyGenImpl extends AbstractMysqlColumnGen<MysqlColumnModifyGenImpl> implements ISqlColumnModify {
 
     protected Column oldC;
 
@@ -24,6 +26,7 @@ public class MysqlColumnModifyGenImpl extends AbstractMysqlColumnGen implements 
         setTbName(tbName);
         setNewColumn(newC);
         this.oldC = oldC;
+        Optional.ofNullable(fixDdl).ifPresent(f -> f.modifyCol(tbName, oldC, newC));
         return this;
     }
 }

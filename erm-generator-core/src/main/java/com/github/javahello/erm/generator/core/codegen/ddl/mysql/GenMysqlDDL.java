@@ -1,14 +1,17 @@
 package com.github.javahello.erm.generator.core.codegen.ddl.mysql;
 
 import com.github.javahello.erm.generator.core.codegen.ddl.*;
-import com.github.javahello.erm.generator.core.codegen.ddl.mysql.impl.*;
 import com.github.javahello.erm.generator.core.internal.TableCache;
 import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.db.Index;
 import com.github.javahello.erm.generator.core.model.db.Table;
 import com.github.javahello.erm.generator.core.model.diff.DiffTable;
+import com.github.javahello.erm.generator.core.util.DiffHelper;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 生成 mysql 格式 DDL
@@ -17,22 +20,54 @@ import java.util.List;
  */
 public class GenMysqlDDL extends BaseOutDDL implements IMysqlCovDDL {
 
-    protected ISqlTableCreate sqlTableCreate = new MysqlCreateTableGenImpl();
-    protected ISqlColumnNew sqlColumnNew = new MysqlColumnNewGenImpl();
-    protected ISqlColumnDel sqlColumnDel = new MysqlColumnDelGenImpl();
-    protected ISqlColumnModify sqlColumnModify = new MysqlColumnModifyGenImpl();
-    protected ISqlIndexNew sqlIndexNew = new MysqlIndexNewGenImpl();
-    protected ISqlIndexDel sqlIndexDel = new MysqlIndexDelGenImpl();
-    protected ISqlPkNew sqlPkNew = new MysqlPrimaryKeyNewGenImpl();
-    protected ISqlPkDel sqlPkDel = new MysqlPrimaryKeyDelGenImpl();
+    protected Map<String, IMysqlCovDDL> mysqlCovDDLMap = MySqlDDL.toMap();
+    protected ISqlTableNew sqlTableCreate = MySqlDDL.CREATE_TABLE.getICovDDL();
+    protected ISqlTableDel sqlTableDrop = MySqlDDL.DROP_TABLE.getICovDDL();
+    protected ISqlColumnNew sqlColumnNew = MySqlDDL.ADD_COLUMN.getICovDDL();
+    protected ISqlColumnDel sqlColumnDel = MySqlDDL.DROP_COLUMN.getICovDDL();
+    protected ISqlColumnModify sqlColumnModify = MySqlDDL.CHANGE_COLUMN.getICovDDL();
+    protected ISqlIndexNew sqlIndexNew = MySqlDDL.ADD_INDEX.getICovDDL();
+    protected ISqlIndexDel sqlIndexDel = MySqlDDL.DROP_INDEX.getICovDDL();
+    protected ISqlPkNew sqlPkNew = MySqlDDL.ADD_PRIMARY_KEY.getICovDDL();
+    protected ISqlPkDel sqlPkDel = MySqlDDL.DROP_PRIMARY_KEY.getICovDDL();
+
+
+    protected ICovDDL fixDdl;
+
+
+    class MysqlFixDdl implements ICovDDL {
+
+        private Collection<ICovDDL> covDDLList;
+
+        public MysqlFixDdl() {
+        }
+
+        public void setCovDDLList(Collection<ICovDDL> covDDLList) {
+            this.covDDLList = covDDLList;
+        }
+
+        @Override
+        public DbType dbType() {
+            return GenMysqlDDL.this.dbType();
+        }
+
+        @Override
+        public String covDDL() {
+            return covDDLList.stream().map(ICovDDL::covDDL).filter(DiffHelper::isNotEmpty).collect(Collectors.joining("\n"));
+        }
+    }
 
     public GenMysqlDDL(TableCache newTableCache, List<DiffTable> diffTables) {
         super(newTableCache, diffTables);
+        MysqlFixDdl mysqlFixDdl = new MysqlFixDdl();
+        mysqlFixDdl.setCovDDLList(mysqlCovDDLMap.values().stream().map(IFixDDL::fix).collect(Collectors.toList()));
+        fixDdl = mysqlFixDdl;
+
     }
 
     @Override
-    public ICovDDL tb(Table table) {
-        return sqlTableCreate.tb(table);
+    public ICovDDL newTable(Table table) {
+        return sqlTableCreate.newTable(table);
     }
 
 
@@ -61,14 +96,23 @@ public class GenMysqlDDL extends BaseOutDDL implements IMysqlCovDDL {
         return sqlIndexNew.newIdx(tbName, idx);
     }
 
-
-    @Override
-    public ICovDDL delPk(String tbName) {
-        return sqlPkDel.delPk(tbName);
-    }
-
     @Override
     public ICovDDL newPk(String tbName, List<Column> pks) {
         return sqlPkNew.newPk(tbName, pks);
+    }
+
+    @Override
+    public ICovDDL fix() {
+        return fixDdl;
+    }
+
+    @Override
+    public ICovDDL delPk(String tbName, List<Column> pks) {
+        return sqlPkDel.delPk(tbName, pks);
+    }
+
+    @Override
+    public ICovDDL delTable(Table table) {
+        return sqlTableDrop.delTable(table);
     }
 }

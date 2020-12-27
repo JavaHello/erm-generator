@@ -4,10 +4,11 @@ import com.github.javahello.erm.generator.core.internal.TableCache;
 import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.db.Table;
 import com.github.javahello.erm.generator.core.model.diff.DiffColumn;
-import com.github.javahello.erm.generator.core.model.diff.DiffIndex;
+import com.github.javahello.erm.generator.core.model.diff.DiffEnum;
 import com.github.javahello.erm.generator.core.model.diff.DiffTable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public abstract class BaseOutDDL implements ISqlAll {
@@ -43,36 +44,44 @@ public abstract class BaseOutDDL implements ISqlAll {
     public String covDDL() {
         for (DiffTable diffTable : diffTables) {
             String tableName = diffTable.getTableName();
-            if (diffTable.isNewTb()) {
+            if (DiffEnum.A == diffTable.getDiffEnum()) {
                 Table table = newTableCache.getTable(tableName)
-                        .orElseThrow(() -> new IllegalArgumentException("OUT DDL 没有找到表:" + tableName));
-                addCreateTable(tb(table).covDDL());
-                continue;
-            }
-            List<DiffColumn> diffColumns = diffTable.getDiffColumns();
-            for (DiffColumn diffColumn : diffColumns) {
-                Column newColumn = diffColumn.getNewColumn();
-                Column oldColumn = diffColumn.getOldColumn();
-                if (newColumn == null) {
-                    addAlterColumn(delCol(tableName, oldColumn).covDDL());
-                } else if (oldColumn == null) {
-                    addAlterColumn(newCol(tableName, newColumn).covDDL());
-                } else {
-                    addAlterColumn(modifyCol(tableName, newColumn, oldColumn).covDDL());
+                        .orElseThrow(() -> new IllegalArgumentException("CREATE TABLE OUT DDL 没有找到表:" + tableName));
+                addCreateTable(newTable(table).covDDL());
+            } else if (DiffEnum.D == diffTable.getDiffEnum()) {
+                Table table = newTableCache.getTable(tableName)
+                        .orElseThrow(() -> new IllegalArgumentException("DROP TABLE OUT DDL 没有找到表:" + tableName));
+                addCreateTable(delTable(table).covDDL());
+            } else {
+                List<DiffColumn> diffColumns = diffTable.getDiffColumns();
+                for (DiffColumn diffColumn : diffColumns) {
+                    Column newColumn = diffColumn.getNewColumn();
+                    Column oldColumn = diffColumn.getOldColumn();
+                    if (newColumn == null) {
+                        addAlterColumn(delCol(tableName, oldColumn).covDDL());
+                    } else if (oldColumn == null) {
+                        addAlterColumn(newCol(tableName, newColumn).covDDL());
+                    } else {
+                        addAlterColumn(modifyCol(tableName, newColumn, oldColumn).covDDL());
+                    }
                 }
-            }
-            List<DiffColumn> diffPks = diffTable.getDiffPks();
-            addAlterIndex(delPk(tableName).covDDL());
-            addAlterIndex(newPk(tableName, diffPks.stream().map(DiffColumn::getNewColumn).collect(Collectors.toList())).covDDL());
+                Optional.ofNullable(diffTable.getDiffPks()).ifPresent(pks -> {
+                    addAlterIndex(delPk(tableName, pks.stream().map(DiffColumn::getOldColumn).collect(Collectors.toList())).covDDL());
+                    addAlterIndex(newPk(tableName, pks.stream().map(DiffColumn::getNewColumn).collect(Collectors.toList())).covDDL());
+                });
 
-            List<DiffIndex> diffIndexs = diffTable.getDiffIndexs();
-            for (DiffIndex diffIndex : diffIndexs) {
-                addAlterIndex(delIdx(tableName, diffIndex.getOldIndex()).covDDL());
-                addAlterIndex(newIdx(tableName, diffIndex.getNewIndex()).covDDL());
+                Optional.ofNullable(diffTable.getDiffIndexs()).ifPresent(diffIndexs -> {
+                    diffIndexs.forEach(diffIndex -> {
+                        Optional.ofNullable(diffIndex.getOldIndex()).ifPresent(idx -> {
+                            addAlterIndex(delIdx(tableName, idx).covDDL());
+                        });
+                        Optional.ofNullable(diffIndex.getNewIndex()).ifPresent(idx -> {
+                            addAlterIndex(newIdx(tableName, idx).covDDL());
+                        });
+                    });
+                });
             }
         }
-        return createTableSql + "\n" +
-                alterColumn + "\n" +
-                alterIndex + "\n";
+        return createTableSql.append(alterColumn).append(alterIndex).toString();
     }
 }

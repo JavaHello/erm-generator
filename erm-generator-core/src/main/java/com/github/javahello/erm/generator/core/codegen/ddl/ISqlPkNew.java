@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 输出 ddl
  */
-public interface ISqlPkNew {
+public interface ISqlPkNew extends ICovDDL, IFixDDL {
 
     /**
      * 新增

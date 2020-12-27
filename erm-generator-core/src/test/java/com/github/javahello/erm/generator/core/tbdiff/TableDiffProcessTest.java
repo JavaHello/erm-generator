@@ -6,6 +6,7 @@ import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.db.Index;
 import com.github.javahello.erm.generator.core.model.db.Table;
 import com.github.javahello.erm.generator.core.model.diff.DiffColumn;
+import com.github.javahello.erm.generator.core.model.diff.DiffEnum;
 import com.github.javahello.erm.generator.core.model.diff.DiffIndex;
 import com.github.javahello.erm.generator.core.model.diff.DiffTable;
 import org.junit.jupiter.api.DisplayName;
@@ -61,7 +62,7 @@ class TableDiffProcessTest {
         diffTable = tableDiffProcess.diff(t1, t2);
         assertTrue(diffTable.isPresent());
         DiffTable dt = diffTable.get();
-        assertTrue(dt.isNewTb());
+        assertSame(dt.getDiffEnum(), DiffEnum.A);
 
         List<DiffColumn> diffColumns = dt.getDiffColumns();
         assertNotNull(diffColumns);

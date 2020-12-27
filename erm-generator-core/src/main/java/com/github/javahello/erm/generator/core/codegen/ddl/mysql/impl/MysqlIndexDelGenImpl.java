@@ -3,19 +3,24 @@ package com.github.javahello.erm.generator.core.codegen.ddl.mysql.impl;
 
 import com.github.javahello.erm.generator.core.codegen.ddl.ICovDDL;
 import com.github.javahello.erm.generator.core.codegen.ddl.ISqlIndexDel;
-import com.github.javahello.erm.generator.core.codegen.ddl.mysql.IMysqlCovDDL;
 import com.github.javahello.erm.generator.core.model.db.Index;
+
+import java.util.Optional;
 
 /**
  * @author kaiv2
  */
-public class MysqlIndexDelGenImpl implements IMysqlCovDDL, ISqlIndexDel {
+public class MysqlIndexDelGenImpl extends AbstractMysqlCovDDL<MysqlIndexNewGenImpl> implements ISqlIndexDel {
 
     protected Index index;
     protected String tbName;
 
+
     @Override
     public String covDDL() {
+        if (index == null) {
+            return "";
+        }
         return "ALTER TABLE " + tbName + " DROP INDEX "
                 + index.getIndexName() + ";";
     }
@@ -24,6 +29,7 @@ public class MysqlIndexDelGenImpl implements IMysqlCovDDL, ISqlIndexDel {
     public ICovDDL delIdx(String tbName, Index idx) {
         this.index = idx;
         this.tbName = tbName;
+        Optional.ofNullable(fixDdl).ifPresent(f -> f.newIdx(tbName, idx));
         return this;
     }
 }

@@ -1,5 +1,9 @@
 package com.github.javahello.erm.generator.core.util;
 
+import com.github.javahello.erm.generator.core.codegen.ddl.mysql.IMysqlCovDDL;
+import com.github.javahello.erm.generator.core.codegen.ddl.mysql.MySqlDDL;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,4 +31,7 @@ public abstract class MapHelper {
         return map;
     }
 
+    public static <V, K> Map<K, V> uniqueGroup(V[] values, Function<V, K> kf) {
+        return uniqueGroup(Arrays.asList(values), kf);
+    }
 }

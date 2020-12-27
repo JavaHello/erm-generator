@@ -5,7 +5,7 @@ import com.github.javahello.erm.generator.core.model.db.Column;
 /**
  * 输出 ddl
  */
-public interface ISqlColumnNew extends ICovDDL {
+public interface ISqlColumnNew extends ICovDDL, IFixDDL {
 
 
     /**

@@ -5,7 +5,7 @@ import com.github.javahello.erm.generator.core.model.db.Index;
 /**
  * 输出 ddl
  */
-public interface ISqlIndexDel {
+public interface ISqlIndexDel extends ICovDDL, IFixDDL {
     /**
      * 删除
      */
