@@ -32,7 +32,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Goal which generates MyBatis artifacts.
+ * 使用 generate-mysql-ddl 生成 erm 差异 SQL.
  */
 @Mojo(name = "generate-mysql-ddl")
 public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
@@ -63,7 +63,7 @@ public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
 
 
     /**
-     * new Erm Files.
+     * old Erm Files.
      */
     @Parameter(property = "erm.generator.oldErmFiles", required = false)
     private List<File> oldErmFiles;

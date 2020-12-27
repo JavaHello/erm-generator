@@ -1,0 +1,47 @@
+SET SESSION FOREIGN_KEY_CHECKS=0;
+
+/* Drop Indexes */
+
+DROP INDEX IDX_01 ON USER;
+
+
+
+/* Drop Tables */
+
+DROP TABLE IF EXISTS SYS_CONFIG;
+DROP TABLE IF EXISTS USER;
+
+
+
+
+/* Create Tables */
+
+CREATE TABLE SYS_CONFIG
+(
+	CONF_ID varchar(32) NOT NULL,
+	CONF_VALUE varchar(255),
+	USE_RATE decimal(5,2),
+	CREATED_DATETIME datetime,
+	LAST_MODIFIED_DATETIME datetime,
+	PRIMARY KEY (CONF_ID)
+);
+
+
+CREATE TABLE USER
+(
+	ID bigint NOT NULL AUTO_INCREMENT,
+	UNAME varchar(32) NOT NULL,
+	CREATED_DATETIME datetime,
+	ID_NO varchar(18),
+	TEST_ID varchar(32),
+	PRIMARY KEY (ID, UNAME)
+);
+
+
+
+/* Create Indexes */
+
+CREATE INDEX IDX_01 ON USER (ID_NO DESC);
+
+
+
