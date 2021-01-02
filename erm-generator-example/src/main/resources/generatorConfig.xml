@@ -34,16 +34,16 @@
       <ermSource value="db2.erm"/>
     </ermSources>
 
-    <javaModelGenerator targetPackage="com.github.javahello.erm.example.model" targetProject="src/main/java">
+    <javaModelGenerator targetPackage="com.github.javahello.erm.example.model" targetProject="MAVEN">
       <property name="enableSubPackages" value="true" />
       <property name="trimStrings" value="true" />
     </javaModelGenerator>
 
-    <sqlMapGenerator targetPackage="mappers"  targetProject="src/main/resources">
+    <sqlMapGenerator targetPackage="mappers"  targetProject="MAVEN">
       <property name="enableSubPackages" value="true" />
     </sqlMapGenerator>
 
-    <javaClientGenerator type="XMLMAPPER" targetPackage="com.github.javahello.erm.example.mapper"  targetProject="src/main/java">
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.github.javahello.erm.example.mapper"  targetProject="MAVEN">
       <property name="enableSubPackages" value="true" />
     </javaClientGenerator>
 

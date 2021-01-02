@@ -38,6 +38,14 @@
 					<verbose>true</verbose>
 					<overwrite>true</overwrite>
 				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>com.github.javahello</groupId>
@@ -47,6 +55,7 @@
 					<outputDirectory>./.dev-out</outputDirectory>
 					<newErmFiles>
 						<ermFile>${basedir}/src/main/resources/erms/db.erm</ermFile>
+<!--						<ermFile>${basedir}/src/main/resources/erms/db2.erm</ermFile>-->
 					</newErmFiles>
 				</configuration>
 			</plugin>

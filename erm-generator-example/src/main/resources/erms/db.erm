@@ -11,7 +11,7 @@
 	</page_setting>
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
-	<x>212</x>
+	<x>0</x>
 	<y>0</y>
 	<default_color>
 		<r>128</r>
@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2020-11-29 00:26:26</creation_date>
-			<updated_date>2020-12-06 18:25:09</updated_date>
+			<updated_date>2021-01-02 14:19:15</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -306,12 +306,12 @@
 	<contents>
 		<table>
 			<id>0</id>
-			<height>137</height>
-			<width>236</width>
+			<height>172</height>
+			<width>323</width>
 				<font_name>Microsoft YaHei UI</font_name>
 				<font_size>9</font_size>
-			<x>312</x>
-			<y>196</y>
+			<x>0</x>
+			<y>156</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -486,12 +486,12 @@
 		</table>
 		<table>
 			<id>1</id>
-			<height>91</height>
-			<width>214</width>
+			<height>202</height>
+			<width>383</width>
 				<font_name>Microsoft YaHei UI</font_name>
 				<font_size>9</font_size>
-			<x>564</x>
-			<y>185</y>
+			<x>120</x>
+			<y>465</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
