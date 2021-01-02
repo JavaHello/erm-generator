@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ErmCmpDDLGeneratorTest {
 
     @Test
-    @DisplayName("测试比较生成ERM")
+    @DisplayName("测试比较生成DDL")
     public void testCmpGenDDL() {
         ErmDDLEnv env = new ErmDDLEnv();
         env.setNewErmList(Arrays.asList(TestFileHelper.cpFilePath("erms/db.erm")));
