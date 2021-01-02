@@ -75,6 +75,25 @@ public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
     @Parameter(property = "erm.generator.skip", defaultValue = "false")
     private boolean skip;
 
+    /**
+     * 表结构字段修改输出文件
+     */
+    @Parameter(property = "erm.generator.modifyColumnSqlFileName", defaultValue = "modify_column.sql")
+    private String modifyColumnSqlFileName;
+
+    /**
+     * 表索引修改输出文件
+     */
+    @Parameter(property = "erm.generator.modifyIndexSqlFileName", defaultValue = "modify_index.sql")
+    private String modifyIndexSqlFileName;
+
+    /**
+     * 表修改输出文件
+     */
+    @Parameter(property = "erm.generator.modifyTableSqlFileName", defaultValue = "modify_table.sql")
+    private String modifyTableSqlFileName;
+
+
     public ErmMysqlDDLGeneratorMojo() {
     }
 
@@ -95,15 +114,28 @@ public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
             @Override
             protected void afterExec() {
                 super.afterExec();
-                File allSqlFile = new File(outputDirectory.getAbsolutePath() + "/all.sql");
+                File allSqlFile = new File(outputDirectory.getAbsolutePath() + File.separator + "all.sql");
+                writeFile(allSqlFile, allSql.getBytes(StandardCharsets.UTF_8));
+
+                writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyColumnSqlFileName)
+                        , currentOutDDL.getModifyColumnSql().toString().getBytes(StandardCharsets.UTF_8));
+
+                writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyIndexSqlFileName)
+                        , currentOutDDL.getModifyIndexSql().toString().getBytes(StandardCharsets.UTF_8));
+
+                writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyTableSqlFileName)
+                        , currentOutDDL.getModifyTableSql().toString().getBytes(StandardCharsets.UTF_8));
+            }
+
+            private void writeFile(File allSqlFile, byte[] sqlBytes) {
                 try {
                     if (allSqlFile.exists() || allSqlFile.createNewFile()) {
-                        Files.write(allSqlFile.toPath(), allSql.getBytes(StandardCharsets.UTF_8));
+                        Files.write(allSqlFile.toPath(), sqlBytes);
                     } else {
                         getLog().error(allSqlFile.getAbsolutePath() + ", 文件创建失败");
                     }
                 } catch (IOException e) {
-                    getLog().error("写入SQL到文件失败", e);
+                    getLog().error(allSqlFile.getAbsolutePath() + "写入SQL到文件失败", e);
                 }
             }
         };

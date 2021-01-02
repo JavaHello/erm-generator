@@ -1,15 +1,10 @@
 package com.github.javahello.erm.generator.core.tbdiff;
 
-import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.db.Index;
 import com.github.javahello.erm.generator.core.model.diff.DiffIndex;
 import com.github.javahello.erm.generator.core.util.MapHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * @author kaiv2
@@ -17,7 +12,6 @@ import java.util.stream.Collectors;
 public class DefaultIndexListDiffProcess implements IIndexListDiff {
 
     private IIndexDiff indexDiff = new DefaultIndexDiffProcess();
-
 
 
     @Override
@@ -34,10 +28,8 @@ public class DefaultIndexListDiffProcess implements IIndexListDiff {
             Optional<DiffIndex> diffIndex = indexDiff.diff(index1, index2);
             diffIndex.ifPresent(diffIndexList::add);
         }
-        for (Index index2 : indexMap2.values()) {
-            Optional<DiffIndex> diffIndex = indexDiff.diff(null, index2);
-            diffIndex.ifPresent(diffIndexList::add);
-        }
+        indexMap2.values().stream().sorted(Comparator.comparing(Index::getIndexName))
+                .forEach(index2 -> indexDiff.diff(null, index2).ifPresent(diffIndexList::add));
         return Optional.of(diffIndexList);
     }
 }

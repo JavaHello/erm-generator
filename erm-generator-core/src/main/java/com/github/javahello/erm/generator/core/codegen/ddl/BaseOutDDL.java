@@ -21,23 +21,23 @@ public abstract class BaseOutDDL implements ISqlAll {
         this.diffTables = diffTables;
     }
 
-    private final StringBuilder createTableSql = new StringBuilder();
-    private final StringBuilder alterIndex = new StringBuilder();
-    private final StringBuilder alterColumn = new StringBuilder();
+    private final StringBuilder modifyTableSql = new StringBuilder();
+    private final StringBuilder modifyIndexSql = new StringBuilder();
+    private final StringBuilder modifyColumnSql = new StringBuilder();
 
-    private StringBuilder addCreateTable(String sql) {
-        createTableSql.append(sql).append("\n");
-        return createTableSql;
+    private StringBuilder addModifyTable(String sql) {
+        modifyTableSql.append(sql).append("\n");
+        return modifyTableSql;
     }
 
-    private StringBuilder addAlterIndex(String sql) {
-        alterIndex.append(sql).append("\n");
-        return alterIndex;
+    private StringBuilder addModifyIndex(String sql) {
+        modifyIndexSql.append(sql).append("\n");
+        return modifyIndexSql;
     }
 
-    private StringBuilder addAlterColumn(String sql) {
-        alterColumn.append(sql).append("\n");
-        return alterColumn;
+    private StringBuilder addModifyColumn(String sql) {
+        modifyColumnSql.append(sql).append("\n");
+        return modifyColumnSql;
     }
 
     @Override
@@ -48,58 +48,58 @@ public abstract class BaseOutDDL implements ISqlAll {
             if (DiffEnum.A == diffTable.getDiffEnum()) {
                 Table table = newTableCache.getTable(tableName)
                         .orElseThrow(() -> new IllegalArgumentException("CREATE TABLE OUT DDL 没有找到表:" + tableName));
-                addCreateTable(newTable(table).covDDL());
+                addModifyTable(newTable(table).covDDL());
             } else if (DiffEnum.D == diffTable.getDiffEnum()) {
                 Table table = newTableCache.getTable(tableName)
                         .orElseThrow(() -> new IllegalArgumentException("DROP TABLE OUT DDL 没有找到表:" + tableName));
-                addCreateTable(delTable(table).covDDL());
+                addModifyTable(delTable(table).covDDL());
             } else {
                 List<DiffColumn> diffColumns = diffTable.getDiffColumns();
                 for (DiffColumn diffColumn : diffColumns) {
                     Column newColumn = diffColumn.getNewColumn();
                     Column oldColumn = diffColumn.getOldColumn();
                     if (newColumn == null) {
-                        addAlterColumn(delCol(tableName, oldColumn).covDDL());
+                        addModifyColumn(delCol(tableName, oldColumn).covDDL());
                     } else if (oldColumn == null) {
-                        addAlterColumn(newCol(tableName, newColumn).covDDL());
+                        addModifyColumn(newCol(tableName, newColumn).covDDL());
                     } else {
-                        addAlterColumn(modifyCol(tableName, newColumn, oldColumn).covDDL());
+                        addModifyColumn(modifyCol(tableName, newColumn, oldColumn).covDDL());
                     }
                 }
                 Optional.ofNullable(diffTable.getDiffPks()).ifPresent(pks -> {
-                    addAlterIndex(delPk(tableName, pks.stream().map(DiffColumn::getOldColumn).collect(Collectors.toList())).covDDL());
-                    addAlterIndex(newPk(tableName, pks.stream().map(DiffColumn::getNewColumn).collect(Collectors.toList())).covDDL());
+                    addModifyIndex(delPk(tableName, pks.stream().map(DiffColumn::getOldColumn).collect(Collectors.toList())).covDDL());
+                    addModifyIndex(newPk(tableName, pks.stream().map(DiffColumn::getNewColumn).collect(Collectors.toList())).covDDL());
                 });
 
                 Optional.ofNullable(diffTable.getDiffIndexs()).ifPresent(diffIndexs -> {
                     diffIndexs.forEach(diffIndex -> {
                         Optional.ofNullable(diffIndex.getOldIndex()).ifPresent(idx -> {
-                            addAlterIndex(delIdx(tableName, idx).covDDL());
+                            addModifyIndex(delIdx(tableName, idx).covDDL());
                         });
                         Optional.ofNullable(diffIndex.getNewIndex()).ifPresent(idx -> {
-                            addAlterIndex(newIdx(tableName, idx).covDDL());
+                            addModifyIndex(newIdx(tableName, idx).covDDL());
                         });
                     });
                 });
             }
             doFixRec();
         }
-        return createTableSql + "" + alterColumn + alterIndex;
+        return modifyTableSql + "" + modifyColumnSql + modifyIndexSql;
     }
 
     protected abstract void doFixRec();
 
     protected abstract void doInitFix();
 
-    public StringBuilder getAlterColumn() {
-        return alterColumn;
+    public StringBuilder getModifyColumnSql() {
+        return modifyColumnSql;
     }
 
-    public StringBuilder getAlterIndex() {
-        return alterIndex;
+    public StringBuilder getModifyIndexSql() {
+        return modifyIndexSql;
     }
 
-    public StringBuilder getCreateTableSql() {
-        return createTableSql;
+    public StringBuilder getModifyTableSql() {
+        return modifyTableSql;
     }
 }

@@ -4,10 +4,7 @@ import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.diff.DiffColumn;
 import com.github.javahello.erm.generator.core.util.MapHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class DefaultColumnListDiffProcess implements IColumnListDiff {
 
@@ -32,10 +29,8 @@ public class DefaultColumnListDiffProcess implements IColumnListDiff {
             Optional<DiffColumn> diffColumnOpt = columnDiff.diff(column, column2);
             diffColumnOpt.ifPresent(diffColumnList::add);
         }
-        for (Column column2 : columnMap2.values()) {
-            Optional<DiffColumn> diffColumnOpt = columnDiff.diff(null, column2);
-            diffColumnOpt.ifPresent(diffColumnList::add);
-        }
+        columnMap2.values().stream().sorted(Comparator.comparing(Column::getColumnName))
+                .forEach(column2 -> columnDiff.diff(null, column2).ifPresent(diffColumnList::add));
         return Optional.of(diffColumnList);
     }
 }

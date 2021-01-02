@@ -1,6 +1,5 @@
 package com.github.javahello.erm.generator.core.internal;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.util.TypeUtils;
 import com.github.javahello.erm.generator.core.config.ErmSourceConfiguration;
 import com.github.javahello.erm.generator.core.model.db.Column;
@@ -9,7 +8,6 @@ import com.github.javahello.erm.generator.core.model.db.Table;
 import com.github.javahello.erm.generator.core.model.erm.*;
 import com.github.javahello.erm.generator.core.util.MapHelper;
 import com.github.javahello.erm.generator.core.util.TypeMap;
-import com.github.javahello.erm.generator.core.util.XMLUtil;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -42,6 +40,7 @@ public class ErmRead implements ErmMetaData {
     private List<ErmDiagram> ermList = new ArrayList<>();
 
     private List<Table> tables = new ArrayList<>();
+    private Map<String, Table> tableMap = new HashMap<>();
 
     public void read() {
 
@@ -182,8 +181,13 @@ public class ErmRead implements ErmMetaData {
             Map<String, ErmWord> wordMap = MapHelper.uniqueGroup(ermDiagram.getWordList(), ErmWord::getId);
             List<ErmTable> ermTables = ermDiagram.getTables();
             for (ErmTable ermTable : ermTables) {
+                String tableName = ermTable.getPhysicalName();
+                if (tableMap.containsKey(tableName)) {
+                    log.warn(tableName + " 表重复，不再处理!!!");
+                    continue;
+                }
                 Table table = new Table();
-                table.setTableName(ermTable.getPhysicalName());
+                table.setTableName(tableName);
                 table.setTableComment(ermTable.getLogicalName());
                 List<Column> pks = new ArrayList<>();
                 List<Index> ids = new ArrayList<>();
@@ -245,6 +249,7 @@ public class ErmRead implements ErmMetaData {
                 table.setPrimaryKeys(pks);
                 table.setIndexs(ids);
                 tables.add(table);
+                tableMap.put(tableName, table);
             }
         }
     }
@@ -280,17 +285,17 @@ public class ErmRead implements ErmMetaData {
 
     @Override
     public Optional<List<Column>> getPrimaryKeys(String table) {
-        return tables.stream().filter(e -> e.getTableName().equals(table)).map(Table::getPrimaryKeys).findAny();
+        return Optional.ofNullable(tableMap.get(table)).map(Table::getPrimaryKeys);
     }
 
     @Override
     public Optional<List<Column>> getColumns(String table) {
-        return tables.stream().filter(e -> e.getTableName().equals(table)).map(Table::getColumns).findAny();
+        return Optional.ofNullable(tableMap.get(table)).map(Table::getColumns);
     }
 
     @Override
     public Optional<Table> getTable(String table) {
-        return tables.stream().filter(e -> e.getTableName().equals(table)).findAny();
+        return Optional.ofNullable(tableMap.get(table));
     }
 
 }

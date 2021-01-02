@@ -4,10 +4,7 @@ import com.github.javahello.erm.generator.core.model.db.Table;
 import com.github.javahello.erm.generator.core.model.diff.DiffTable;
 import com.github.javahello.erm.generator.core.util.MapHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author kaiv2
@@ -35,10 +32,8 @@ public class DefaultTableListDiffProcess implements ITableListDiff {
             Optional<DiffTable> diffColumnOpt = tableDiff.diff(table1, table2);
             diffColumnOpt.ifPresent(diffColumnList::add);
         }
-        for (Table table2 : tableMap2.values()) {
-            Optional<DiffTable> diffColumnOpt = tableDiff.diff(null, table2);
-            diffColumnOpt.ifPresent(diffColumnList::add);
-        }
+        tableMap2.values().stream().sorted(Comparator.comparing(Table::getTableName))
+                .forEach(table2 -> tableDiff.diff(null, table2).ifPresent(diffColumnList::add));
         return Optional.of(diffColumnList);
     }
 }
