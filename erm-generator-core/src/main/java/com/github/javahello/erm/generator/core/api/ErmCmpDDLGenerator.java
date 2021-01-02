@@ -44,18 +44,21 @@ public class ErmCmpDDLGenerator {
 
     protected void runExec() {
         Optional<List<DiffTable>> diffAllOpt = tableListDiff.diff(newCache.getTables(), oldCache.getTables());
-        diffAllOpt.ifPresent(this::initDiffProcess);
-        currentOutDDL = outDDLMap.get(ermDDLEnv.getDbType());
-        if (currentOutDDL == null) {
-            throw new IllegalArgumentException("数据库类型不支持: " + ermDDLEnv.getDbType());
-        }
-        allSql = currentOutDDL.covDDL();
+        diffAllOpt.ifPresent(diffAll -> {
+            this.initDiffProcess(diffAll);
+            currentOutDDL = outDDLMap.get(ermDDLEnv.getDbType());
+            if (currentOutDDL == null) {
+                throw new IllegalArgumentException("数据库类型不支持: " + ermDDLEnv.getDbType());
+            }
+            allSql = currentOutDDL.covDDL();
+        });
     }
 
     protected void initDiffProcess(List<DiffTable> diffAll) {
         GenMysqlDDL genMysqlDDL = new GenMysqlDDL(newCache, diffAll);
         outDDLMap.put(genMysqlDDL.dbType().name(), genMysqlDDL);
-        Optional.ofNullable(doInitDiffProcess(newCache, diffAll)).ifPresent(outList -> outList.forEach(out -> outDDLMap.put(out.dbType().name(), out)));
+        Optional.ofNullable(doInitDiffProcess(newCache, diffAll))
+                .ifPresent(outList -> outList.forEach(out -> outDDLMap.put(out.dbType().name(), out)));
     }
 
     protected List<BaseOutDDL> doInitDiffProcess(TableCache newCache, List<DiffTable> diffAll) {

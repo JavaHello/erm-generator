@@ -11,7 +11,9 @@ import com.github.javahello.erm.generator.core.util.DiffHelper;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 生成 mysql 格式 DDL
@@ -82,7 +84,7 @@ public class GenMysqlDDL extends BaseOutDDL implements IMysqlCovDDL {
     }
 
     protected List<ICovDDL> assembleFix() {
-        return Arrays.asList(
+        return Stream.of(
                 sqlTableCreate.fix(),
                 sqlTableDrop.fix(),
                 sqlColumnNew.fix(),
@@ -92,7 +94,7 @@ public class GenMysqlDDL extends BaseOutDDL implements IMysqlCovDDL {
                 sqlIndexDel.fix(),
                 sqlPkNew.fix(),
                 sqlPkDel.fix()
-        );
+        ).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     @Override

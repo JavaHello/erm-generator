@@ -65,7 +65,7 @@ public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
     /**
      * old Erm Files.
      */
-    @Parameter(property = "erm.generator.oldErmFiles", required = false)
+    @Parameter(property = "erm.generator.oldErmFiles")
     private List<File> oldErmFiles;
 
 
@@ -106,25 +106,24 @@ public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
         }
         env.setExtraProperties(project.getProperties());
         env.setNewErmList(newErmFiles.stream().map(File::getAbsolutePath).collect(Collectors.toList()));
-        Optional.ofNullable(oldErmFiles).ifPresent(oldErmFiles -> {
-            env.setOldErmList(oldErmFiles.stream().map(File::getAbsolutePath).collect(Collectors.toList()));
-        });
+        Optional.ofNullable(oldErmFiles).ifPresent(oldErmFiles -> env.setOldErmList(oldErmFiles.stream()
+                .map(File::getAbsolutePath).collect(Collectors.toList())));
         ErmCmpDDLGenerator ermCmpDDLGenerator = new ErmCmpDDLGenerator(env) {
 
             @Override
             protected void afterExec() {
                 super.afterExec();
-                File allSqlFile = new File(outputDirectory.getAbsolutePath() + File.separator + "all.sql");
-                writeFile(allSqlFile, allSql.getBytes(StandardCharsets.UTF_8));
+                Optional.ofNullable(allSql).ifPresent(sql -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + "all.sql"),
+                        sql.getBytes(StandardCharsets.UTF_8)));
 
-                writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyColumnSqlFileName)
-                        , currentOutDDL.getModifyColumnSql().toString().getBytes(StandardCharsets.UTF_8));
+                Optional.ofNullable(currentOutDDL).ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyColumnSqlFileName)
+                        , ddl.getModifyColumnSql().toString().getBytes(StandardCharsets.UTF_8)));
 
-                writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyIndexSqlFileName)
-                        , currentOutDDL.getModifyIndexSql().toString().getBytes(StandardCharsets.UTF_8));
+                Optional.ofNullable(currentOutDDL).ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyIndexSqlFileName)
+                        , ddl.getModifyIndexSql().toString().getBytes(StandardCharsets.UTF_8)));
 
-                writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyTableSqlFileName)
-                        , currentOutDDL.getModifyTableSql().toString().getBytes(StandardCharsets.UTF_8));
+                Optional.ofNullable(currentOutDDL).ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyTableSqlFileName)
+                        , ddl.getModifyTableSql().toString().getBytes(StandardCharsets.UTF_8)));
             }
 
             private void writeFile(File allSqlFile, byte[] sqlBytes) {
