@@ -28,7 +28,7 @@ public class DefaultTableDiffProcess implements ITableDiff {
         Table d2 = Optional.ofNullable(t2).orElseGet(Table::new);
         DiffTable diffTable = null;
         Optional<List<DiffColumn>> diffColumnList = columnListDiff.diff(d1.getColumns(), d2.getColumns());
-        Optional<List<DiffIndex>> diffIndexList = indexListDiff.diff(d1.getIndexs(), d2.getIndexs());
+        Optional<List<DiffIndex>> diffIndexList = indexListDiff.diff(d1.getIndexes(), d2.getIndexes());
         Optional<List<DiffColumn>> diffPks = pksDiff.diff(d1.getPrimaryKeys(), d2.getPrimaryKeys());
 
         DiffEnum diffEnum = null;

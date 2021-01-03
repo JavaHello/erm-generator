@@ -247,7 +247,7 @@ public class ErmRead implements ErmMetaData {
 
                 table.setColumns(cols);
                 table.setPrimaryKeys(pks);
-                table.setIndexs(ids);
+                table.setIndexes(ids);
                 tables.add(table);
                 tableMap.put(tableName, table);
             }

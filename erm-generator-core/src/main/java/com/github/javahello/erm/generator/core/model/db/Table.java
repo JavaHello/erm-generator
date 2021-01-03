@@ -11,7 +11,7 @@ public class Table {
     private String tableComment;
     private List<Column> columns;
     private List<Column> primaryKeys;
-    private List<Index> indexs;
+    private List<Index> indexes;
 
     public String getTableName() {
         return tableName;
@@ -45,12 +45,12 @@ public class Table {
         this.primaryKeys = primaryKeys;
     }
 
-    public List<Index> getIndexs() {
-        return indexs;
+    public List<Index> getIndexes() {
+        return indexes;
     }
 
-    public void setIndexs(List<Index> indexs) {
-        this.indexs = indexs;
+    public void setIndexes(List<Index> indexes) {
+        this.indexes = indexes;
     }
 
     

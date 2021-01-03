@@ -21,6 +21,7 @@ class ErmCmpDDLGeneratorTest {
             @Override
             protected void afterExec() {
                 super.afterExec();
+                assertNotNull(allSql);
                 System.out.println("DDL ---------------------------------------");
                 System.out.println(allSql);
                 System.out.println("FIX ---------------------------------------");

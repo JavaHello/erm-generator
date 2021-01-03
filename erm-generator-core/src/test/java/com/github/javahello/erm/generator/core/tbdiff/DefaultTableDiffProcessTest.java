@@ -55,7 +55,7 @@ class DefaultTableDiffProcessTest {
         idx1.setColumns(cols1);
         idx1.setIndexName("test");
         indices1.add(idx1);
-        t1.setIndexs(indices1);
+        t1.setIndexes(indices1);
 
         t1.setPrimaryKeys(cols1);
 
