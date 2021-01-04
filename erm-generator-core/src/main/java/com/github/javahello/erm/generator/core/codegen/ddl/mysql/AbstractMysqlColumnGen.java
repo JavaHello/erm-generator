@@ -25,7 +25,7 @@ public abstract class AbstractMysqlColumnGen<FixDDL extends IMysqlCovDDL> extend
 
     @Override
     public String covDDL() {
-        String out = Optional.ofNullable(newColumn).map(column -> "ALTER TABLE " + tbName + " " + optColumn() + " " + MySqlDDLHelper.columnGe(column) + ";").orElse("");
+        String out = Optional.ofNullable(newColumn).map(column -> "ALTER TABLE " + tbName + " " + optColumn() + ";").orElse("");
         this.newColumn = null;
         this.tbName = null;
         return out;

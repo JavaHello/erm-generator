@@ -3,6 +3,7 @@ package com.github.javahello.erm.generator.core.codegen.ddl.mysql.impl;
 import com.github.javahello.erm.generator.core.codegen.ddl.ICovDDL;
 import com.github.javahello.erm.generator.core.codegen.ddl.ISqlColumnNew;
 import com.github.javahello.erm.generator.core.codegen.ddl.mysql.AbstractMysqlColumnGen;
+import com.github.javahello.erm.generator.core.codegen.ddl.mysql.MySqlDDLHelper;
 import com.github.javahello.erm.generator.core.model.db.Column;
 
 import java.util.Optional;
@@ -16,7 +17,7 @@ public class MysqlColumnNewGenImpl extends AbstractMysqlColumnGen<MysqlColumnDel
 
     @Override
     protected String optColumn() {
-        return "ADD COLUMN " + newColumn.getColumnName();
+        return "ADD COLUMN " + newColumn.getColumnName() + MySqlDDLHelper.columnGe(newColumn);
     }
 
 
