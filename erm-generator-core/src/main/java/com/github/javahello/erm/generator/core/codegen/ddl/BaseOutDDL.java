@@ -25,19 +25,47 @@ public abstract class BaseOutDDL implements ISqlAll {
     private final StringBuilder modifyIndexSql = new StringBuilder();
     private final StringBuilder modifyColumnSql = new StringBuilder();
 
-    private StringBuilder addModifyTable(String sql) {
-        modifyTableSql.append(sql).append("\n");
+    private final StringBuilder modifyTableSqlFix = new StringBuilder();
+    private final StringBuilder modifyIndexSqlFix = new StringBuilder();
+    private final StringBuilder modifyColumnSqlFix = new StringBuilder();
+
+    private StringBuilder addModifyTable(ICovDDL iCovDDL) {
+        modifyTableSql.append(iCovDDL.covDDL()).append("\n");
+        if (iCovDDL instanceof IFixDDL) {
+            addModifyTableFix(((IFixDDL) iCovDDL).fix());
+        }
         return modifyTableSql;
     }
 
-    private StringBuilder addModifyIndex(String sql) {
-        modifyIndexSql.append(sql).append("\n");
+    private StringBuilder addModifyIndex(ICovDDL iCovDDL) {
+        modifyIndexSql.append(iCovDDL.covDDL()).append("\n");
+        if (iCovDDL instanceof IFixDDL) {
+            addModifyIndexFix(((IFixDDL) iCovDDL).fix());
+        }
         return modifyIndexSql;
     }
 
-    private StringBuilder addModifyColumn(String sql) {
-        modifyColumnSql.append(sql).append("\n");
+    private StringBuilder addModifyColumn(ICovDDL iCovDDL) {
+        modifyColumnSql.append(iCovDDL.covDDL()).append("\n");
+        if (iCovDDL instanceof IFixDDL) {
+            addModifyColumnFix(((IFixDDL) iCovDDL).fix());
+        }
         return modifyColumnSql;
+    }
+
+    private StringBuilder addModifyTableFix(ICovDDL iCovDDL) {
+        modifyTableSqlFix.append(iCovDDL.covDDL()).append("\n");
+        return modifyTableSqlFix;
+    }
+
+    private StringBuilder addModifyIndexFix(ICovDDL iCovDDL) {
+        modifyIndexSqlFix.append(iCovDDL.covDDL()).append("\n");
+        return modifyIndexSqlFix;
+    }
+
+    private StringBuilder addModifyColumnFix(ICovDDL iCovDDL) {
+        modifyColumnSqlFix.append(iCovDDL.covDDL()).append("\n");
+        return modifyColumnSqlFix;
     }
 
     @Override
@@ -48,46 +76,43 @@ public abstract class BaseOutDDL implements ISqlAll {
             if (DiffEnum.A == diffTable.getDiffEnum()) {
                 Table table = newTableCache.getTable(tableName)
                         .orElseThrow(() -> new IllegalArgumentException("CREATE TABLE OUT DDL 没有找到表:" + tableName));
-                addModifyTable(newTable(table).covDDL());
+                addModifyTable(newTable(table));
             } else if (DiffEnum.D == diffTable.getDiffEnum()) {
                 Table table = newTableCache.getTable(tableName)
                         .orElseThrow(() -> new IllegalArgumentException("DROP TABLE OUT DDL 没有找到表:" + tableName));
-                addModifyTable(delTable(table).covDDL());
+                addModifyTable(delTable(table));
             } else {
                 List<DiffColumn> diffColumns = diffTable.getDiffColumns();
                 for (DiffColumn diffColumn : diffColumns) {
                     Column newColumn = diffColumn.getNewColumn();
                     Column oldColumn = diffColumn.getOldColumn();
                     if (newColumn == null) {
-                        addModifyColumn(delCol(tableName, oldColumn).covDDL());
+                        addModifyColumn(delCol(tableName, oldColumn));
                     } else if (oldColumn == null) {
-                        addModifyColumn(newCol(tableName, newColumn).covDDL());
+                        addModifyColumn(newCol(tableName, newColumn));
                     } else {
-                        addModifyColumn(modifyCol(tableName, newColumn, oldColumn).covDDL());
+                        addModifyColumn(modifyCol(tableName, newColumn, oldColumn));
                     }
                 }
                 Optional.ofNullable(diffTable.getDiffPks()).ifPresent(pks -> {
-                    addModifyIndex(delPk(tableName, pks.stream().map(DiffColumn::getOldColumn).collect(Collectors.toList())).covDDL());
-                    addModifyIndex(newPk(tableName, pks.stream().map(DiffColumn::getNewColumn).collect(Collectors.toList())).covDDL());
+                    addModifyIndex(delPk(tableName, pks.stream().map(DiffColumn::getOldColumn).collect(Collectors.toList())));
+                    addModifyIndex(newPk(tableName, pks.stream().map(DiffColumn::getNewColumn).collect(Collectors.toList())));
                 });
 
                 Optional.ofNullable(diffTable.getDiffIndexs()).ifPresent(diffIndexs -> {
                     diffIndexs.forEach(diffIndex -> {
                         Optional.ofNullable(diffIndex.getOldIndex()).ifPresent(idx -> {
-                            addModifyIndex(delIdx(tableName, idx).covDDL());
+                            addModifyIndex(delIdx(tableName, idx));
                         });
                         Optional.ofNullable(diffIndex.getNewIndex()).ifPresent(idx -> {
-                            addModifyIndex(newIdx(tableName, idx).covDDL());
+                            addModifyIndex(newIdx(tableName, idx));
                         });
                     });
                 });
             }
-            doFixRec();
         }
         return modifyTableSql + "" + modifyColumnSql + modifyIndexSql;
     }
-
-    protected abstract void doFixRec();
 
     protected abstract void doInitFix();
 
@@ -101,5 +126,17 @@ public abstract class BaseOutDDL implements ISqlAll {
 
     public StringBuilder getModifyTableSql() {
         return modifyTableSql;
+    }
+
+    public StringBuilder getModifyTableSqlFix() {
+        return modifyTableSqlFix;
+    }
+
+    public StringBuilder getModifyIndexSqlFix() {
+        return modifyIndexSqlFix;
+    }
+
+    public StringBuilder getModifyColumnSqlFix() {
+        return modifyColumnSqlFix;
     }
 }

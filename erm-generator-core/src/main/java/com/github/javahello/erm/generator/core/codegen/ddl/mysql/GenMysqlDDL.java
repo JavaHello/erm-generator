@@ -33,21 +33,17 @@ public class GenMysqlDDL extends BaseOutDDL implements IMysqlCovDDL {
     protected ISqlPkDel sqlPkDel = MySqlDDL.DROP_PRIMARY_KEY.getICovDDL();
 
 
-    protected MysqlFixDdl fixDdl;
+    protected MysqlFixDdl fixDdl = new MysqlFixDdl();
 
 
     class MysqlFixDdl implements ICovDDL {
 
-        private Collection<ICovDDL> covDDLList;
 
         private StringBuilder fixSql = new StringBuilder();
 
         public MysqlFixDdl() {
         }
 
-        public void setCovDDLList(Collection<ICovDDL> covDDLList) {
-            this.covDDLList = covDDLList;
-        }
 
         @Override
         public DbType dbType() {
@@ -56,46 +52,23 @@ public class GenMysqlDDL extends BaseOutDDL implements IMysqlCovDDL {
 
         @Override
         public String covDDL() {
-            return fixSql.toString();
+            return GenMysqlDDL.super.getModifyTableSqlFix() + ""
+                    + GenMysqlDDL.super.getModifyColumnSqlFix()
+                    + GenMysqlDDL.super.getModifyIndexSqlFix();
         }
 
-        public void fixRec() {
-            fixSql.append(covDDLList.stream().map(ICovDDL::covDDL).filter(DiffHelper::isNotEmpty).collect(Collectors.joining("\n"))).append("\n");
-        }
     }
 
     public GenMysqlDDL(TableCache newTableCache, List<DiffTable> diffTables) {
         super(newTableCache, diffTables);
     }
 
-    @Override
-    protected void doFixRec() {
-        fixDdl.fixRec();
-    }
 
     @Override
     protected void doInitFix() {
-        if (fixDdl == null) {
-            List<ICovDDL> fixList = assembleFix();
-            MysqlFixDdl mysqlFixDdl = new MysqlFixDdl();
-            mysqlFixDdl.setCovDDLList(fixList);
-            fixDdl = mysqlFixDdl;
-        }
+
     }
 
-    protected List<ICovDDL> assembleFix() {
-        return Stream.of(
-                sqlTableCreate.fix(),
-                sqlTableDrop.fix(),
-                sqlColumnNew.fix(),
-                sqlColumnDel.fix(),
-                sqlColumnModify.fix(),
-                sqlIndexNew.fix(),
-                sqlIndexDel.fix(),
-                sqlPkNew.fix(),
-                sqlPkDel.fix()
-        ).filter(Objects::nonNull).collect(Collectors.toList());
-    }
 
     @Override
     public ICovDDL newTable(Table table) {
