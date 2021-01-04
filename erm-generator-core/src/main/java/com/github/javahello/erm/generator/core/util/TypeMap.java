@@ -57,6 +57,7 @@ public abstract class TypeMap {
 
         // 特色
         TYPE_MAP.put("DATETIME", Types.TIMESTAMP);
+        TYPE_MAP.put("INT", Types.INTEGER);
 
     }
 

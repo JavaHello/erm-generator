@@ -56,9 +56,9 @@ public class ErmCmpDDLGenerator {
 
     protected void initDiffProcess(List<DiffTable> diffAll) {
         GenMysqlDDL genMysqlDDL = new GenMysqlDDL(newCache, diffAll);
-        outDDLMap.put(genMysqlDDL.dbType().name(), genMysqlDDL);
+        outDDLMap.put(genMysqlDDL.dbType().getCode(), genMysqlDDL);
         Optional.ofNullable(doInitDiffProcess(newCache, diffAll))
-                .ifPresent(outList -> outList.forEach(out -> outDDLMap.put(out.dbType().name(), out)));
+                .ifPresent(outList -> outList.forEach(out -> outDDLMap.put(out.dbType().getCode(), out)));
     }
 
     protected List<BaseOutDDL> doInitDiffProcess(TableCache newCache, List<DiffTable> diffAll) {

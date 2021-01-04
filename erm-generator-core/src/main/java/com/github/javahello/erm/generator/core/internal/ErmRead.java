@@ -2,6 +2,7 @@ package com.github.javahello.erm.generator.core.internal;
 
 import com.alibaba.fastjson.util.TypeUtils;
 import com.github.javahello.erm.generator.core.config.ErmSourceConfiguration;
+import com.github.javahello.erm.generator.core.internal.sqltype.SqlType;
 import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.db.Index;
 import com.github.javahello.erm.generator.core.model.db.Table;
@@ -24,7 +25,8 @@ import java.util.*;
  */
 public class ErmRead implements ErmMetaData {
 
-    private Log log = LogFactory.getLog(getClass());
+    private static Log log = LogFactory.getLog(ErmRead.class);
+
 
     public ErmRead(ErmSourceConfiguration ermSourceConfiguration) {
         this(ermSourceConfiguration.getErmSources());
@@ -178,6 +180,7 @@ public class ErmRead implements ErmMetaData {
 
     private void covTable() {
         for (ErmDiagram ermDiagram : ermList) {
+            String database = ermDiagram.getSettings().getDatabase();
             Map<String, ErmWord> wordMap = MapHelper.uniqueGroup(ermDiagram.getWordList(), ErmWord::getId);
             List<ErmTable> ermTables = ermDiagram.getTables();
             for (ErmTable ermTable : ermTables) {
@@ -204,6 +207,9 @@ public class ErmRead implements ErmMetaData {
                     col.setColumnName(ermWord.getPhysicalName());
                     col.setColumnComment(ermWord.getLogicalName());
                     String columnType = ermWord.getType();
+                    SqlType sqlType = SqlType.valueOfOrId(database, columnType);
+
+                    columnType = Optional.ofNullable(sqlType).map(e -> e.getAlias(database)).orElse(columnType);
                     int endIndex = columnType.indexOf('(');
                     if (endIndex != -1) {
                         columnType = columnType.substring(0, endIndex);

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class ErmDDLEnv {
-    private String dbType = DbType.MYSQL.name();
+    private String dbType = DbType.MYSQL.getCode();
     private List<String> newErmList;
     private List<String> oldErmList;
     private String outDDLFilePath;
