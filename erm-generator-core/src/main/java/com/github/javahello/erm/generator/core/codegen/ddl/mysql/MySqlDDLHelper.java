@@ -3,7 +3,7 @@ package com.github.javahello.erm.generator.core.codegen.ddl.mysql;
 import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.db.Index;
 import com.github.javahello.erm.generator.core.util.DiffHelper;
-import com.github.javahello.erm.generator.core.util.TypeMap;
+import com.github.javahello.erm.generator.core.internal.sqltype.TypeMap;
 
 import java.util.Optional;
 import java.util.stream.Collectors;

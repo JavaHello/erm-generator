@@ -8,7 +8,7 @@ import com.github.javahello.erm.generator.core.model.db.Index;
 import com.github.javahello.erm.generator.core.model.db.Table;
 import com.github.javahello.erm.generator.core.model.erm.*;
 import com.github.javahello.erm.generator.core.util.MapHelper;
-import com.github.javahello.erm.generator.core.util.TypeMap;
+import com.github.javahello.erm.generator.core.internal.sqltype.TypeMap;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
