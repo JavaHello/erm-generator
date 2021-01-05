@@ -16,7 +16,10 @@
 package com.github.javahello.erm.generator.maven;
 
 import com.github.javahello.erm.generator.core.api.ErmCmpDDLGenerator;
+import com.github.javahello.erm.generator.core.codegen.ddl.BaseOutDDL;
+import com.github.javahello.erm.generator.core.codegen.ddl.ICovDDL;
 import com.github.javahello.erm.generator.core.model.ErmDDLEnv;
+import com.github.javahello.erm.generator.core.util.DiffHelper;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -113,17 +116,68 @@ public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
             @Override
             protected void afterExec() {
                 super.afterExec();
-                Optional.ofNullable(allSql).ifPresent(sql -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + "all.sql"),
+                Optional.ofNullable(allSql).filter(DiffHelper::isNotEmpty).ifPresent(sql -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + "all.sql"),
                         sql.getBytes(StandardCharsets.UTF_8)));
 
-                Optional.ofNullable(currentOutDDL).ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyColumnSqlFileName)
-                        , ddl.getModifyColumnSql().toString().getBytes(StandardCharsets.UTF_8)));
+                ICovDDL fix = currentOutDDL.fix();
 
-                Optional.ofNullable(currentOutDDL).ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyIndexSqlFileName)
-                        , ddl.getModifyIndexSql().toString().getBytes(StandardCharsets.UTF_8)));
+                Optional.ofNullable(fix).map(ICovDDL::covDDL).filter(DiffHelper::isNotEmpty).ifPresent(sql -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + "all_fix.sql"),
+                        sql.getBytes(StandardCharsets.UTF_8)));
 
-                Optional.ofNullable(currentOutDDL).ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyTableSqlFileName)
-                        , ddl.getModifyTableSql().toString().getBytes(StandardCharsets.UTF_8)));
+                Optional.ofNullable(currentOutDDL)
+                        .map(BaseOutDDL::getModifyColumnSql)
+                        .map(Object::toString)
+                        .filter(DiffHelper::isNotEmpty)
+                        .ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyColumnSqlFileName)
+                                , ddl.getBytes(StandardCharsets.UTF_8)));
+
+                Optional.ofNullable(currentOutDDL)
+                        .map(BaseOutDDL::getModifyIndexSql)
+                        .map(Object::toString)
+                        .filter(DiffHelper::isNotEmpty)
+                        .ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyIndexSqlFileName)
+                                , ddl.getBytes(StandardCharsets.UTF_8)));
+
+                Optional.ofNullable(currentOutDDL)
+                        .map(BaseOutDDL::getModifyTableSql)
+                        .map(Object::toString)
+                        .filter(DiffHelper::isNotEmpty)
+                        .ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyTableSqlFileName)
+                                , ddl.getBytes(StandardCharsets.UTF_8)));
+
+                Optional.ofNullable(currentOutDDL)
+                        .map(BaseOutDDL::getModifyColumnSqlFix)
+                        .map(Object::toString)
+                        .filter(DiffHelper::isNotEmpty)
+                        .ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + fixFileName(modifyColumnSqlFileName))
+                                , ddl.getBytes(StandardCharsets.UTF_8)));
+
+                Optional.ofNullable(currentOutDDL)
+                        .map(BaseOutDDL::getModifyIndexSqlFix)
+                        .map(Object::toString)
+                        .filter(DiffHelper::isNotEmpty)
+                        .ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + fixFileName(modifyIndexSqlFileName))
+                                , ddl.getBytes(StandardCharsets.UTF_8)));
+
+                Optional.ofNullable(currentOutDDL)
+                        .map(BaseOutDDL::getModifyTableSqlFix)
+                        .map(Object::toString)
+                        .filter(DiffHelper::isNotEmpty)
+                        .ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + fixFileName(modifyTableSqlFileName))
+                                , ddl.getBytes(StandardCharsets.UTF_8)));
+            }
+
+            private String fixFileName(String sqlFileName) {
+                String result;
+                int i = sqlFileName.indexOf('.');
+                if (i > -1) {
+                    String filename = sqlFileName.substring(0, i);
+                    String ext = sqlFileName.substring(i);
+                    result = filename + "_fix" + ext;
+                } else {
+                    result = sqlFileName + "_fix.sql";
+                }
+                return result;
             }
 
             private void writeFile(File allSqlFile, byte[] sqlBytes) {
