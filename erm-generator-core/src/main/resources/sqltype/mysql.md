@@ -1,5 +1,5 @@
 |MySQL Type Name                |Return value of GetColumnTypeName                       |Return value of GetColumnClassName        |
-|:-                             |:-                        |:-|
+|:------------------------------|:-------------------------|:-------------------------------|
 |BIT(1)                         |BIT                       |java.lang.Boolean        |
 |BIT( > 1)                      |BIT                       |byte[]        |
 |TINYINT                        |TINYINT                   |java.lang.Boolean if the configuration property tinyInt1isBit is set to true (the default) and the storage size is 1, or java.lang.Integer if not.        |
@@ -15,7 +15,7 @@
 |DATETIME                       |DATETIME                  |java.sql.Timestamp        |
 |TIMESTAMP[(M)]                 |TIMESTAMP                 |java.sql.Timestamp        |
 |TIME                           |TIME                      |java.sql.Time        |
-|YEAR[(2|4)]                    |YEAR                      |If yearIsDateType configuration property is set to false, then the returned object type is java.sql.Short. If set to true (the default), then the returned object is of type java.sql.Date with the date set to January 1st, at midnight.        |
+|YEAR[(2\|4)]                   |YEAR                      |If yearIsDateType configuration property is set to false, then the returned object type is java.sql.Short. If set to true (the default), then the returned object is of type java.sql.Date with the date set to January 1st, at midnight.        |
 |CHAR(M)                        |CHAR                      |java.lang.String (unless the character set for the column is BINARY, then byte[] is returned.        |
 |VARCHAR(M) [BINARY]            |VARCHAR                   |java.lang.String (unless the character set for the column is BINARY, then byte[] is returned.        |
 |BINARY(M)                      |BINARY                    |byte[]        |
