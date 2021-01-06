@@ -64,7 +64,7 @@ public class SqlTypeFactory {
 					Map<SqlType, String> sqlTypeToAliasMap = dbSqlTypeToAliasMap.get(dbId);
 					Map<String, SqlType> aliasToSqlTypeMap = dbAliasToSqlTypeMap.get(dbId);
 
-					if (POIUtils.getCellColor(sheet, rowNum, colNum) != HSSFColor.GREY_50_PERCENT.index) {
+					if (POIUtils.getCellColor(sheet, rowNum, colNum) != HSSFColor.HSSFColorPredefined.GREY_50_PERCENT.getIndex()) {
 						
 						String alias = POIUtils.getCellValue(sheet, rowNum,
 								colNum + 1);

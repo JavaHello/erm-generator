@@ -17,6 +17,7 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 public class POIUtils {
@@ -74,7 +75,7 @@ public class POIUtils {
 				continue;
 			}
 
-			if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
+			if (cell.getCellType() == CellType.STRING) {
 				HSSFRichTextString cellValue = cell.getRichStringCellValue();
 
 				if (str.equals(cellValue.getString())) {
@@ -112,7 +113,7 @@ public class POIUtils {
 				continue;
 			}
 
-			if (cell.getCellType() != HSSFCell.CELL_TYPE_STRING) {
+			if (cell.getCellType() != CellType.STRING) {
 				continue;
 			}
 
@@ -196,7 +197,7 @@ public class POIUtils {
 		HSSFCell cell = row.getCell(c);
 
 		try {
-			if (cell.getCellType() != HSSFCell.CELL_TYPE_NUMERIC) {
+			if (cell.getCellType() != CellType.NUMERIC) {
 				return 0;
 			}
 		} catch (RuntimeException e) {
@@ -363,19 +364,19 @@ public class POIUtils {
 				HSSFCellStyle style = oldCell.getCellStyle();
 				newCell.setCellStyle(style);
 
-				int cellType = oldCell.getCellType();
+				CellType cellType = oldCell.getCellType();
 				newCell.setCellType(cellType);
 
-				if (cellType == HSSFCell.CELL_TYPE_BOOLEAN) {
+				if (cellType == CellType.BOOLEAN) {
 					newCell.setCellValue(oldCell.getBooleanCellValue());
 
-				} else if (cellType == HSSFCell.CELL_TYPE_FORMULA) {
+				} else if (cellType == CellType.FORMULA) {
 					newCell.setCellFormula(oldCell.getCellFormula());
 
-				} else if (cellType == HSSFCell.CELL_TYPE_NUMERIC) {
+				} else if (cellType == CellType.NUMERIC) {
 					newCell.setCellValue(oldCell.getNumericCellValue());
 
-				} else if (cellType == HSSFCell.CELL_TYPE_STRING) {
+				} else if (cellType == CellType.STRING) {
 					newCell.setCellValue(oldCell.getRichStringCellValue());
 				}
 			}

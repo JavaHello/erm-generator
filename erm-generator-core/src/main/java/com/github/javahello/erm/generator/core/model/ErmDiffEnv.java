@@ -5,8 +5,9 @@ import com.github.javahello.erm.generator.core.codegen.ddl.DbType;
 import java.util.List;
 import java.util.Properties;
 
-public class ErmDDLEnv {
+public class ErmDiffEnv {
     private String dbType = DbType.MYSQL.getCode();
+    private String dbName;
     private List<String> newErmList;
     private List<String> oldErmList;
     private String outDDLFilePath;
@@ -51,5 +52,13 @@ public class ErmDDLEnv {
 
     public void setOutDDLFilePath(String outDDLFilePath) {
         this.outDDLFilePath = outDDLFilePath;
+    }
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
     }
 }

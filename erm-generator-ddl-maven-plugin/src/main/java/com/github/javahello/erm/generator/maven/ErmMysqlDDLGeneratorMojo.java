@@ -18,58 +18,21 @@ package com.github.javahello.erm.generator.maven;
 import com.github.javahello.erm.generator.core.api.ErmCmpDDLGenerator;
 import com.github.javahello.erm.generator.core.codegen.ddl.BaseOutDDL;
 import com.github.javahello.erm.generator.core.codegen.ddl.ICovDDL;
-import com.github.javahello.erm.generator.core.model.ErmDDLEnv;
 import com.github.javahello.erm.generator.core.util.DiffHelper;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * 使用 generate-mysql-ddl 生成 erm 差异 SQL.
  */
 @Mojo(name = "generate-mysql-ddl")
-public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
-
-    /**
-     * 环境变量获取
-     */
-    ErmDDLEnv env = new ErmDDLEnv();
-
-    /**
-     * Maven Project.
-     */
-    @Parameter(property = "project", required = true, readonly = true)
-    private MavenProject project;
-
-    /**
-     * Output Directory.
-     */
-    @Parameter(property = "erm.generator.outputDirectory",
-            defaultValue = "${project.basedir}/.dev-out/", required = true)
-    private File outputDirectory;
-
-    /**
-     * new Erm Files.
-     */
-    @Parameter(property = "erm.generator.newErmFiles", required = true)
-    private List<File> newErmFiles;
-
-
-    /**
-     * old Erm Files.
-     */
-    @Parameter(property = "erm.generator.oldErmFiles")
-    private List<File> oldErmFiles;
+public class ErmMysqlDDLGeneratorMojo extends AbstractGeneratorMojo {
 
 
     /**
@@ -100,70 +63,66 @@ public class ErmMysqlDDLGeneratorMojo extends AbstractMojo {
     public ErmMysqlDDLGeneratorMojo() {
     }
 
+    @Override
+    protected String generatorName() {
+        return "erm db generator";
+    }
 
     @Override
-    public void execute() throws MojoExecutionException {
-        if (skip) {
-            getLog().info("erm db generator is skipped.");
-            return;
-        }
-        env.setExtraProperties(project.getProperties());
-        env.setNewErmList(newErmFiles.stream().map(File::getAbsolutePath).collect(Collectors.toList()));
-        Optional.ofNullable(oldErmFiles).ifPresent(oldErmFiles -> env.setOldErmList(oldErmFiles.stream()
-                .map(File::getAbsolutePath).collect(Collectors.toList())));
+    protected void doExecute() {
         ErmCmpDDLGenerator ermCmpDDLGenerator = new ErmCmpDDLGenerator(env) {
 
             @Override
             protected void afterExec() {
                 super.afterExec();
-                Optional.ofNullable(allSql).filter(DiffHelper::isNotEmpty).ifPresent(sql -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + "all.sql"),
+                Optional.ofNullable(allSql).filter(DiffHelper::isNotEmpty).ifPresent(sql -> writeFile(new File(getOutputDirectory().getAbsolutePath() + File.separator + "all.sql"),
                         sql.getBytes(StandardCharsets.UTF_8)));
 
                 ICovDDL fix = currentOutDDL.fix();
 
-                Optional.ofNullable(fix).map(ICovDDL::covDDL).filter(DiffHelper::isNotEmpty).ifPresent(sql -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + "all_fix.sql"),
+                Optional.ofNullable(fix).map(ICovDDL::covDDL).filter(DiffHelper::isNotEmpty).ifPresent(sql -> writeFile(new File(getOutputDirectory().getAbsolutePath() + File.separator + "all_fix.sql"),
                         sql.getBytes(StandardCharsets.UTF_8)));
 
                 Optional.ofNullable(currentOutDDL)
                         .map(BaseOutDDL::getModifyColumnSql)
                         .map(Object::toString)
                         .filter(DiffHelper::isNotEmpty)
-                        .ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyColumnSqlFileName)
+                        .ifPresent(ddl -> writeFile(new File(getOutputDirectory().getAbsolutePath() + File.separator + modifyColumnSqlFileName)
                                 , ddl.getBytes(StandardCharsets.UTF_8)));
 
                 Optional.ofNullable(currentOutDDL)
                         .map(BaseOutDDL::getModifyIndexSql)
                         .map(Object::toString)
                         .filter(DiffHelper::isNotEmpty)
-                        .ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyIndexSqlFileName)
+                        .ifPresent(ddl -> writeFile(new File(getOutputDirectory().getAbsolutePath() + File.separator + modifyIndexSqlFileName)
                                 , ddl.getBytes(StandardCharsets.UTF_8)));
 
                 Optional.ofNullable(currentOutDDL)
                         .map(BaseOutDDL::getModifyTableSql)
                         .map(Object::toString)
                         .filter(DiffHelper::isNotEmpty)
-                        .ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + modifyTableSqlFileName)
+                        .ifPresent(ddl -> writeFile(new File(getOutputDirectory().getAbsolutePath() + File.separator + modifyTableSqlFileName)
                                 , ddl.getBytes(StandardCharsets.UTF_8)));
 
                 Optional.ofNullable(currentOutDDL)
                         .map(BaseOutDDL::getModifyColumnSqlFix)
                         .map(Object::toString)
                         .filter(DiffHelper::isNotEmpty)
-                        .ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + fixFileName(modifyColumnSqlFileName))
+                        .ifPresent(ddl -> writeFile(new File(getOutputDirectory().getAbsolutePath() + File.separator + fixFileName(modifyColumnSqlFileName))
                                 , ddl.getBytes(StandardCharsets.UTF_8)));
 
                 Optional.ofNullable(currentOutDDL)
                         .map(BaseOutDDL::getModifyIndexSqlFix)
                         .map(Object::toString)
                         .filter(DiffHelper::isNotEmpty)
-                        .ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + fixFileName(modifyIndexSqlFileName))
+                        .ifPresent(ddl -> writeFile(new File(getOutputDirectory().getAbsolutePath() + File.separator + fixFileName(modifyIndexSqlFileName))
                                 , ddl.getBytes(StandardCharsets.UTF_8)));
 
                 Optional.ofNullable(currentOutDDL)
                         .map(BaseOutDDL::getModifyTableSqlFix)
                         .map(Object::toString)
                         .filter(DiffHelper::isNotEmpty)
-                        .ifPresent(ddl -> writeFile(new File(outputDirectory.getAbsolutePath() + File.separator + fixFileName(modifyTableSqlFileName))
+                        .ifPresent(ddl -> writeFile(new File(getOutputDirectory().getAbsolutePath() + File.separator + fixFileName(modifyTableSqlFileName))
                                 , ddl.getBytes(StandardCharsets.UTF_8)));
             }
 
