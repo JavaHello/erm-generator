@@ -10,7 +10,7 @@ public class ErmDiffEnv {
     private String dbName;
     private List<String> newErmList;
     private List<String> oldErmList;
-    private String outDDLFilePath;
+    private String outFilePath;
     private Properties extraProperties;
 
 
@@ -46,12 +46,12 @@ public class ErmDiffEnv {
         this.dbType = dbType;
     }
 
-    public String getOutDDLFilePath() {
-        return outDDLFilePath;
+    public String getOutFilePath() {
+        return outFilePath;
     }
 
-    public void setOutDDLFilePath(String outDDLFilePath) {
-        this.outDDLFilePath = outDDLFilePath;
+    public void setOutFilePath(String outFilePath) {
+        this.outFilePath = outFilePath;
     }
 
     public String getDbName() {

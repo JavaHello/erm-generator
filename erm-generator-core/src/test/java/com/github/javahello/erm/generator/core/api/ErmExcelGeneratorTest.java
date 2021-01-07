@@ -16,7 +16,7 @@ class ErmExcelGeneratorTest {
         ErmDiffEnv env = new ErmDiffEnv();
         env.setNewErmList(Arrays.asList(TestFileHelper.cpFilePath("erms/db.erm")));
         env.setOldErmList(Arrays.asList(TestFileHelper.cpFilePath("erms/db2.erm")));
-        env.setOutDDLFilePath(new File(TestFileHelper.cpFilePath("erms/db.erm")).getParent());
+        env.setOutFilePath(new File(TestFileHelper.cpFilePath("erms/db.erm")).getParent());
         env.setDbName("demo");
         AbstractGenerator ermExcelGenerator = new ErmExcelGenerator(env);
         ermExcelGenerator.exec();

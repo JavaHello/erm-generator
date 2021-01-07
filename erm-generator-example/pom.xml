@@ -49,10 +49,11 @@
 			</plugin>
 			<plugin>
 				<groupId>com.github.javahello</groupId>
-				<artifactId>erm-generator-ddl-maven-plugin</artifactId>
+				<artifactId>erm-generator-diff-maven-plugin</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 				<configuration>
 					<outputDirectory>./.dev-out</outputDirectory>
+					<dbName>demo</dbName>
 					<newErmFiles>
 						<ermFile>${basedir}/src/main/resources/erms/db.erm</ermFile>
 <!--						<ermFile>${basedir}/src/main/resources/erms/db2.erm</ermFile>-->

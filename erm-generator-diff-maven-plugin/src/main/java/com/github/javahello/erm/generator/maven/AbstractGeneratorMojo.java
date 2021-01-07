@@ -25,6 +25,12 @@ public abstract class AbstractGeneratorMojo extends AbstractMojo {
     private MavenProject project;
 
     /**
+     * 数据库名.
+     */
+    @Parameter(property = "erm.generator.dbName", required = true)
+    private String dbName;
+
+    /**
      * Output Directory.
      */
     @Parameter(property = "erm.generator.outputDirectory",
@@ -57,6 +63,8 @@ public abstract class AbstractGeneratorMojo extends AbstractMojo {
             getLog().info(generatorName() + " is skipped.");
             return;
         }
+        env.setDbName(dbName);
+        env.setOutFilePath(outputDirectory.getPath());
         env.setExtraProperties(project.getProperties());
         env.setNewErmList(newErmFiles.stream().map(File::getAbsolutePath).collect(Collectors.toList()));
         Optional.ofNullable(oldErmFiles).ifPresent(oldErmFiles -> env.setOldErmList(oldErmFiles.stream()

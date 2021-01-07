@@ -36,12 +36,6 @@ public class ErmMysqlDDLGeneratorMojo extends AbstractGeneratorMojo {
 
 
     /**
-     * Skip generator.
-     */
-    @Parameter(property = "erm.generator.skip", defaultValue = "false")
-    private boolean skip;
-
-    /**
      * 表结构字段修改输出文件
      */
     @Parameter(property = "erm.generator.modifyColumnSqlFileName", defaultValue = "modify_column.sql")

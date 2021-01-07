@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.github.javahello.erm.generator.core.model.db.Column;
-import com.github.javahello.erm.generator.core.model.db.Table;
 import org.jxls.common.Context;
 import org.jxls.transform.poi.PoiTransformer;
 import org.jxls.util.JxlsHelper;
@@ -36,7 +35,7 @@ public class ErmExcelGenerator extends AbstractGenerator {
     protected void beforeExec() {
         super.beforeExec();
         if (outFileName == null) {
-            outFileName = ermDiffEnv.getOutDDLFilePath() + File.separator + ermDiffEnv.getDbName() + ".xls";
+            outFileName = ermDiffEnv.getOutFilePath() + File.separator + ermDiffEnv.getDbName() + ".xls";
         }
     }
 
