@@ -1,13 +1,19 @@
 package com.github.javahello.erm.generator.core.api;
 
 import com.github.javahello.erm.generator.core.codegen.ddl.BaseOutDDL;
+import com.github.javahello.erm.generator.core.codegen.ddl.ICovDDL;
 import com.github.javahello.erm.generator.core.codegen.ddl.mysql.GenMysqlDDL;
 import com.github.javahello.erm.generator.core.internal.TableCache;
 import com.github.javahello.erm.generator.core.model.ErmDiffEnv;
 import com.github.javahello.erm.generator.core.model.diff.DiffTable;
 import com.github.javahello.erm.generator.core.tbdiff.DefaultTableListDiffProcess;
 import com.github.javahello.erm.generator.core.tbdiff.ITableListDiff;
+import com.github.javahello.erm.generator.core.util.DiffHelper;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +30,17 @@ public class ErmCmpDDLGenerator extends AbstractGenerator {
     protected String allSql;
     protected BaseOutDDL currentOutDDL;
 
+    private String allSqlFileName = "dbName_all.sql";
+    private String modifyColumnSqlFileName = "dbName_modify_column.sql";
+    private String modifyIndexSqlFileName = "dbName_modify_index.sql";
+    private String modifyTableSqlFileName = "dbName_modify_table.sql";
+
     public ErmCmpDDLGenerator(ErmDiffEnv ermDiffEnv) {
         super(ermDiffEnv);
+        allSqlFileName = allSqlFileName.replace("dbName", ermDiffEnv.getDbName());
+        modifyColumnSqlFileName = modifyColumnSqlFileName.replace("dbName", ermDiffEnv.getDbName());
+        modifyIndexSqlFileName = modifyIndexSqlFileName.replace("dbName", ermDiffEnv.getDbName());
+        modifyTableSqlFileName = modifyTableSqlFileName.replace("dbName", ermDiffEnv.getDbName());
     }
 
 
@@ -62,5 +77,106 @@ public class ErmCmpDDLGenerator extends AbstractGenerator {
     @Override
     protected void doInitEnv() {
         super.doInitEnv();
+    }
+
+
+    @Override
+    protected void afterExec() {
+        super.afterExec();
+        writeFileData();
+    }
+
+    protected void writeFileData() {
+        Optional.ofNullable(allSql).filter(DiffHelper::isNotEmpty).ifPresent(sql -> writeFileData(outFile(allSqlFileName),
+                sql.getBytes(StandardCharsets.UTF_8)));
+
+        ICovDDL fix = currentOutDDL.fix();
+
+        Optional.ofNullable(fix).map(ICovDDL::covDDL).filter(DiffHelper::isNotEmpty).ifPresent(sql -> writeFileData(outFile(fixFileName(allSqlFileName)),
+                sql.getBytes(StandardCharsets.UTF_8)));
+
+        Optional.ofNullable(currentOutDDL)
+                .map(BaseOutDDL::getModifyColumnSql)
+                .map(Object::toString)
+                .filter(DiffHelper::isNotEmpty)
+                .ifPresent(ddl -> writeFileData(outFile(modifyColumnSqlFileName)
+                        , ddl.getBytes(StandardCharsets.UTF_8)));
+
+        Optional.ofNullable(currentOutDDL)
+                .map(BaseOutDDL::getModifyIndexSql)
+                .map(Object::toString)
+                .filter(DiffHelper::isNotEmpty)
+                .ifPresent(ddl -> writeFileData(outFile(modifyIndexSqlFileName)
+                        , ddl.getBytes(StandardCharsets.UTF_8)));
+
+        Optional.ofNullable(currentOutDDL)
+                .map(BaseOutDDL::getModifyTableSql)
+                .map(Object::toString)
+                .filter(DiffHelper::isNotEmpty)
+                .ifPresent(ddl -> writeFileData(ErmCmpDDLGenerator.this.outFile(modifyTableSqlFileName)
+                        , ddl.getBytes(StandardCharsets.UTF_8)));
+
+        Optional.ofNullable(currentOutDDL)
+                .map(BaseOutDDL::getModifyColumnSqlFix)
+                .map(Object::toString)
+                .filter(DiffHelper::isNotEmpty)
+                .ifPresent(ddl -> writeFileData(outFile(fixFileName(modifyColumnSqlFileName))
+                        , ddl.getBytes(StandardCharsets.UTF_8)));
+
+        Optional.ofNullable(currentOutDDL)
+                .map(BaseOutDDL::getModifyIndexSqlFix)
+                .map(Object::toString)
+                .filter(DiffHelper::isNotEmpty)
+                .ifPresent(ddl -> writeFileData(outFile(fixFileName(modifyIndexSqlFileName))
+                        , ddl.getBytes(StandardCharsets.UTF_8)));
+
+        Optional.ofNullable(currentOutDDL)
+                .map(BaseOutDDL::getModifyTableSqlFix)
+                .map(Object::toString)
+                .filter(DiffHelper::isNotEmpty)
+                .ifPresent(ddl -> writeFileData(outFile(fixFileName(modifyTableSqlFileName))
+                        , ddl.getBytes(StandardCharsets.UTF_8)));
+    }
+
+    private File outFile(String modifyTableSqlFileName) {
+        return new File(ermDiffEnv.getOutFilePath() + File.separator + modifyTableSqlFileName);
+    }
+
+    private String fixFileName(String sqlFileName) {
+        String result;
+        int i = sqlFileName.indexOf('.');
+        if (i > -1) {
+            String filename = sqlFileName.substring(0, i);
+            String ext = sqlFileName.substring(i);
+            result = filename + "_fix" + ext;
+        } else {
+            result = sqlFileName + "_fix.sql";
+        }
+        return result;
+    }
+
+
+    protected void writeFileData(File sqlFile, byte[] sqlBytes) {
+        try {
+            if (sqlFile.exists() || sqlFile.createNewFile()) {
+                Files.write(sqlFile.toPath(), sqlBytes);
+            } else {
+                log.error(sqlFile.getAbsolutePath() + ", 文件创建失败");
+            }
+        } catch (IOException e) {
+            log.error(sqlFile.getAbsolutePath() + "写入SQL到文件失败", e);
+        }
+    }
+
+    public void setModifyColumnSqlFileName(String modifyColumnSqlFileName) {
+        this.modifyColumnSqlFileName = modifyColumnSqlFileName;
+    }
+
+    public void setModifyIndexSqlFileName(String modifyIndexSqlFileName) {
+        this.modifyIndexSqlFileName = modifyIndexSqlFileName;
+    }
+
+    public void setModifyTableSqlFileName(String modifyTableSqlFileName) {
+        this.modifyTableSqlFileName = modifyTableSqlFileName;
     }
 }
