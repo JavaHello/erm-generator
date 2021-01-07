@@ -17,7 +17,7 @@ public class MysqlColumnNewGenImpl extends AbstractMysqlColumnGen<MysqlColumnDel
 
     @Override
     protected String optColumn() {
-        return "ADD COLUMN " + newColumn.getColumnName() + MySqlDDLHelper.columnGe(newColumn);
+        return "ADD COLUMN " + newColumn.getColumnName() + MySqlDDLHelper.columnGe(dbType(),newColumn);
     }
 
 

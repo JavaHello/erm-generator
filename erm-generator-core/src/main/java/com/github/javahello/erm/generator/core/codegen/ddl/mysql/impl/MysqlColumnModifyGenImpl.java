@@ -18,7 +18,7 @@ public class MysqlColumnModifyGenImpl extends AbstractMysqlColumnGen<MysqlColumn
 
     @Override
     protected String optColumn() {
-        return "CHANGE COLUMN " + String.join(" ", oldC.getColumnName(), newColumn.getColumnName()) + MySqlDDLHelper.columnGe(newColumn);
+        return "CHANGE COLUMN " + String.join(" ", oldC.getColumnName(), newColumn.getColumnName()) + MySqlDDLHelper.columnGe(dbType(), newColumn);
     }
 
 

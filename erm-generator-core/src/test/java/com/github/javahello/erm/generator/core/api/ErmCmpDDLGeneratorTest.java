@@ -15,6 +15,7 @@ class ErmCmpDDLGeneratorTest {
     @DisplayName("测试比较生成DDL")
     public void testCmpGenDDL() {
         ErmDiffEnv env = new ErmDiffEnv();
+        env.setDbName("demo");
         env.setNewErmList(Arrays.asList(TestFileHelper.cpFilePath("erms/db.erm")));
         env.setOldErmList(Arrays.asList(TestFileHelper.cpFilePath("erms/db2.erm")));
         ErmCmpDDLGenerator ermCmpDDLGenerator = new ErmCmpDDLGenerator(env) {

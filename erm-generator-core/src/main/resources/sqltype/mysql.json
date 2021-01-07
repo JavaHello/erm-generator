@@ -1,0 +1,16 @@
+{
+  "allType": {
+    "DATETIME": "TIMESTAMP",
+    "INT": "INTEGER",
+    "TINYTEXT": "VARCHAR",
+    "TEXT": "VARCHAR",
+    "MEDIUMTEXT": "VARCHAR",
+    "LONGTEXT": "VARCHAR"
+  },
+  "stringType": {
+    "TINYTEXT": "VARCHAR",
+    "TEXT": "VARCHAR",
+    "MEDIUMTEXT": "VARCHAR",
+    "LONGTEXT": "VARCHAR"
+  }
+}

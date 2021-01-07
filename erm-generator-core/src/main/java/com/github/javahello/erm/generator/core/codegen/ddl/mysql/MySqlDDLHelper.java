@@ -1,5 +1,6 @@
 package com.github.javahello.erm.generator.core.codegen.ddl.mysql;
 
+import com.github.javahello.erm.generator.core.codegen.ddl.DbType;
 import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.db.Index;
 import com.github.javahello.erm.generator.core.util.DiffHelper;
@@ -19,11 +20,11 @@ public abstract class MySqlDDLHelper {
         return isNotNull ? "NOT NULL" : "NULL";
     }
 
-    private static String defaultValue(Column column) {
+    private static String defaultValue(DbType dbType, Column column) {
         if (DiffHelper.isEmpty(column.getDefaultValue())) {
             return "";
         }
-        return " DEFAULT" + (TypeMap.isStringType(column.getColumnType()) ? warp(warp(column.getDefaultValue(), "'"), " ") : warp(column.getDefaultValue(), " "));
+        return " DEFAULT" + (TypeMap.isStringType(dbType, column.getColumnType()) ? warp(warp(column.getDefaultValue(), "'"), " ") : warp(column.getDefaultValue(), " "));
     }
 
     private static String comment(Column column) {
@@ -49,9 +50,9 @@ public abstract class MySqlDDLHelper {
                 .collect(Collectors.joining(", ")) + ")";
     }
 
-    public static String columnGe(Column column) {
+    public static String columnGe(DbType dbType, Column column) {
         String colType = Optional.ofNullable(column.getLength()).map(len -> column.getColumnType() + warpPt(len)).orElse(column.getColumnType());
         return " " + colType + " "
-                + nullOpt(column.isNotNull()) + defaultValue(column) + comment(column);
+                + nullOpt(column.isNotNull()) + defaultValue(dbType, column) + comment(column);
     }
 }

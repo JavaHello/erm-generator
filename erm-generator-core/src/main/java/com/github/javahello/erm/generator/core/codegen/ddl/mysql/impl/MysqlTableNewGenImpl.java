@@ -32,7 +32,7 @@ public class MysqlTableNewGenImpl extends AbstractMysqlCovDDL<MysqlTableDelGenIm
         tableStr.append("CREATE TABLE ").append(table.getTableName()).append(" (").append("\n");
         // 列
 
-        String columnsStr = table.getColumns().stream().map(column -> MySqlDDLHelper.INDENT + column.getColumnName() + MySqlDDLHelper.columnGe(column))
+        String columnsStr = table.getColumns().stream().map(column -> MySqlDDLHelper.INDENT + column.getColumnName() + MySqlDDLHelper.columnGe(dbType(),column))
                 .collect(Collectors.joining(",\n"));
         tableStr.append(columnsStr);
         List<Column> primaryKeys = table.getPrimaryKeys();

@@ -1,6 +1,7 @@
 package com.github.javahello.erm.generator.core.internal;
 
 import com.alibaba.fastjson.util.TypeUtils;
+import com.github.javahello.erm.generator.core.codegen.ddl.DbType;
 import com.github.javahello.erm.generator.core.config.ErmSourceConfiguration;
 import com.github.javahello.erm.generator.core.internal.sqltype.SqlType;
 import com.github.javahello.erm.generator.core.model.db.Column;
@@ -181,6 +182,7 @@ public class ErmRead implements ErmMetaData {
     private void covTable() {
         for (ErmDiagram ermDiagram : ermList) {
             String database = ermDiagram.getSettings().getDatabase();
+            DbType dbType = DbType.of(database).orElseThrow(() -> new IllegalArgumentException("不支持的数据库类型: " + database));
             Map<String, ErmWord> wordMap = MapHelper.uniqueGroup(ermDiagram.getWordList(), ErmWord::getId);
             List<ErmTable> ermTables = ermDiagram.getTables();
             for (ErmTable ermTable : ermTables) {
@@ -215,7 +217,7 @@ public class ErmRead implements ErmMetaData {
                         columnType = columnType.substring(0, endIndex);
                     }
                     col.setColumnType(columnType);
-                    col.setJdbcType(TypeMap.jdbcType(columnType));
+                    col.setJdbcType(TypeMap.jdbcType(dbType, columnType));
                     col.setDefaultValue(ermColumn.getDefaultValue());
                     col.setAutoIncrement(ermColumn.getAutoIncrement());
                     col.setLength(ermWord.getLength());
