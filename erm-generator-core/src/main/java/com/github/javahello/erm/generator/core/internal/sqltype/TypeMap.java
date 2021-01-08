@@ -7,11 +7,10 @@ import com.github.javahello.erm.generator.core.util.FileUtils;
 import org.mybatis.generator.logging.Log;
 import org.mybatis.generator.logging.LogFactory;
 
-import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.net.URL;
-import java.nio.file.Files;
+import java.nio.charset.StandardCharsets;
 import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +79,8 @@ public abstract class TypeMap {
 
 
         try {
-            load();
+            loadJdbcType();
+            load("/sqltype/mysql.json");
         } catch (Exception e) {
             e.printStackTrace();
             throw new ExceptionInInitializerError(e);
@@ -100,28 +100,23 @@ public abstract class TypeMap {
         }
     }
 
-    private static void load() throws Exception {
-        loadJdbcType();
-        String sqlType = "/sqltype/mysql.json";
-        URL sqlTypeFile = TypeMap.class.getResource(sqlType);
-        Objects.requireNonNull(sqlTypeFile, sqlType + " 找不到文件");
-        File parentFile = new File(sqlTypeFile.getFile()).getParentFile();
-        File[] listFiles = parentFile.listFiles();
-        if (listFiles != null) {
-            for (File file : listFiles) {
-                final String name = file.getName();
-                log.debug("SQL_TYPE加载: " + name);
-                if (file.isFile() && FileUtils.isExtra(name, "json")) {
-                    final String key = covName(FileUtils.fileName(name));
-                    JSONObject typeJson = (JSONObject) JSON.parse(Files.readAllBytes(file.toPath()));
-                    Optional.ofNullable(typeJson.getJSONObject("stringType")).ifPresent(t -> {
-                        DB_STRING_TYPE_MAP.putIfAbsent(key, covTypeMap(key, t));
-                    });
-                    Optional.ofNullable(typeJson.getJSONObject("allType")).ifPresent(t -> {
-                        DB_TYPE_MAP.putIfAbsent(key, covTypeMap(key, t));
-                    });
-                }
+    private static void load(String sqlTypeFile) throws Exception {
+        try (InputStream in = TypeMap.class.getResourceAsStream(sqlTypeFile)) {
+            StringBuilder sb = new StringBuilder();
+            int len;
+            byte[] buf = new byte[4096];
+            while ((len = in.read(buf)) != -1) {
+                sb.append(new String(buf, 0, len, StandardCharsets.UTF_8));
             }
+            log.debug("SQL_TYPE加载: " + sqlTypeFile);
+            final String key = covName(FileUtils.fileName(sqlTypeFile));
+            JSONObject typeJson = (JSONObject) JSON.parse(sb.toString());
+            Optional.ofNullable(typeJson.getJSONObject("stringType")).ifPresent(t -> {
+                DB_STRING_TYPE_MAP.putIfAbsent(key, covTypeMap(key, t));
+            });
+            Optional.ofNullable(typeJson.getJSONObject("allType")).ifPresent(t -> {
+                DB_TYPE_MAP.putIfAbsent(key, covTypeMap(key, t));
+            });
         }
     }
 
@@ -148,7 +143,7 @@ public abstract class TypeMap {
                 .orElseGet(
                         () -> Optional.ofNullable(DB_TYPE_MAP.get(covName(dbType.getCode())))
                                 .map(e -> e.get(key))
-                                .orElseThrow(() -> new IllegalArgumentException("类型错误: " + type))
+                                .orElseThrow(() -> new IllegalArgumentException(dbType.getCode() + ", 类型错误: " + type))
                 );
     }
 
