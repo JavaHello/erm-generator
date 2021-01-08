@@ -1,25 +1,26 @@
 package com.github.javahello.erm.generator.core.api;
 
 import com.github.javahello.erm.generator.core.model.ErmDiffEnv;
+import com.github.javahello.erm.generator.core.model.db.Column;
+import org.jxls.common.Context;
+import org.jxls.transform.poi.PoiTransformer;
+import org.jxls.util.JxlsHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-
-import com.github.javahello.erm.generator.core.model.db.Column;
-import org.jxls.common.Context;
-import org.jxls.transform.poi.PoiTransformer;
-import org.jxls.util.JxlsHelper;
 
 /**
  * 比较差异输出 sql
  */
 public class ErmExcelGenerator extends AbstractGenerator {
 
-    private String templateFile = "/templates/export_tables.xls";
+    private String templateFile = "/templates/export_tables.xlsx";
 
     public ErmExcelGenerator(ErmDiffEnv ermDiffEnv) {
         super(ermDiffEnv);
@@ -35,13 +36,24 @@ public class ErmExcelGenerator extends AbstractGenerator {
     protected void beforeExec() {
         super.beforeExec();
         if (outFileName == null) {
-            outFileName = ermDiffEnv.getOutFilePath() + File.separator + ermDiffEnv.getDbName() + ".xls";
+            outFileName = ermDiffEnv.getOutFilePath() + File.separator + ermDiffEnv.getDbName() + ".xlsx";
         }
     }
 
     public static class TableUtil {
+        private final Map<String, Integer> countMap = new HashMap<>();
+
+
         public String idxName(List<Column> columns) {
             return columns.stream().map(Column::getColumnName).collect(Collectors.joining(", "));
+        }
+
+        public void countInit(String key, int v) {
+            countMap.put(key, v);
+        }
+
+        public Integer countAt(String key) {
+            return countMap.computeIfPresent(key, (k, v) -> v + 1);
         }
     }
 
@@ -51,11 +63,13 @@ public class ErmExcelGenerator extends AbstractGenerator {
         context.putVar("home", "#表清单!A1");
         context.putVar("dbName", ermDiffEnv.getDbName());
         context.putVar("tables", newCache.getTables());
-        context.putVar("tbuitl", new TableUtil());
+        TableUtil tableUtil = new TableUtil();
+        tableUtil.countInit("tablesIndex", 0);
+        context.putVar("tbuitl", tableUtil);
 
         try (InputStream in = getClass().getResourceAsStream(templateFile)) {
             File outFile = new File(outFileName);
-            try(FileOutputStream out = new FileOutputStream(outFile)) {
+            try (FileOutputStream out = new FileOutputStream(outFile)) {
                 JxlsHelper.getInstance().setUseFastFormulaProcessor(false).processTemplate(in, out, context);
             }
         }

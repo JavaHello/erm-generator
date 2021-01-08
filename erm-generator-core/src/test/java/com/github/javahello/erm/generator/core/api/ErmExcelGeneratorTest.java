@@ -12,7 +12,7 @@ class ErmExcelGeneratorTest {
 
     @Test
     @DisplayName("测试生成Excel")
-    public void testCmpGenDDL() {
+    public void testGexExcel() {
         ErmDiffEnv env = new ErmDiffEnv();
         env.setNewErmList(Arrays.asList(TestFileHelper.cpFilePath("erms/db.erm")));
         env.setOldErmList(Arrays.asList(TestFileHelper.cpFilePath("erms/db2.erm")));
