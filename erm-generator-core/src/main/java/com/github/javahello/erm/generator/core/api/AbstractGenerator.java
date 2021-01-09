@@ -6,6 +6,10 @@ import com.github.javahello.erm.generator.core.model.ErmDiffEnv;
 import org.mybatis.generator.logging.Log;
 import org.mybatis.generator.logging.LogFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -50,8 +54,6 @@ public abstract class AbstractGenerator {
     protected void beforeExec() {
     }
 
-    ;
-
     protected abstract void runExec() throws Exception;
 
     protected void afterExec() {
@@ -71,5 +73,18 @@ public abstract class AbstractGenerator {
         }
     }
 
-    ;
+    protected void writeFileData(File sqlFile, String text) {
+        writeFileData(sqlFile, text.getBytes(StandardCharsets.UTF_8));
+    }
+    protected void writeFileData(File sqlFile, byte[] sqlBytes) {
+        try {
+            if (sqlFile.exists() || sqlFile.createNewFile()) {
+                Files.write(sqlFile.toPath(), sqlBytes);
+            } else {
+                log.error(sqlFile.getAbsolutePath() + ", 文件创建失败");
+            }
+        } catch (IOException e) {
+            log.error(sqlFile.getAbsolutePath() + "写入文件失败", e);
+        }
+    }
 }

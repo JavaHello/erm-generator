@@ -11,9 +11,6 @@ import com.github.javahello.erm.generator.core.tbdiff.ITableListDiff;
 import com.github.javahello.erm.generator.core.util.DiffHelper;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,54 +85,48 @@ public class ErmCmpDDLGenerator extends AbstractGenerator {
 
     protected void writeFileData() {
         Optional.ofNullable(allSql).filter(DiffHelper::isNotEmpty).ifPresent(sql -> writeFileData(outFile(allSqlFileName),
-                sql.getBytes(StandardCharsets.UTF_8)));
+                sql));
 
         ICovDDL fix = currentOutDDL.fix();
 
-        Optional.ofNullable(fix).map(ICovDDL::covDDL).filter(DiffHelper::isNotEmpty).ifPresent(sql -> writeFileData(outFile(fixFileName(allSqlFileName)),
-                sql.getBytes(StandardCharsets.UTF_8)));
+        Optional.ofNullable(fix).map(ICovDDL::covDDL).filter(DiffHelper::isNotEmpty)
+                .ifPresent(sql -> writeFileData(outFile(fixFileName(allSqlFileName)), sql));
 
         Optional.ofNullable(currentOutDDL)
                 .map(BaseOutDDL::getModifyColumnSql)
                 .map(Object::toString)
                 .filter(DiffHelper::isNotEmpty)
-                .ifPresent(ddl -> writeFileData(outFile(modifyColumnSqlFileName)
-                        , ddl.getBytes(StandardCharsets.UTF_8)));
+                .ifPresent(ddl -> writeFileData(outFile(modifyColumnSqlFileName), ddl));
 
         Optional.ofNullable(currentOutDDL)
                 .map(BaseOutDDL::getModifyIndexSql)
                 .map(Object::toString)
                 .filter(DiffHelper::isNotEmpty)
-                .ifPresent(ddl -> writeFileData(outFile(modifyIndexSqlFileName)
-                        , ddl.getBytes(StandardCharsets.UTF_8)));
+                .ifPresent(ddl -> writeFileData(outFile(modifyIndexSqlFileName), ddl));
 
         Optional.ofNullable(currentOutDDL)
                 .map(BaseOutDDL::getModifyTableSql)
                 .map(Object::toString)
                 .filter(DiffHelper::isNotEmpty)
-                .ifPresent(ddl -> writeFileData(ErmCmpDDLGenerator.this.outFile(modifyTableSqlFileName)
-                        , ddl.getBytes(StandardCharsets.UTF_8)));
+                .ifPresent(ddl -> writeFileData(ErmCmpDDLGenerator.this.outFile(modifyTableSqlFileName), ddl));
 
         Optional.ofNullable(currentOutDDL)
                 .map(BaseOutDDL::getModifyColumnSqlFix)
                 .map(Object::toString)
                 .filter(DiffHelper::isNotEmpty)
-                .ifPresent(ddl -> writeFileData(outFile(fixFileName(modifyColumnSqlFileName))
-                        , ddl.getBytes(StandardCharsets.UTF_8)));
+                .ifPresent(ddl -> writeFileData(outFile(fixFileName(modifyColumnSqlFileName)), ddl));
 
         Optional.ofNullable(currentOutDDL)
                 .map(BaseOutDDL::getModifyIndexSqlFix)
                 .map(Object::toString)
                 .filter(DiffHelper::isNotEmpty)
-                .ifPresent(ddl -> writeFileData(outFile(fixFileName(modifyIndexSqlFileName))
-                        , ddl.getBytes(StandardCharsets.UTF_8)));
+                .ifPresent(ddl -> writeFileData(outFile(fixFileName(modifyIndexSqlFileName)), ddl));
 
         Optional.ofNullable(currentOutDDL)
                 .map(BaseOutDDL::getModifyTableSqlFix)
                 .map(Object::toString)
                 .filter(DiffHelper::isNotEmpty)
-                .ifPresent(ddl -> writeFileData(outFile(fixFileName(modifyTableSqlFileName))
-                        , ddl.getBytes(StandardCharsets.UTF_8)));
+                .ifPresent(ddl -> writeFileData(outFile(fixFileName(modifyTableSqlFileName)), ddl));
     }
 
     private File outFile(String modifyTableSqlFileName) {
@@ -155,18 +146,6 @@ public class ErmCmpDDLGenerator extends AbstractGenerator {
         return result;
     }
 
-
-    protected void writeFileData(File sqlFile, byte[] sqlBytes) {
-        try {
-            if (sqlFile.exists() || sqlFile.createNewFile()) {
-                Files.write(sqlFile.toPath(), sqlBytes);
-            } else {
-                log.error(sqlFile.getAbsolutePath() + ", 文件创建失败");
-            }
-        } catch (IOException e) {
-            log.error(sqlFile.getAbsolutePath() + "写入SQL到文件失败", e);
-        }
-    }
 
     public void setModifyColumnSqlFileName(String modifyColumnSqlFileName) {
         this.modifyColumnSqlFileName = modifyColumnSqlFileName;
