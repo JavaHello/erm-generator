@@ -58,7 +58,7 @@
 						<ermFile>${basedir}/src/main/resources/erms/db.erm</ermFile>
 					</newErmFiles>
 					<oldErmFiles>
-                        <ermFile>${basedir}/src/main/resources/old_erms/db2.erm</ermFile>
+                        <ermFile>${basedir}/src/main/resources/old_erms/db.erm</ermFile>
 					</oldErmFiles>
 				</configuration>
 			</plugin>
