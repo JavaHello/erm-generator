@@ -6,6 +6,7 @@ import com.github.javahello.erm.generator.core.model.db.Table;
 import com.github.javahello.erm.generator.core.model.diff.DiffColumn;
 import com.github.javahello.erm.generator.core.model.diff.DiffEnum;
 import com.github.javahello.erm.generator.core.model.diff.DiffTable;
+import com.github.javahello.erm.generator.core.util.DiffHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -94,12 +95,12 @@ public abstract class BaseOutDDL implements ISqlAll {
                         addModifyColumn(modifyCol(tableName, newColumn, oldColumn));
                     }
                 }
-                Optional.ofNullable(diffTable.getDiffPks()).ifPresent(pks -> {
+                Optional.ofNullable(diffTable.getDiffPks()).filter(DiffHelper::isNotEmpty).ifPresent(pks -> {
                     addModifyIndex(delPk(tableName, pks.stream().map(DiffColumn::getOldColumn).collect(Collectors.toList())));
                     addModifyIndex(newPk(tableName, pks.stream().map(DiffColumn::getNewColumn).collect(Collectors.toList())));
                 });
 
-                Optional.ofNullable(diffTable.getDiffIndexs()).ifPresent(diffIndexs -> {
+                Optional.ofNullable(diffTable.getDiffIndexs()).filter(DiffHelper::isNotEmpty).ifPresent(diffIndexs -> {
                     diffIndexs.forEach(diffIndex -> {
                         Optional.ofNullable(diffIndex.getOldIndex()).ifPresent(idx -> {
                             addModifyIndex(delIdx(tableName, idx));
