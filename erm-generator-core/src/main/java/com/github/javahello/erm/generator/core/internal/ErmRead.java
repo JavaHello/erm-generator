@@ -49,6 +49,7 @@ public class ErmRead implements ErmMetaData {
 
         for (String ermFile : fileList) {
             try {
+                log.debug(String.format("解析 erm 文件: %s", ermFile));
                 SAXReader sr = new SAXReader();
                 Document doc = sr.read(new File(ermFile));
                 Element rootElement = doc.getRootElement();
@@ -61,8 +62,7 @@ public class ErmRead implements ErmMetaData {
                 ermDiagram.setTables(readTables(rootElement));
                 ermList.add(ermDiagram);
             } catch (DocumentException e) {
-                log.warn(String.format("解析erm %s 文件失败:%s", ermFile, e.getMessage()));
-                e.printStackTrace();
+                log.error(String.format("解析erm %s 文件失败:%s", ermFile, e.getMessage()));
             }
         }
         covTable();

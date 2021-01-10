@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2020-11-29 00:26:26</creation_date>
-			<updated_date>2021-01-10 13:09:25</updated_date>
+			<updated_date>2021-01-10 15:10:45</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -527,7 +527,7 @@
 			<indexes>
 				<inidex>
 					<full_text>false</full_text>
-					<non_unique>true</non_unique>
+					<non_unique>false</non_unique>
 					<name>IDX_01</name>
 					<type></type>
 					<description></description>

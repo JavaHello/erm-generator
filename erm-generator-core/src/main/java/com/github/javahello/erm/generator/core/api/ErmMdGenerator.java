@@ -88,7 +88,7 @@ public class ErmMdGenerator extends AbstractGenerator {
                 indexMdNode.nextTr()
                         .addTd(index.getIndexName())
                         .addTd(index.getColumns().stream().map(Column::getColumnName).collect(Collectors.joining(", ")))
-                        .addTd(index.isNonUnique());
+                        .addTd(!index.isNonUnique());
             }
         }
     }
