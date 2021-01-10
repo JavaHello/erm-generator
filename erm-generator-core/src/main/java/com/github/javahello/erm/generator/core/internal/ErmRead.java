@@ -3,11 +3,13 @@ package com.github.javahello.erm.generator.core.internal;
 import com.alibaba.fastjson.util.TypeUtils;
 import com.github.javahello.erm.generator.core.codegen.ddl.DbType;
 import com.github.javahello.erm.generator.core.config.ErmSourceConfiguration;
+import com.github.javahello.erm.generator.core.config.ResourceString;
 import com.github.javahello.erm.generator.core.internal.sqltype.SqlType;
 import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.db.Index;
 import com.github.javahello.erm.generator.core.model.db.Table;
 import com.github.javahello.erm.generator.core.model.erm.*;
+import com.github.javahello.erm.generator.core.util.DiffHelper;
 import com.github.javahello.erm.generator.core.util.MapHelper;
 import com.github.javahello.erm.generator.core.internal.sqltype.TypeMap;
 import org.dom4j.Document;
@@ -220,7 +222,7 @@ public class ErmRead implements ErmMetaData {
                     }
                     col.setColumnType(columnType);
                     col.setJdbcType(TypeMap.jdbcType(dbType, columnType));
-                    col.setDefaultValue(ermColumn.getDefaultValue());
+                    col.setDefaultValue(parseDefaultValue(dbType, ermColumn.getDefaultValue()));
                     col.setAutoIncrement(ermColumn.getAutoIncrement());
                     col.setLength(ermWord.getLength());
                     col.setDecimal(ermWord.getDecimal());
@@ -263,6 +265,19 @@ public class ErmRead implements ErmMetaData {
                 tableMap.put(tableName, table);
             }
         }
+    }
+
+    private String parseDefaultValue(DbType dbType, String defaultValue) {
+        return Optional.ofNullable(defaultValue)
+                .filter(DiffHelper::isNotEmpty)
+                .map(v -> {
+                    if (v.equals(ResourceString.getResourceString(ResourceString.KEY_DEFAULT_VALUE_EMPTY_STRING)))
+                        return "";
+                    if (v.equals(ResourceString.getResourceString(ResourceString.KEY_DEFAULT_VALUE_CURRENT_DATE_TIME)))
+                        return "CURRENT_TIMESTAMP";
+                    return v;
+                })
+                .orElse(null);
     }
 
     private Index genIndex(Column col) {

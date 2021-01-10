@@ -21,11 +21,11 @@ public class DefaultColumnListDiffProcess implements IColumnListDiff {
         }
         List<Column> d1 = Optional.ofNullable(t1).orElseGet(ArrayList::new);
         List<Column> d2 = Optional.ofNullable(t2).orElseGet(ArrayList::new);
-        Map<String, Column> columnMap2 = MapHelper.uniqueGroup(d2, this::diffId);
+        Map<String, Column> columnMap2 = MapHelper.uniqueGroup(d2, columnDiff::diffId);
 
         List<DiffColumn> diffColumnList = new ArrayList<>();
         for (Column column : d1) {
-            Column column2 = columnMap2.remove(diffId(column));
+            Column column2 = columnMap2.remove(columnDiff.diffId(column));
             Optional<DiffColumn> diffColumnOpt = columnDiff.diff(column, column2);
             diffColumnOpt.ifPresent(diffColumnList::add);
         }

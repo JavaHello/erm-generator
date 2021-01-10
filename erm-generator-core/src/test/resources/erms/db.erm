@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2020-11-29 00:26:26</creation_date>
-			<updated_date>2021-01-04 21:21:57</updated_date>
+			<updated_date>2021-01-10 15:19:15</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -764,8 +764,8 @@
 			<width>383</width>
 				<font_name>Microsoft YaHei UI</font_name>
 				<font_size>9</font_size>
-			<x>156</x>
-			<y>372</y>
+			<x>636</x>
+			<y>504</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1055,7 +1055,7 @@
 					<physical_name></physical_name>
 					<type>datetime</type>
 					<constraint></constraint>
-					<default_value></default_value>
+					<default_value>&lt;CURRENT TIME&gt;</default_value>
 					<auto_increment>false</auto_increment>
 					<foreign_key>false</foreign_key>
 					<not_null>false</not_null>
@@ -1088,7 +1088,7 @@
 					<physical_name></physical_name>
 					<type>varchar(n)</type>
 					<constraint></constraint>
-					<default_value></default_value>
+					<default_value>&lt;EMPTY STRING&gt;</default_value>
 					<auto_increment>false</auto_increment>
 					<foreign_key>false</foreign_key>
 					<not_null>false</not_null>
@@ -1154,7 +1154,7 @@
 					<physical_name></physical_name>
 					<type>bigint(n)</type>
 					<constraint></constraint>
-					<default_value></default_value>
+					<default_value>1</default_value>
 					<auto_increment>false</auto_increment>
 					<foreign_key>false</foreign_key>
 					<not_null>false</not_null>

@@ -21,10 +21,10 @@ public class DefaultIndexListDiffProcess implements IIndexListDiff {
         }
         List<Index> d1 = Optional.ofNullable(t1).orElseGet(ArrayList::new);
         List<Index> d2 = Optional.ofNullable(t2).orElseGet(ArrayList::new);
-        Map<String, Index> indexMap2 = MapHelper.uniqueGroup(d2, this::diffId);
+        Map<String, Index> indexMap2 = MapHelper.uniqueGroup(d2, indexDiff::diffId);
         List<DiffIndex> diffIndexList = new ArrayList<>();
         for (Index index1 : d1) {
-            Index index2 = indexMap2.remove(diffId(index1));
+            Index index2 = indexMap2.remove(indexDiff.diffId(index1));
             Optional<DiffIndex> diffIndex = indexDiff.diff(index1, index2);
             diffIndex.ifPresent(diffIndexList::add);
         }

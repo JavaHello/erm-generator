@@ -9,4 +9,9 @@ import java.util.List;
  * @author kaiv2
  */
 public interface IColumnDiff extends IDiff<Column, DiffColumn> {
+
+    @Override
+    default String diffId(Column column) {
+        return column.getColumnName();
+    }
 }

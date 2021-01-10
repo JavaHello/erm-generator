@@ -7,4 +7,9 @@ import com.github.javahello.erm.generator.core.model.diff.DiffTable;
  * @author kaiv2
  */
 public interface ITableDiff extends IDiff<Table, DiffTable> {
+
+    @Override
+    default String diffId(Table table) {
+        return table.getTableName();
+    }
 }

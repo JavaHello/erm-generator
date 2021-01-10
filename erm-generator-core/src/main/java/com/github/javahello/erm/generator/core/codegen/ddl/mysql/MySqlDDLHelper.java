@@ -21,7 +21,7 @@ public abstract class MySqlDDLHelper {
     }
 
     private static String defaultValue(DbType dbType, Column column) {
-        if (DiffHelper.isEmpty(column.getDefaultValue())) {
+        if (column.getDefaultValue() == null) {
             return "";
         }
         return " DEFAULT" + (TypeMap.isStringType(dbType, column.getColumnType()) ? warp(warp(column.getDefaultValue(), "'"), " ") : warp(column.getDefaultValue(), " "));

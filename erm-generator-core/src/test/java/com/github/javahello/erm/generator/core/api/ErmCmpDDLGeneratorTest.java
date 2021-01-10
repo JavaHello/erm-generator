@@ -6,8 +6,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ErmCmpDDLGeneratorTest {
 
@@ -26,6 +28,12 @@ class ErmCmpDDLGeneratorTest {
                 System.out.println(allSql);
                 System.out.println("FIX ---------------------------------------");
                 System.out.println(currentOutDDL.fix().covDDL());
+            }
+
+            @Override
+            protected void errorExec(Exception exception) {
+                Optional.ofNullable(exception).ifPresent(Exception::printStackTrace);
+                assertNull(exception);
             }
         };
         ermCmpDDLGenerator.exec();
