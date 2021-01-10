@@ -100,7 +100,7 @@ public abstract class TypeMap {
         }
     }
 
-    private static void load(String sqlTypeFile) throws Exception {
+    public static void load(String sqlTypeFile) throws Exception {
         try (InputStream in = TypeMap.class.getResourceAsStream(sqlTypeFile)) {
             StringBuilder sb = new StringBuilder();
             int len;
