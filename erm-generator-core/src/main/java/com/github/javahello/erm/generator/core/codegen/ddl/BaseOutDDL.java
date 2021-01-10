@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public abstract class BaseOutDDL implements ISqlAll {
 
     TableCache newTableCache;
+    TableCache oldTableCache;
     List<DiffTable> diffTables;
 
     public BaseOutDDL(TableCache newTableCache, List<DiffTable> diffTables) {
@@ -69,6 +70,10 @@ public abstract class BaseOutDDL implements ISqlAll {
         return modifyColumnSqlFix;
     }
 
+    public void setOldTableCache(TableCache oldTableCache) {
+        this.oldTableCache = oldTableCache;
+    }
+
     @Override
     public String covDDL() {
         doInitFix();
@@ -79,7 +84,7 @@ public abstract class BaseOutDDL implements ISqlAll {
                         .orElseThrow(() -> new IllegalArgumentException("CREATE TABLE OUT DDL 没有找到表:" + tableName));
                 addModifyTable(newTable(table));
             } else if (DiffEnum.D == diffTable.getDiffEnum()) {
-                Table table = newTableCache.getTable(tableName)
+                Table table = oldTableCache.getTable(tableName)
                         .orElseThrow(() -> new IllegalArgumentException("DROP TABLE OUT DDL 没有找到表:" + tableName));
                 addModifyTable(delTable(table));
             } else {
