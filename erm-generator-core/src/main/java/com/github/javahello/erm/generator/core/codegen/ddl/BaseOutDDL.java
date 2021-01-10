@@ -78,16 +78,19 @@ public abstract class BaseOutDDL implements ISqlAll {
     public String covDDL() {
         doInitFix();
         for (DiffTable diffTable : diffTables) {
-            String tableName = diffTable.getTableName();
+            String tableName;
             if (DiffEnum.A == diffTable.getDiffEnum()) {
+                tableName = diffTable.getNewTableName();
                 Table table = newTableCache.getTable(tableName)
                         .orElseThrow(() -> new IllegalArgumentException("CREATE TABLE OUT DDL 没有找到表:" + tableName));
                 addModifyTable(newTable(table));
             } else if (DiffEnum.D == diffTable.getDiffEnum()) {
+                tableName = diffTable.getOldTableName();
                 Table table = oldTableCache.getTable(tableName)
                         .orElseThrow(() -> new IllegalArgumentException("DROP TABLE OUT DDL 没有找到表:" + tableName));
                 addModifyTable(delTable(table));
             } else {
+                tableName = diffTable.getNewTableName();
                 List<DiffColumn> diffColumns = diffTable.getDiffColumns();
                 for (DiffColumn diffColumn : diffColumns) {
                     Column newColumn = diffColumn.getNewColumn();

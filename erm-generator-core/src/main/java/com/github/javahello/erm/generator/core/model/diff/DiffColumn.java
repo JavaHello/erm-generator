@@ -7,26 +7,45 @@ import com.github.javahello.erm.generator.core.model.db.Column;
  */
 public class DiffColumn {
 
-    private String columnName;
-    private String columnComment;
+    private String newColumnName;
+    private String newColumnComment;
+
+    private String oldColumnName;
+    private String oldColumnComment;
 
     private Column oldColumn;
     private Column newColumn;
 
-    public String getColumnName() {
-        return columnName;
+    public String getNewColumnName() {
+        return newColumnName;
     }
 
-    public void setColumnName(String columnName) {
-        this.columnName = columnName;
+    public void setNewColumnName(String newColumnName) {
+        this.newColumnName = newColumnName;
     }
 
-    public String getColumnComment() {
-        return columnComment;
+    public String getNewColumnComment() {
+        return newColumnComment;
     }
 
-    public void setColumnComment(String columnComment) {
-        this.columnComment = columnComment;
+    public void setNewColumnComment(String newColumnComment) {
+        this.newColumnComment = newColumnComment;
+    }
+
+    public String getOldColumnName() {
+        return oldColumnName;
+    }
+
+    public void setOldColumnName(String oldColumnName) {
+        this.oldColumnName = oldColumnName;
+    }
+
+    public String getOldColumnComment() {
+        return oldColumnComment;
+    }
+
+    public void setOldColumnComment(String oldColumnComment) {
+        this.oldColumnComment = oldColumnComment;
     }
 
     public Column getOldColumn() {

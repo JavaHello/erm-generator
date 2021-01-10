@@ -7,9 +7,11 @@ import java.util.List;
  */
 public class DiffTable {
 
-    private String tableName;
-    private String tableComment;
+    private String newTableName;
+    private String newTableComment;
 
+    private String oldTableName;
+    private String oldTableComment;
     private DiffEnum diffEnum;
 
     private List<DiffColumn> diffColumns;
@@ -18,20 +20,36 @@ public class DiffTable {
 
     private List<DiffIndex> diffIndexs;
 
-    public String getTableName() {
-        return tableName;
+    public String getNewTableName() {
+        return newTableName;
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setNewTableName(String newTableName) {
+        this.newTableName = newTableName;
     }
 
-    public String getTableComment() {
-        return tableComment;
+    public String getNewTableComment() {
+        return newTableComment;
     }
 
-    public void setTableComment(String tableComment) {
-        this.tableComment = tableComment;
+    public void setNewTableComment(String newTableComment) {
+        this.newTableComment = newTableComment;
+    }
+
+    public String getOldTableName() {
+        return oldTableName;
+    }
+
+    public void setOldTableName(String oldTableName) {
+        this.oldTableName = oldTableName;
+    }
+
+    public String getOldTableComment() {
+        return oldTableComment;
+    }
+
+    public void setOldTableComment(String oldTableComment) {
+        this.oldTableComment = oldTableComment;
     }
 
     public DiffEnum getDiffEnum() {

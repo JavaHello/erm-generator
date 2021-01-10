@@ -21,6 +21,18 @@ public class MysqlColumnModifyGenImpl extends AbstractMysqlColumnGen<MysqlColumn
         return "CHANGE COLUMN " + String.join(" ", oldC.getColumnName(), newColumn.getColumnName()) + MySqlDDLHelper.columnGe(dbType(), newColumn);
     }
 
+    @Override
+    public String covDDL() {
+        String modifyNote = modifyNote(newColumn, oldC);
+        String ddl = super.covDDL();
+        return "--  " + modifyNote +
+                "\n" + ddl;
+    }
+
+    private String modifyNote(Column newColumn, Column oldC) {
+        return oldC.getColumnName() + MySqlDDLHelper.columnGe(dbType(), oldC) + " 修改为 " + newColumn.getColumnName() + MySqlDDLHelper.columnGe(dbType(), newColumn);
+    }
+
 
     @Override
     public ICovDDL modifyCol(String tbName, Column newC, Column oldC) {

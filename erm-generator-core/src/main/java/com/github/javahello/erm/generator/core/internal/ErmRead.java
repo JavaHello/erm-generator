@@ -192,6 +192,7 @@ public class ErmRead implements ErmMetaData {
                     continue;
                 }
                 Table table = new Table();
+                table.setId(ermTable.getId());
                 table.setTableName(tableName);
                 table.setTableComment(ermTable.getLogicalName());
                 List<Column> pks = new ArrayList<>();
@@ -206,6 +207,7 @@ public class ErmRead implements ErmMetaData {
                     if (ermWord == null) {
                         continue;
                     }
+                    col.setId(ermColumn.getId());
                     col.setColumnName(ermWord.getPhysicalName());
                     col.setColumnComment(ermWord.getLogicalName());
                     String columnType = ermWord.getType();
@@ -241,6 +243,7 @@ public class ErmRead implements ErmMetaData {
 
                 for (ErmIndex ermIndex : ermIndexes) {
                     Index index = new Index();
+                    index.setId(null);
                     index.setIndexName(ermIndex.getName());
                     index.setNonUnique(ermIndex.getNonUnique());
                     List<Column> idxCols = new ArrayList<>();

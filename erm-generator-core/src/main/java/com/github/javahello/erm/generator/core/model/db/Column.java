@@ -4,6 +4,7 @@ package com.github.javahello.erm.generator.core.model.db;
  * @author kaiv2
  */
 public class Column {
+    private String id;
     private String columnName;
     private String columnComment;
     private int jdbcType;
@@ -15,6 +16,14 @@ public class Column {
     private boolean primaryKey;
     private boolean uniqueKey;
     private boolean notNull;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getColumnName() {
         return columnName;

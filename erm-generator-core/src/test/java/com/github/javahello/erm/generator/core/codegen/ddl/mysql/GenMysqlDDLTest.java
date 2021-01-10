@@ -23,7 +23,7 @@ class GenMysqlDDLTest {
         List<DiffTable> diffTables = new ArrayList<>();
         DiffTable diffTable = new DiffTable();
         diffTable.setDiffEnum(DiffEnum.A);
-        diffTable.setTableName("SYS_CONFIG");
+        diffTable.setNewTableName("SYS_CONFIG");
         diffTables.add(diffTable);
         GenMysqlDDL genMysqlDDL = new GenMysqlDDL(ermRead, diffTables);
         String ddl = genMysqlDDL.covDDL();

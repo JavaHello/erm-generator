@@ -24,11 +24,11 @@ public class DefaultTableListDiffProcess implements ITableListDiff {
         }
         List<Table> d1 = Optional.ofNullable(t1).orElseGet(ArrayList::new);
         List<Table> d2 = Optional.ofNullable(t2).orElseGet(ArrayList::new);
-        Map<String, Table> tableMap2 = MapHelper.uniqueGroup(d2, Table::getTableName);
+        Map<String, Table> tableMap2 = MapHelper.uniqueGroup(d2, this::diffId);
 
         List<DiffTable> diffColumnList = new ArrayList<>();
         for (Table table1 : d1) {
-            Table table2 = tableMap2.remove(table1.getTableName());
+            Table table2 = tableMap2.remove(diffId(table1));
             Optional<DiffTable> diffColumnOpt = tableDiff.diff(table1, table2);
             diffColumnOpt.ifPresent(diffColumnList::add);
         }

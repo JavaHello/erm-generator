@@ -27,23 +27,37 @@ public class DefaultTableDiffProcess implements ITableDiff {
         Table d1 = Optional.ofNullable(t1).orElseGet(Table::new);
         Table d2 = Optional.ofNullable(t2).orElseGet(Table::new);
         DiffTable diffTable = null;
+
+        if (d1.getTableName() == null && d2.getTableName() == null) {
+            return Optional.empty();
+        }
+
         Optional<List<DiffColumn>> diffColumnList = columnListDiff.diff(d1.getColumns(), d2.getColumns());
         Optional<List<DiffIndex>> diffIndexList = indexListDiff.diff(d1.getIndexes(), d2.getIndexes());
         Optional<List<DiffColumn>> diffPks = pksDiff.diff(d1.getPrimaryKeys(), d2.getPrimaryKeys());
-
+        boolean diffFlag = false;
         DiffEnum diffEnum = null;
         if (t1 == null || DiffHelper.isEmpty(t1.getColumns())) {
             diffEnum = DiffEnum.D;
-        }
-        if (t2 == null || DiffHelper.isEmpty(t2.getColumns())) {
+            diffFlag = true;
+        } else if (t2 == null || DiffHelper.isEmpty(t2.getColumns())) {
             diffEnum = DiffEnum.A;
-        }
-        if (diffColumnList.isPresent() || diffIndexList.isPresent() || diffPks.isPresent()) {
-            if (diffEnum == null) {
+            diffFlag = true;
+        } else {
+            if (diffColumnList.isPresent() || diffIndexList.isPresent() || diffPks.isPresent()) {
                 diffEnum = DiffEnum.M;
+                diffFlag = true;
             }
+//            if (!Objects.equals(d1.getTableName(), d2.getTableName())) {
+//                diffEnum = DiffEnum.M;
+//                diffFlag = true;
+//            }
+        }
+
+        if (diffFlag) {
             diffTable = new DiffTable();
-            diffTable.setTableName(DiffHelper.or(d1.getTableName(), d2.getTableName()));
+            diffTable.setNewTableName(d1.getTableName());
+            diffTable.setOldTableName(d2.getTableName());
             diffTable.setDiffEnum(diffEnum);
             diffColumnList.ifPresent(diffTable::setDiffColumns);
             diffIndexList.ifPresent(diffTable::setDiffIndexs);

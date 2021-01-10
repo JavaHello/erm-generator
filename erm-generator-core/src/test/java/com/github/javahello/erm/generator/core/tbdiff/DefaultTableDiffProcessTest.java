@@ -37,7 +37,7 @@ class DefaultTableDiffProcessTest {
         t2 = new Table();
         t1.setTableName("t1");
         diffTable = tableDiffProcess.diff(t1, t2);
-        assertFalse(diffTable.isPresent());
+        assertTrue(diffTable.isPresent());
 
         t1 = new Table();
         t2 = new Table();

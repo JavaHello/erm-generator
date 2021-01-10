@@ -6,9 +6,18 @@ import java.util.List;
  * @author kaiv2
  */
 public class Index {
+    private String id;
     private String indexName;
     private boolean nonUnique;
     private List<Column> columns;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getIndexName() {
         return indexName;

@@ -7,17 +7,26 @@ import com.github.javahello.erm.generator.core.model.db.Index;
  * @author kaiv2
  */
 public class DiffIndex {
-    private String indexName;
+    private String newIndexName;
+    private String oldIndexName;
 
     private Index oldIndex;
     private Index newIndex;
 
-    public String getIndexName() {
-        return indexName;
+    public String getNewIndexName() {
+        return newIndexName;
     }
 
-    public void setIndexName(String indexName) {
-        this.indexName = indexName;
+    public void setNewIndexName(String newIndexName) {
+        this.newIndexName = newIndexName;
+    }
+
+    public String getOldIndexName() {
+        return oldIndexName;
+    }
+
+    public void setOldIndexName(String oldIndexName) {
+        this.oldIndexName = oldIndexName;
     }
 
     public Index getOldIndex() {

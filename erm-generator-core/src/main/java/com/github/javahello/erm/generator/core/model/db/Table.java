@@ -7,11 +7,20 @@ import java.util.List;
  * @author kaiv2
  */
 public class Table {
+    private String id;
     private String tableName;
     private String tableComment;
     private List<Column> columns;
     private List<Column> primaryKeys;
     private List<Index> indexes;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTableName() {
         return tableName;

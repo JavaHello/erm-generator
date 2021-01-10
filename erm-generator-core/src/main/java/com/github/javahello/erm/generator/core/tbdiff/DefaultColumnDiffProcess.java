@@ -2,7 +2,6 @@ package com.github.javahello.erm.generator.core.tbdiff;
 
 import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.diff.DiffColumn;
-import com.github.javahello.erm.generator.core.util.DiffHelper;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -17,6 +16,22 @@ public class DefaultColumnDiffProcess implements IColumnDiff {
         }
         Column d1 = Optional.ofNullable(t1).orElseGet(Column::new);
         Column d2 = Optional.ofNullable(t2).orElseGet(Column::new);
+        boolean diff = doDiff(d1, d2);
+        DiffColumn diffColumn = null;
+        if (diff) {
+            diffColumn = new DiffColumn();
+            diffColumn.setNewColumnName(d1.getColumnName());
+            diffColumn.setNewColumnComment(d1.getColumnComment());
+            diffColumn.setNewColumn(t1);
+
+            diffColumn.setOldColumnName(d2.getColumnName());
+            diffColumn.setOldColumnComment(d2.getColumnComment());
+            diffColumn.setOldColumn(t2);
+        }
+        return Optional.ofNullable(diffColumn);
+    }
+
+    protected boolean doDiff(Column d1, Column d2) {
         boolean diff = false;
         if (!Objects.equals(d1.getColumnName(), d2.getColumnName())) {
             diff = true;
@@ -24,14 +39,12 @@ public class DefaultColumnDiffProcess implements IColumnDiff {
         if (!Objects.equals(d1.getDefaultValue(), d2.getDefaultValue())) {
             diff = true;
         }
-        DiffColumn diffColumn = null;
-        if (diff) {
-            diffColumn = new DiffColumn();
-            diffColumn.setColumnName(DiffHelper.or(d1.getColumnName(), d2.getColumnName()));
-            diffColumn.setColumnComment(DiffHelper.or(d1.getColumnComment(), d2.getColumnComment()));
-            diffColumn.setNewColumn(t1);
-            diffColumn.setOldColumn(t2);
+        if (!Objects.equals(d1.getLength(), d2.getLength())) {
+            diff = true;
         }
-        return Optional.ofNullable(diffColumn);
+        if (!Objects.equals(d1.getDecimal(), d2.getDecimal())) {
+            diff = true;
+        }
+        return diff;
     }
 }

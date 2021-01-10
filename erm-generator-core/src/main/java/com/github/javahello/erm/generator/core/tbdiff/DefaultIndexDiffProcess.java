@@ -29,8 +29,10 @@ public class DefaultIndexDiffProcess implements IIndexDiff {
 
         if (diff) {
             diffIndex = new DiffIndex();
-            diffIndex.setIndexName(DiffHelper.or(d1.getIndexName(), d2.getIndexName()));
+            diffIndex.setNewIndexName(d1.getIndexName());
             diffIndex.setNewIndex(t1);
+
+            diffIndex.setOldIndexName(d2.getIndexName());
             diffIndex.setOldIndex(t2);
         }
         return Optional.ofNullable(diffIndex);
