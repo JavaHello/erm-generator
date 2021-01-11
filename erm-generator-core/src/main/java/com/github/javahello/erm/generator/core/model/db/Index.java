@@ -8,7 +8,7 @@ import java.util.List;
 public class Index {
     private String id;
     private String indexName;
-    private boolean nonUnique;
+    private Boolean nonUnique;
     private List<Column> columns;
 
     public String getId() {
@@ -27,11 +27,11 @@ public class Index {
         this.indexName = indexName;
     }
 
-    public boolean isNonUnique() {
+    public Boolean isNonUnique() {
         return nonUnique;
     }
 
-    public void setNonUnique(boolean nonUnique) {
+    public void setNonUnique(Boolean nonUnique) {
         this.nonUnique = nonUnique;
     }
 

@@ -9,13 +9,13 @@ public class Column {
     private String columnComment;
     private int jdbcType;
     private String columnType;
-    private boolean autoIncrement;
+    private Boolean autoIncrement;
     private String defaultValue;
     private Integer length;
     private Integer decimal;
-    private boolean primaryKey;
-    private boolean uniqueKey;
-    private boolean notNull;
+    private Boolean primaryKey;
+    private Boolean uniqueKey;
+    private Boolean notNull;
 
     public String getId() {
         return id;
@@ -57,11 +57,11 @@ public class Column {
         this.columnType = columnType;
     }
 
-    public boolean isAutoIncrement() {
+    public Boolean isAutoIncrement() {
         return autoIncrement;
     }
 
-    public void setAutoIncrement(boolean autoIncrement) {
+    public void setAutoIncrement(Boolean autoIncrement) {
         this.autoIncrement = autoIncrement;
     }
 
@@ -89,27 +89,27 @@ public class Column {
         this.decimal = decimal;
     }
 
-    public boolean isPrimaryKey() {
+    public Boolean isPrimaryKey() {
         return primaryKey;
     }
 
-    public void setPrimaryKey(boolean primaryKey) {
+    public void setPrimaryKey(Boolean primaryKey) {
         this.primaryKey = primaryKey;
     }
 
-    public boolean isUniqueKey() {
+    public Boolean isUniqueKey() {
         return uniqueKey;
     }
 
-    public void setUniqueKey(boolean uniqueKey) {
+    public void setUniqueKey(Boolean uniqueKey) {
         this.uniqueKey = uniqueKey;
     }
 
-    public boolean isNotNull() {
+    public Boolean isNotNull() {
         return notNull;
     }
 
-    public void setNotNull(boolean notNull) {
+    public void setNotNull(Boolean notNull) {
         this.notNull = notNull;
     }
 

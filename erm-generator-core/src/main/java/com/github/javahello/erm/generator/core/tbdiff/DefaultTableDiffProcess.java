@@ -44,7 +44,9 @@ public class DefaultTableDiffProcess implements ITableDiff {
             diffEnum = DiffEnum.A;
             diffFlag = true;
         } else {
-            if (diffColumnList.isPresent() || diffIndexList.isPresent() || diffPks.isPresent()) {
+            if (diffColumnList.filter(DiffHelper::isNotEmpty).isPresent()
+                    || diffIndexList.filter(DiffHelper::isNotEmpty).isPresent()
+                    || diffPks.filter(DiffHelper::isNotEmpty).isPresent()) {
                 diffEnum = DiffEnum.M;
                 diffFlag = true;
             }

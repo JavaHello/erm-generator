@@ -52,7 +52,7 @@ public class TableMdNode extends AbstractMdNode {
     }
 
     public TableMdNode addTd(String text) {
-        getCurrentTd().add(text);
+        getCurrentTd().add(Optional.ofNullable(text).orElse(" "));
         return this;
     }
 
