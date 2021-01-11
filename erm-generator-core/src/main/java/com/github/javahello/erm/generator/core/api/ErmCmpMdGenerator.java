@@ -115,7 +115,7 @@ public class ErmCmpMdGenerator extends AbstractGenerator {
                             .addTd(newColumn.isAutoIncrement())
                             .addTd(newColumn.isPrimaryKey())
                             .addTd(newColumn.getDefaultValue())
-                            .addTd("--")
+                            .addTd(led(diffColumn.getNewColumn(), diffColumn.getOldColumn()))
                             .addTd(oldColumn.getColumnComment())
                             .addTd(oldColumn.getColumnName())
                             .addTd(oldColumn.getColumnType())
@@ -144,7 +144,7 @@ public class ErmCmpMdGenerator extends AbstractGenerator {
                             .addTd(Optional.ofNullable(newIndex.getColumns()).orElseGet(ArrayList::new)
                                     .stream().map(Column::getColumnName).collect(Collectors.joining(", ")))
                             .addTd(Optional.ofNullable(newIndex.isNonUnique()).map(e -> !e).orElse(null))
-                            .addTd("--")
+                            .addTd(led(diffIndex.getNewIndex(), diffIndex.getOldIndex()))
                             .addTd(oldIndex.getIndexName())
                             .addTd(Optional.ofNullable(oldIndex.getColumns()).orElseGet(ArrayList::new)
                                     .stream().map(Column::getColumnName).collect(Collectors.joining(", ")))
@@ -166,13 +166,24 @@ public class ErmCmpMdGenerator extends AbstractGenerator {
                     Column oldColumn = Optional.ofNullable(diffPk.getOldColumn()).orElseGet(Column::new);
                     pkMdNode.nextTr()
                             .addTd(newColumn.getColumnName())
-                            .addTd("--")
+                            .addTd(led(diffPk.getNewColumn(), diffPk.getOldColumn()))
                             .addTd(oldColumn.getColumnName());
                 }
             }
         });
     }
 
+    private String led(Object o1, Object o2) {
+        String result;
+        if (o1 == null) {
+            result = "-->";
+        } else if(o2 == null) {
+            result = "<--";
+        } else {
+            result = "<->";
+        }
+        return result;
+    }
 
     @Override
     protected void afterExec() {
