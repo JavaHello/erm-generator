@@ -15,6 +15,7 @@
  */
 package com.github.javahello.erm.generator.maven;
 
+import com.github.javahello.erm.generator.core.api.ErmCmpMdGenerator;
 import com.github.javahello.erm.generator.core.api.ErmMdGenerator;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -32,7 +33,7 @@ public class ErmMdGeneratorMojo extends AbstractGeneratorMojo {
      * 表清单 markdown 输出文件
      */
     @Parameter(property = "erm.generator.outMdFileName")
-    private String outExcelFileName;
+    private String outMdFileName;
 
 
     public ErmMdGeneratorMojo() {
@@ -46,8 +47,12 @@ public class ErmMdGeneratorMojo extends AbstractGeneratorMojo {
     @Override
     protected void doExecute() {
         ErmMdGenerator ermMdGenerator = new ErmMdGenerator(env);
-        Optional.ofNullable(outExcelFileName).ifPresent(ermMdGenerator::setOutFileName);
+        Optional.ofNullable(outMdFileName).ifPresent(ermMdGenerator::setOutFileName);
         ermMdGenerator.exec();
+
+        ErmCmpMdGenerator ermCmpMdGenerator = new ErmCmpMdGenerator(env);
+        Optional.ofNullable(outMdFileName).ifPresent(ermCmpMdGenerator::setOutFileName);
+        ermCmpMdGenerator.exec();
     }
 
 
