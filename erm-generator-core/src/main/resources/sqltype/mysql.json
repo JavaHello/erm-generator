@@ -1,16 +1,40 @@
 {
   "allType": {
-    "DATETIME": "TIMESTAMP",
+    "BIT": "BIT",
+    "TINYINT": "TINYINT",
+    "BOOLEAN": "BIT",
+    "SMALLINT": "SMALLINT",
+    "MEDIUMINT": "INTEGER",
     "INT": "INTEGER",
+    "BIGINT": "BIGINT",
+    "FLOAT": "REAL",
+    "DOUBLE": "DOUBLE",
+    "DECIMAL": "DECIMAL",
+    "DATE": "DATE",
+    "DATETIME": "TIMESTAMP",
+    "TIMESTAMP": "TIMESTAMP",
+    "TIME": "TIME",
+    "YEAR": "DATE",
+    "CHAR": "CHAR",
+    "VARCHAR": "VARCHAR",
     "TINYTEXT": "VARCHAR",
-    "TEXT": "VARCHAR",
-    "MEDIUMTEXT": "VARCHAR",
-    "LONGTEXT": "VARCHAR"
+    "ENUM": "CHAR",
+    "BINARY": "BINARY",
+    "TINYBLOB": "VARBINARY",
+    "BLOB": "LONGVARBINARY",
+    "TEXT": "LONGVARCHAR",
+    "MEDIUMBLOB": "LONGVARBINARY",
+    "MEDIUMTEXT": "LONGVARCHAR",
+    "LONGBLOB": "LONGVARBINARY",
+    "LONGTEXT": "LONGVARCHAR"
   },
   "stringType": {
+    "CHAR": "CHAR",
+    "VARCHAR": "VARCHAR",
     "TINYTEXT": "VARCHAR",
-    "TEXT": "VARCHAR",
-    "MEDIUMTEXT": "VARCHAR",
-    "LONGTEXT": "VARCHAR"
+    "ENUM": "CHAR",
+    "TEXT": "LONGVARCHAR",
+    "MEDIUMTEXT": "LONGVARCHAR",
+    "LONGTEXT": "LONGVARCHAR"
   }
 }
