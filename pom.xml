@@ -18,6 +18,29 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+
+			<dependency>
+				<groupId>com.github.javahello</groupId>
+				<artifactId>erm-generator-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.javahello</groupId>
+				<artifactId>erm-generator-diff-maven-plugin</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.javahello</groupId>
+				<artifactId>erm-generator-mybatis-maven-plugin</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.javahello</groupId>
+				<artifactId>erm-generator-mybatis-plus</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+
 			<dependency>
 				<groupId>org.mybatis</groupId>
 				<artifactId>mybatis</artifactId>
@@ -124,5 +147,6 @@
 		<module>erm-generator-core</module>
 		<module>erm-generator-mybatis-maven-plugin</module>
 		<module>erm-generator-diff-maven-plugin</module>
+		<module>erm-generator-mybatis-plus</module>
 	</modules>
 </project>
