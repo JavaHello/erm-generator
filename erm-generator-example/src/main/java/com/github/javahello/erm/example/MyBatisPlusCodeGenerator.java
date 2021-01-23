@@ -3,21 +3,21 @@ package com.github.javahello.erm.example;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.github.javahello.erm.generator.core.util.ClasspathFileUtil;
 import com.github.javahello.erm.generator.mybatisplus.ErmAutoGenerator;
 import com.github.javahello.erm.generator.mybatisplus.ErmInjectionConfig;
 import com.github.javahello.erm.generator.mybatisplus.engine.FreemarkerTemplateEngine;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class CodeErmGenerator {
+public class MyBatisPlusCodeGenerator {
 
     /**
      * <p>
@@ -38,7 +38,7 @@ public class CodeErmGenerator {
         throw new MybatisPlusException("请输入正确的" + tip + "！");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         // 代码生成器
         ErmAutoGenerator mpg = new ErmAutoGenerator();
 
@@ -51,8 +51,9 @@ public class CodeErmGenerator {
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
         mpg.setGlobalConfig(gc);
 
+        String ermFile = ClasspathFileUtil.cpFilePath("erms/db.erm");
 
-        mpg.setErmList(Arrays.asList("D:\\workspace\\JavaProjects\\erm-generator\\erm-generator-example\\src\\main\\resources\\erms\\db.erm"));
+        mpg.setErmList(Arrays.asList(ermFile));
 
         // 包配置
         PackageConfig pc = new PackageConfig();
