@@ -30,6 +30,7 @@ public class ErmRead implements ErmMetaData {
 
     private static Log log = LogFactory.getLog(ErmRead.class);
 
+    private DbType dbType;
 
     public ErmRead(ErmSourceConfiguration ermSourceConfiguration) {
         this(ermSourceConfiguration.getErmSources());
@@ -184,7 +185,7 @@ public class ErmRead implements ErmMetaData {
     private void covTable() {
         for (ErmDiagram ermDiagram : ermList) {
             String database = ermDiagram.getSettings().getDatabase();
-            DbType dbType = DbType.of(database).orElseThrow(() -> new IllegalArgumentException("不支持的数据库类型: " + database));
+            dbType = DbType.of(database).orElseThrow(() -> new IllegalArgumentException("不支持的数据库类型: " + database));
             Map<String, ErmWord> wordMap = MapHelper.uniqueGroup(ermDiagram.getWordList(), ErmWord::getId);
             List<ErmTable> ermTables = ermDiagram.getTables();
             for (ErmTable ermTable : ermTables) {
@@ -317,6 +318,11 @@ public class ErmRead implements ErmMetaData {
     @Override
     public Optional<List<Column>> getColumns(String table) {
         return Optional.ofNullable(tableMap.get(table)).map(Table::getColumns);
+    }
+
+    @Override
+    public DbType dbType() {
+        return dbType;
     }
 
     @Override
