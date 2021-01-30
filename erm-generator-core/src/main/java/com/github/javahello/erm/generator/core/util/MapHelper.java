@@ -19,6 +19,7 @@ public abstract class MapHelper {
      * @param <V>  数据类型
      * @param data 需要分组数据
      * @param kf   生成key方法
+     * @param mapSupplier map 实现
      * @return 分组map
      */
     public static <K, V> Map<K, V> uniqueGroup(List<V> data, Function<V, K> kf, Supplier<Map<K, V>> mapSupplier) {

@@ -15,9 +15,9 @@ public interface IDiff<T, R> {
     /**
      * 差异比对
      *
-     * @param t1
-     * @param t2
-     * @return
+     * @param t1 表1
+     * @param t2 表2
+     * @return 差异
      */
     Optional<R> diff(T t1, T t2);
 

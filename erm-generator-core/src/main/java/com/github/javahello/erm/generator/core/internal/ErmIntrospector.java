@@ -127,7 +127,6 @@ public class ErmIntrospector {
      *
      * @param tc the table configuration
      * @return a list of introspected tables
-     * @throws SQLException if any errors in introspection
      */
     public List<IntrospectedTable> introspectTables(TableConfiguration tc) {
 

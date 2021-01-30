@@ -7,6 +7,7 @@ public interface IFixDDL {
 
     /**
      * FIX
+     * @return FIX DDL
      */
     ICovDDL fix();
 

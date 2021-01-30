@@ -9,6 +9,11 @@ public interface ISqlColumnModify extends ICovDDL, IFixDDL {
 
     /**
      * 修改
+     *
+     * @param tbName 表名
+     * @param newC   new 列
+     * @param oldC   old 列
+     * @return ddl
      */
     ICovDDL modifyCol(String tbName, Column newC, Column oldC);
 

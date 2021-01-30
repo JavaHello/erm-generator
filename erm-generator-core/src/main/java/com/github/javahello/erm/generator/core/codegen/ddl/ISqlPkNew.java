@@ -9,8 +9,13 @@ import java.util.List;
  */
 public interface ISqlPkNew extends ICovDDL, IFixDDL {
 
+
     /**
      * 新增
+     *
+     * @param tbName 表名
+     * @param pks    主键
+     * @return ddl
      */
     ICovDDL newPk(String tbName, List<Column> pks);
 

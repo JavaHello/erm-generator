@@ -10,6 +10,9 @@ public interface ISqlColumnDel extends ICovDDL, IFixDDL {
 
     /**
      * 删除
+     * @param tbName 表名
+     * @param col 列
+     * @return ddl
      */
     ICovDDL delCol(String tbName, Column col);
 
