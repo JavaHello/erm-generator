@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.github.javahello</groupId>
 		<artifactId>erm-generator</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 	<description>erm 文件比对生成 SQL</description>
 	<artifactId>erm-generator-diff-maven-plugin</artifactId>

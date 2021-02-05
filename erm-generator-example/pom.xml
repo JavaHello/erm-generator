@@ -14,7 +14,7 @@
 		<dependency>
 			<groupId>com.github.javahello</groupId>
 			<artifactId>erm-generator-mybatis-plus</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -72,7 +72,7 @@
 			<plugin>
 				<groupId>com.github.javahello</groupId>
 				<artifactId>erm-generator-mybatis-maven-plugin</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>0.0.1</version>
 				<configuration>
 					<verbose>true</verbose>
 					<overwrite>true</overwrite>
@@ -89,7 +89,7 @@
 			<plugin>
 				<groupId>com.github.javahello</groupId>
 				<artifactId>erm-generator-diff-maven-plugin</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>0.0.1</version>
 				<configuration>
 					<outputDirectory>./.dev-out</outputDirectory>
 					<dbName>demo</dbName>
