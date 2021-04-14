@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class ErmDiffEnv {
-    private String dbType = DbType.MYSQL.getCode();
+    private DbType dbType = DbType.MYSQL;
     private String dbName;
     private List<String> newErmList;
     private List<String> oldErmList;
@@ -38,11 +38,11 @@ public class ErmDiffEnv {
         this.oldErmList = oldErmList;
     }
 
-    public String getDbType() {
+    public DbType getDbType() {
         return dbType;
     }
 
-    public void setDbType(String dbType) {
+    public void setDbType(DbType dbType) {
         this.dbType = dbType;
     }
 

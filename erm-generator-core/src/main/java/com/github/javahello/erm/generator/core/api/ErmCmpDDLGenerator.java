@@ -1,8 +1,9 @@
 package com.github.javahello.erm.generator.core.api;
 
 import com.github.javahello.erm.generator.core.codegen.ddl.BaseOutDDL;
+import com.github.javahello.erm.generator.core.codegen.ddl.DbType;
 import com.github.javahello.erm.generator.core.codegen.ddl.ICovDDL;
-import com.github.javahello.erm.generator.core.codegen.ddl.mysql.GenMysqlDDL;
+import com.github.javahello.erm.generator.core.codegen.ddl.OutDDLFactory;
 import com.github.javahello.erm.generator.core.internal.TableCache;
 import com.github.javahello.erm.generator.core.model.ErmDiffEnv;
 import com.github.javahello.erm.generator.core.model.diff.DiffTable;
@@ -23,7 +24,7 @@ public class ErmCmpDDLGenerator extends AbstractGenerator {
 
 
     protected ITableListDiff tableListDiff = new DefaultTableListDiffProcess();
-    protected Map<String, BaseOutDDL> outDDLMap = new LinkedHashMap<>();
+    protected Map<DbType, BaseOutDDL> outDDLMap = new LinkedHashMap<>();
     protected String allSql;
     protected BaseOutDDL currentOutDDL;
 
@@ -60,11 +61,12 @@ public class ErmCmpDDLGenerator extends AbstractGenerator {
     }
 
     protected void initDiffProcess(List<DiffTable> diffAll) {
-        GenMysqlDDL genMysqlDDL = new GenMysqlDDL(newCache, diffAll);
+        BaseOutDDL genMysqlDDL =
+                OutDDLFactory.of(dbType, newCache, diffAll).orElseThrow(() -> new IllegalArgumentException("非法db类型"));
         Optional.ofNullable(oldCache).ifPresent(genMysqlDDL::setOldTableCache);
-        outDDLMap.put(genMysqlDDL.dbType().getCode(), genMysqlDDL);
+        outDDLMap.put(genMysqlDDL.dbType(), genMysqlDDL);
         Optional.ofNullable(doInitDiffProcess(newCache, diffAll))
-                .ifPresent(outList -> outList.forEach(out -> outDDLMap.put(out.dbType().getCode(), out)));
+                .ifPresent(outList -> outList.forEach(out -> outDDLMap.put(out.dbType(), out)));
     }
 
     protected List<BaseOutDDL> doInitDiffProcess(TableCache newCache, List<DiffTable> diffAll) {

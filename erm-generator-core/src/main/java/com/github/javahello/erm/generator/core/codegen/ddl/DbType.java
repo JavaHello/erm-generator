@@ -3,7 +3,10 @@ package com.github.javahello.erm.generator.core.codegen.ddl;
 import java.util.Optional;
 
 public enum DbType {
-    MYSQL("MySQL"), ORACLE("Oracle");
+    MYSQL("MySQL"),
+    ORACLE("Oracle"),
+    PostgreSQL("PostgreSQL"),
+    ;
     private String code;
 
     DbType(String code) {

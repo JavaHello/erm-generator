@@ -81,6 +81,7 @@ public abstract class TypeMap {
         try {
             loadJdbcType();
             load("/sqltype/mysql.json");
+            load("/sqltype/PostgreSQL.json");
         } catch (Exception e) {
             e.printStackTrace();
             throw new ExceptionInInitializerError(e);

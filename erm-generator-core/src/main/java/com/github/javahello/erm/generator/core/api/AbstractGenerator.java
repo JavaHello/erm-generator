@@ -1,5 +1,6 @@
 package com.github.javahello.erm.generator.core.api;
 
+import com.github.javahello.erm.generator.core.codegen.ddl.DbType;
 import com.github.javahello.erm.generator.core.internal.ErmRead;
 import com.github.javahello.erm.generator.core.internal.TableCache;
 import com.github.javahello.erm.generator.core.model.ErmDiffEnv;
@@ -23,11 +24,13 @@ public abstract class AbstractGenerator {
 
     protected TableCache newCache;
     protected TableCache oldCache;
+    protected DbType dbType;
 
 
     public AbstractGenerator(ErmDiffEnv ermDiffEnv) {
         Objects.requireNonNull(ermDiffEnv, "ErmDDLEnv 环境变量不能为空");
         this.ermDiffEnv = ermDiffEnv;
+        dbType = ermDiffEnv.getDbType();
     }
 
 

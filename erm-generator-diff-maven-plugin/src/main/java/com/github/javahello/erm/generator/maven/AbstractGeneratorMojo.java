@@ -1,5 +1,6 @@
 package com.github.javahello.erm.generator.maven;
 
+import com.github.javahello.erm.generator.core.codegen.ddl.DbType;
 import com.github.javahello.erm.generator.core.model.ErmDiffEnv;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -29,6 +30,12 @@ public abstract class AbstractGeneratorMojo extends AbstractMojo {
      */
     @Parameter(property = "erm.generator.dbName", required = true)
     private String dbName;
+
+    /**
+     * 数据类型.
+     */
+    @Parameter(property = "erm.generator.dbType", required = true)
+    private String dbType;
 
     /**
      * Output Directory.
@@ -63,6 +70,7 @@ public abstract class AbstractGeneratorMojo extends AbstractMojo {
             getLog().info(generatorName() + " is skipped.");
             return;
         }
+        env.setDbType(DbType.of(dbType).orElseThrow(() -> new IllegalArgumentException("不支持的 dbType: " + dbType)));
         env.setDbName(dbName);
         env.setOutFilePath(outputDirectory.getPath());
         env.setExtraProperties(project.getProperties());
