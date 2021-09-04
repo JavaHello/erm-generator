@@ -39,6 +39,7 @@ public class ErmCmpMdGenerator extends AbstractGenerator {
             new MdTableHead("类型(新)", MdTableToward.C),
             new MdTableHead("长度(新)", MdTableToward.C),
             new MdTableHead("精度(新)", MdTableToward.C),
+            new MdTableHead("unsigned(新)", MdTableToward.C),
             new MdTableHead("不为空(新)", MdTableToward.C),
             new MdTableHead("自增(新)", MdTableToward.C),
             new MdTableHead("主键(新)", MdTableToward.C),
@@ -49,6 +50,7 @@ public class ErmCmpMdGenerator extends AbstractGenerator {
             new MdTableHead("类型(旧)", MdTableToward.C),
             new MdTableHead("长度(旧)", MdTableToward.C),
             new MdTableHead("精度(旧)", MdTableToward.C),
+            new MdTableHead("unsigned(旧)", MdTableToward.C),
             new MdTableHead("不为空(旧)", MdTableToward.C),
             new MdTableHead("自增(旧)", MdTableToward.C),
             new MdTableHead("主键(旧)", MdTableToward.C),
@@ -111,6 +113,7 @@ public class ErmCmpMdGenerator extends AbstractGenerator {
                             .addTd(newColumn.getColumnType())
                             .addTd(newColumn.getLength())
                             .addTd(newColumn.getDecimal())
+                            .addTd(newColumn.isUnsigned())
                             .addTd(newColumn.isNotNull())
                             .addTd(newColumn.isAutoIncrement())
                             .addTd(newColumn.isPrimaryKey())
@@ -121,6 +124,7 @@ public class ErmCmpMdGenerator extends AbstractGenerator {
                             .addTd(oldColumn.getColumnType())
                             .addTd(oldColumn.getLength())
                             .addTd(oldColumn.getDecimal())
+                            .addTd(oldColumn.isUnsigned())
                             .addTd(oldColumn.isNotNull())
                             .addTd(oldColumn.isAutoIncrement())
                             .addTd(oldColumn.isPrimaryKey())

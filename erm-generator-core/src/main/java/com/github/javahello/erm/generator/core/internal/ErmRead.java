@@ -216,6 +216,7 @@ public class ErmRead implements ErmMetaData {
                     String columnType = ermWord.getType();
                     SqlType sqlType = SqlType.valueOfOrId(database, columnType);
 
+                    log.debug(String.format("parse %s.%s %s %s", table.getTableName(), col.getColumnName(), columnType, ermWord.getUnsigned()));
                     columnType = Optional.ofNullable(sqlType).map(e -> e.getAlias(database)).orElse(columnType);
                     int endIndex = columnType.indexOf('(');
                     if (endIndex != -1) {
@@ -230,6 +231,7 @@ public class ErmRead implements ErmMetaData {
                     col.setUniqueKey(ermColumn.getUniqueKey());
                     col.setPrimaryKey(ermColumn.getPrimaryKey());
                     col.setNotNull(ermColumn.getNotNull());
+                    col.setUnsigned(Boolean.parseBoolean(ermWord.getUnsigned()));
 
                     if (col.isPrimaryKey()) {
                         pks.add(col);

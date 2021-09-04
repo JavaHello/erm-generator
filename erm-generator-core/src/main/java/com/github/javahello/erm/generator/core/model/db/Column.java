@@ -16,6 +16,7 @@ public class Column {
     private Boolean primaryKey;
     private Boolean uniqueKey;
     private Boolean notNull;
+    private Boolean unsigned;
 
     public String getId() {
         return id;
@@ -113,4 +114,11 @@ public class Column {
         this.notNull = notNull;
     }
 
+    public Boolean isUnsigned() {
+        return unsigned;
+    }
+
+    public void setUnsigned(Boolean unsigned) {
+        this.unsigned = unsigned;
+    }
 }

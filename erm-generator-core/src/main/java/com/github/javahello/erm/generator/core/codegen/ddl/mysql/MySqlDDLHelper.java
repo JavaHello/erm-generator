@@ -19,6 +19,9 @@ public abstract class MySqlDDLHelper {
     private static String nullOpt(boolean isNotNull) {
         return isNotNull ? "NOT NULL" : "NULL";
     }
+    private static String unsignedOpt(boolean unsigned) {
+        return unsigned ? " UNSIGNED" : "";
+    }
 
     private static String defaultValue(DbType dbType, Column column) {
         if (column.getDefaultValue() == null) {
@@ -57,7 +60,7 @@ public abstract class MySqlDDLHelper {
 
     public static String columnGe(DbType dbType, Column column) {
         String colType = Optional.ofNullable(column.getLength()).map(len -> column.getColumnType() + warpPt(len, column.getDecimal())).orElse(column.getColumnType());
-        return " " + colType + " "
+        return " " + colType + unsignedOpt(column.isUnsigned()) + " "
                 + nullOpt(column.isNotNull()) + defaultValue(dbType, column) + comment(column);
     }
 }
