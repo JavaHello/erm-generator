@@ -50,7 +50,7 @@ public class MysqlTableNewGenImpl extends AbstractMysqlCovDDL<MysqlTableDelGenIm
         List<Index> indexs = table.getIndexes();
         if (!DiffHelper.isEmpty(indexs)) {
             tableStr.append(",\n");
-            String indexsStr = indexs.stream().map(index -> MySqlDDLHelper.INDENT + index.getIndexName() + MySqlDDLHelper.indexGe(index)).collect(Collectors.joining(",\n"));
+            String indexsStr = indexs.stream().map(index -> MySqlDDLHelper.INDENT + MySqlDDLHelper.indexGe(index)).collect(Collectors.joining(",\n"));
             tableStr.append(indexsStr);
         }
         tableStr.append("\n) ");
