@@ -51,7 +51,7 @@ public class Column {
     }
 
     public String getColumnType() {
-        return columnType;
+        return columnType + (Boolean.TRUE.equals(unsigned) ? " unsigned" : "");
     }
 
     public void setColumnType(String columnType) {

@@ -57,7 +57,14 @@ public class TableMdNode extends AbstractMdNode {
     }
 
     public TableMdNode addTd(Object text) {
-        addTd(Optional.ofNullable(text).map(Objects::toString).orElse(" "));
+        addTd(Optional.ofNullable(text)
+                .map(e -> {
+                    if (e instanceof Boolean) {
+                        return (Boolean) e ? "*" : null;
+                    }
+                    return e;
+                })
+                .map(Objects::toString).orElse(" "));
         return this;
     }
 

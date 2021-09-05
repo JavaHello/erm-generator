@@ -29,7 +29,6 @@ public class ErmMdGenerator extends AbstractGenerator {
             new MdTableHead("类型", MdTableToward.C),
             new MdTableHead("长度", MdTableToward.C),
             new MdTableHead("精度", MdTableToward.C),
-            new MdTableHead("unsigned", MdTableToward.C),
             new MdTableHead("不为空", MdTableToward.C),
             new MdTableHead("自增", MdTableToward.C),
             new MdTableHead("主键", MdTableToward.C),
@@ -77,7 +76,6 @@ public class ErmMdGenerator extends AbstractGenerator {
                         .addTd(column.getColumnType())
                         .addTd(column.getLength())
                         .addTd(column.getDecimal())
-                        .addTd(column.isUnsigned())
                         .addTd(column.isNotNull())
                         .addTd(column.isAutoIncrement())
                         .addTd(column.isPrimaryKey())

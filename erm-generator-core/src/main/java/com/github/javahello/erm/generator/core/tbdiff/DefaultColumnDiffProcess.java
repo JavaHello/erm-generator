@@ -45,6 +45,15 @@ public class DefaultColumnDiffProcess implements IColumnDiff {
         if (!Objects.equals(d1.getDecimal(), d2.getDecimal())) {
             diff = true;
         }
+        if (!Objects.equals(d1.isAutoIncrement(), d2.isAutoIncrement())) {
+            diff = true;
+        }
+        if (!Objects.equals(d1.isUnsigned(), d2.isUnsigned())) {
+            diff = true;
+        }
+        if (!Objects.equals(d1.isNotNull(), d2.isNotNull())) {
+            diff = true;
+        }
         return diff;
     }
 }
