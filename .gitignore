@@ -19,3 +19,10 @@ data/*
 target
 
 .vscode
+
+# vim
+.vim
+.tasks
+
+# Mac
+.DS_Stroe
