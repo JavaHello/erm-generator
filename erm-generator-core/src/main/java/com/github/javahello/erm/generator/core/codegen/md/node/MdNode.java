@@ -6,6 +6,10 @@ import com.github.javahello.erm.generator.core.codegen.md.MdType;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * markdown 文件节点
+ * @author luokai
+ */
 public interface MdNode extends ICovMd {
 
     MdType type();
