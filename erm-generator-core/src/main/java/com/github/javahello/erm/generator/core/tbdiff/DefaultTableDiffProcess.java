@@ -15,9 +15,9 @@ import java.util.Optional;
  */
 public class DefaultTableDiffProcess implements ITableDiff {
 
-    private IColumnListDiff columnListDiff = new DefaultColumnListDiffProcess(new DefaultColumnDiffProcess());
-    private IColumnListDiff pksDiff = new DefaultColumnListDiffProcess(new DefaultPrimaryKeyDiffProcess());
-    private IIndexListDiff indexListDiff = new DefaultIndexListDiffProcess();
+    private final IColumnListDiff columnListDiff = new DefaultColumnListDiffProcess(new DefaultColumnDiffProcess());
+    private final IColumnListDiff pksDiff = new DefaultColumnListDiffProcess(new DefaultPrimaryKeyDiffProcess());
+    private final IIndexListDiff indexListDiff = new DefaultIndexListDiffProcess();
 
     @Override
     public Optional<DiffTable> diff(Table t1, Table t2) {

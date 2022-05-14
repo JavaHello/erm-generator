@@ -4,18 +4,19 @@ import com.github.javahello.erm.generator.core.model.db.Table;
 import com.github.javahello.erm.generator.core.model.diff.DiffTable;
 import com.github.javahello.erm.generator.core.util.MapHelper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author kaiv2
  */
 public class DefaultTableListDiffProcess implements ITableListDiff {
 
-    private ITableDiff tableDiff = new DefaultTableDiffProcess();
+    private final ITableDiff tableDiff = new DefaultTableDiffProcess();
 
-    public void setTableDiff(ITableDiff tableDiff) {
-        this.tableDiff = tableDiff;
-    }
 
     @Override
     public Optional<List<DiffTable>> diff(List<Table> t1, List<Table> t2) {

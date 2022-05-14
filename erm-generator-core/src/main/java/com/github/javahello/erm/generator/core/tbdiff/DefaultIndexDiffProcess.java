@@ -12,7 +12,7 @@ import java.util.Optional;
  */
 public class DefaultIndexDiffProcess implements IIndexDiff {
 
-    IColumnListDiff indexColumnDiff = new DefaultColumnListDiffProcess(new DefaultPrimaryKeyDiffProcess());
+    private final IColumnListDiff indexColumnDiff = new DefaultColumnListDiffProcess(new DefaultPrimaryKeyDiffProcess());
     @Override
     public Optional<DiffIndex> diff(Index t1, Index t2) {
         Index d1 = Optional.ofNullable(t1).orElseGet(Index::new);

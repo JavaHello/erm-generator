@@ -4,14 +4,18 @@ import com.github.javahello.erm.generator.core.model.db.Index;
 import com.github.javahello.erm.generator.core.model.diff.DiffIndex;
 import com.github.javahello.erm.generator.core.util.MapHelper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author kaiv2
  */
 public class DefaultIndexListDiffProcess implements IIndexListDiff {
 
-    private IIndexDiff indexDiff = new DefaultIndexDiffProcess();
+    private final IIndexDiff indexDiff = new DefaultIndexDiffProcess();
 
 
     @Override

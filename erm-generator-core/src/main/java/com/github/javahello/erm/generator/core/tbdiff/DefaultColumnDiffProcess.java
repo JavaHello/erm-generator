@@ -32,10 +32,7 @@ public class DefaultColumnDiffProcess implements IColumnDiff {
     }
 
     protected boolean doDiff(Column d1, Column d2) {
-        boolean diff = false;
-        if (!Objects.equals(d1.getColumnName(), d2.getColumnName())) {
-            diff = true;
-        }
+        boolean diff = !Objects.equals(d1.getColumnName(), d2.getColumnName());
         if (!Objects.equals(d1.getDefaultValue(), d2.getDefaultValue())) {
             diff = true;
         }

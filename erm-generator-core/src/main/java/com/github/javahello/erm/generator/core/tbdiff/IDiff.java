@@ -1,7 +1,5 @@
 package com.github.javahello.erm.generator.core.tbdiff;
 
-import com.github.javahello.erm.generator.core.model.db.Column;
-
 import java.util.Optional;
 
 /**

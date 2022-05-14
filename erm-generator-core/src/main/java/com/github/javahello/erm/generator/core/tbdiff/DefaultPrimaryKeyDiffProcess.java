@@ -11,10 +11,6 @@ public class DefaultPrimaryKeyDiffProcess extends DefaultColumnDiffProcess imple
 
     @Override
     protected boolean doDiff(Column d1, Column d2) {
-        boolean diff = false;
-        if (!Objects.equals(d1.getColumnName(), d2.getColumnName())) {
-            diff = true;
-        }
-        return diff;
+        return !Objects.equals(d1.getColumnName(), d2.getColumnName());
     }
 }

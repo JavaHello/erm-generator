@@ -4,11 +4,15 @@ import com.github.javahello.erm.generator.core.model.db.Column;
 import com.github.javahello.erm.generator.core.model.diff.DiffColumn;
 import com.github.javahello.erm.generator.core.util.MapHelper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class DefaultColumnListDiffProcess implements IColumnListDiff {
 
-    private IColumnDiff columnDiff;
+    private final IColumnDiff columnDiff;
 
     public DefaultColumnListDiffProcess(IColumnDiff columnDiff) {
         this.columnDiff = columnDiff;
