@@ -1,11 +1,19 @@
 package com.github.javahello.erm.generator.core.internal.sqltype;
 
-import com.alibaba.fastjson.JSON;
 import com.github.javahello.erm.generator.core.codegen.ddl.DbType;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -336,6 +344,11 @@ public class SqlType implements Serializable {
 		}
 
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(name);
 	}
 
 	/**

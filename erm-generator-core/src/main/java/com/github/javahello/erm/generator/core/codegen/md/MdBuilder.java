@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class MdBuilder implements ICovMd {
 
-    private List<MdNode> mdNodes = new ArrayList<>();
+    private final List<MdNode> mdNodes = new ArrayList<>();
 
     public static MdBuilder newBuild() {
         return new MdBuilder();
