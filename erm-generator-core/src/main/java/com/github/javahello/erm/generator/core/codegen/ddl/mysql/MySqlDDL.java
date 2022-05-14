@@ -73,7 +73,7 @@ public enum MySqlDDL implements IMysqlCovDDL {
     DROP_PRIMARY_KEY(MysqlPrimaryKeyDelGenImpl::new, MysqlPrimaryKeyNewGenImpl::new),
     ;
 
-    private final AbstractMysqlCovDDL<?> mysqlCovDDL;
+    private final AbstractMysqlCovDDL<? extends ICovDDL> mysqlCovDDL;
     private ICovDDL fixMysqlCovDDL;
 
     MySqlDDL(Supplier<AbstractMysqlCovDDL<?>> mysqlCovDDLSupplier, Supplier<ICovDDL> fiXMysqlCovDDLSupplier) {

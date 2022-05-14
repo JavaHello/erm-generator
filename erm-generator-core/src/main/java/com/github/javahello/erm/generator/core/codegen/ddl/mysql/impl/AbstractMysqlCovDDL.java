@@ -17,6 +17,7 @@ public abstract class AbstractMysqlCovDDL<FixDDL extends ICovDDL> implements IMy
         this.fixDdl = fixDdl;
     }
 
+    @SuppressWarnings("unchecked")
     public void setFixDdl(ICovDDL fixDdl) {
         this.fixDdl = (FixDDL) fixDdl;
     }
