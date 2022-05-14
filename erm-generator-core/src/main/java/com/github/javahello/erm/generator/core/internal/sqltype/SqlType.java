@@ -96,27 +96,21 @@ public class SqlType implements Serializable {
 
 		@Override
 		public boolean equals(Object obj) {
-			TypeKey other = (TypeKey) obj;
+			if (obj instanceof TypeKey) {
+				TypeKey other = (TypeKey) obj;
 
-			if (this.alias == null) {
-				if (other.alias == null) {
-					if (this.size == other.size
-							&& this.decimal == other.decimal) {
-						return true;
+				if (this.alias == null) {
+					if (other.alias == null) {
+						return this.size == other.size
+								&& this.decimal == other.decimal;
 					}
 					return false;
-
 				} else {
-					return false;
-				}
-
-			} else {
-				if (this.alias.equals(other.alias) && this.size == other.size
-						&& this.decimal == other.decimal) {
-					return true;
+					return this.alias.equals(other.alias)
+							&& this.size == other.size
+							&& this.decimal == other.decimal;
 				}
 			}
-
 			return false;
 		}
 
