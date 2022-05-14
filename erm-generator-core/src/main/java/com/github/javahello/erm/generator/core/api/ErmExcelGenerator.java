@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -24,12 +25,18 @@ public class ErmExcelGenerator extends AbstractGenerator {
 
     public ErmExcelGenerator(ErmDiffEnv ermDiffEnv) {
         super(ermDiffEnv);
+        Optional.ofNullable(ermDiffEnv.getTemplateFile())
+                .ifPresent(this::setTemplateFile);
     }
 
     protected String outFileName;
 
     public void setOutFileName(String outFileName) {
         this.outFileName = outFileName;
+    }
+
+    public void setTemplateFile(String templateFile) {
+        this.templateFile = templateFile;
     }
 
     @Override

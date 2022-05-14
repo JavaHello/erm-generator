@@ -11,6 +11,8 @@ public class ErmDiffEnv {
     private List<String> newErmList;
     private List<String> oldErmList;
     private String outFilePath;
+
+    private String templateFile;
     private Properties extraProperties;
 
 
@@ -60,5 +62,13 @@ public class ErmDiffEnv {
 
     public void setDbName(String dbName) {
         this.dbName = dbName;
+    }
+
+    public String getTemplateFile() {
+        return templateFile;
+    }
+
+    public void setTemplateFile(String templateFile) {
+        this.templateFile = templateFile;
     }
 }
